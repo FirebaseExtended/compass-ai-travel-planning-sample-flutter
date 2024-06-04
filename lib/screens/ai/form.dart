@@ -12,42 +12,39 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Image(
-          width: 38,
-          height: 38,
-          image: AssetImage('assets/images/stars.png'),
+        leading: const Padding(
+          padding: EdgeInsets.all(8),
+          child: Image(
+            width: 38,
+            height: 38,
+            image: AssetImage('assets/images/stars.png'),
+          ),
         ),
         actions: [
-          IconButton(
-            style: ButtonStyle(
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+          Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                style: ButtonStyle(
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
                 ),
-              ),
-              backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
-            ),
-            onPressed: () => {},
-            icon: const Icon(
-              Icons.home,
-            ),
-          )
+                onPressed: () => {},
+                icon: const Icon(
+                  Icons.home,
+                ),
+              )),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ShaderMask(
-              blendMode: BlendMode.srcIn,
-              shaderCallback: (bounds) => const LinearGradient(colors: [
-                Color(0xff59B7EC),
-                Color(0xff9A62E1),
-                Color(0xffE66CF9),
-              ]).createShader(
-                Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-              ),
+            BrandGradient(
               child: Text(
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -61,7 +58,12 @@ class _FormScreenState extends State<FormScreen> {
             SizedBox.square(dimension: 8),
             const Expanded(
               child: TextField(
-                decoration: InputDecoration(hintText: 'Write anything'),
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(
+                  hintText: 'Write anything',
+                  border: InputBorder.none,
+                ),
               ),
             ),
             Row(children: [
@@ -71,16 +73,22 @@ class _FormScreenState extends State<FormScreen> {
                     borderRadius: BorderRadius.circular(8),
                     color: Theme.of(context).colorScheme.secondaryContainer,
                   ),
-                  height: 150,
-                  child: const Column(
+                  height: 120,
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Image(
+                      BrandGradient(
+                          child: const Icon(
+                        Icons.image_outlined,
+                        size: 42,
+                      )),
+                      SizedBox.square(dimension: 8),
+                      /*const Image(
                         width: 38,
                         height: 38,
                         image: AssetImage('assets/images/image.png'),
-                      ),
-                      Text('Add images for inspiration'),
+                      ),*/
+                      const Text('Add images for inspiration'),
                     ],
                   ),
                 ),
@@ -108,7 +116,7 @@ class _FormScreenState extends State<FormScreen> {
                   ),
                   onPressed: () {},
                   child: Text(
-                    'Plan my dream trip.',
+                    'Plan my dream trip',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onPrimary,
                       fontSize: 18,
@@ -117,9 +125,35 @@ class _FormScreenState extends State<FormScreen> {
                 ),
               ),
             ]),
+            SizedBox.square(dimension: 32),
           ],
         ),
       ),
+    );
+  }
+}
+
+class BrandGradient extends StatelessWidget {
+  BrandGradient({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) => const LinearGradient(colors: [
+        Color(0xff59B7EC),
+        Color(0xff9A62E1),
+        Color(0xffE66CF9),
+      ], stops: [
+        0.0,
+        0.05,
+        0.9,
+      ]).createShader(
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
+      child: child,
     );
   }
 }
