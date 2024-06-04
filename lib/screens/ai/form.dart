@@ -71,7 +71,7 @@ class _FormScreenState extends State<FormScreen> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                   ),
                   height: 120,
                   child: Column(
@@ -80,9 +80,9 @@ class _FormScreenState extends State<FormScreen> {
                       BrandGradient(
                           child: const Icon(
                         Icons.image_outlined,
-                        size: 36,
+                        size: 32,
                       )),
-                      SizedBox.square(dimension: 8),
+                      const SizedBox.square(dimension: 16),
                       /*const Image(
                         width: 38,
                         height: 38,
