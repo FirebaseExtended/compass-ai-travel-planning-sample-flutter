@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../branding.dart';
 import '../components/app_bar.dart';
+import 'dart:math';
 
 class DreamingScreen extends StatefulWidget {
   const DreamingScreen({super.key});
@@ -18,28 +20,40 @@ class _DreamingScreenState extends State<DreamingScreen> {
       appBar: brandedAppBar,
       body: Stack(children: [
         Positioned(
-          top: 0,
-          right: 0,
-          child: Image.network(
-              width: 300, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+          top: -100,
+          right: -100,
+          child: RotatingWidget(
+            width: 400,
+            child: Image.network(
+                width: 1000, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+          ),
         ),
         Positioned(
-          top: 100,
-          left: 0,
-          child: Image.network(
-              width: 300, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+          top: 300,
+          left: -100,
+          child: RotatingWidget(
+            width: 200,
+            child: Image.network(
+                width: 1000, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+          ),
         ),
         Positioned(
-          top: 400,
-          right: 0,
-          child: Image.network(
-              width: 300, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+          bottom: 250,
+          right: 40,
+          child: RotatingWidget(
+            width: 100,
+            child: Image.network(
+                width: 1000, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+          ),
         ),
         Positioned(
-          top: 600,
-          left: 0,
-          child: Image.network(
-              width: 300, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+          bottom: -100,
+          right: -100,
+          child: RotatingWidget(
+            width: 400,
+            child: Image.network(
+                width: 1000, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+          ),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,5 +85,53 @@ class _DreamingScreenState extends State<DreamingScreen> {
         ),
       ]),
     );
+  }
+}
+
+class RotatingWidget extends StatefulWidget {
+  const RotatingWidget({required this.width, required this.child, super.key});
+
+  final double width;
+  final Widget child;
+
+  @override
+  State<RotatingWidget> createState() => _RotatingWidgetState();
+}
+
+class _RotatingWidgetState extends State<RotatingWidget>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 12),
+    vsync: this,
+  )..repeat();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RotationTransition(
+      turns: Tween(begin: -pi / 24, end: pi / 24).animate(_controller),
+      child: SizedBox(
+        width: widget.width,
+        child: widget.child,
+      ),
+    )
+        .animate(onPlay: (controller) => controller.repeat())
+        .fadeIn(duration: 1.seconds)
+        .then()
+        .scale(
+            begin: const Offset(.5, .5),
+            end: const Offset(1, 1),
+            duration: 10.seconds)
+        .then()
+        .scale(
+            begin: const Offset(1, 1),
+            end: const Offset(1.1, 1.1),
+            duration: 1.seconds)
+        .fadeOut(duration: 1.seconds);
   }
 }

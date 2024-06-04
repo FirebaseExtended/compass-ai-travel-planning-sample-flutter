@@ -5,7 +5,13 @@ import '../branding.dart';
 AppBar get brandedAppBar {
   return AppBar(
     backgroundColor: Colors.transparent,
-    leading: const AppLogo(dimension: 38),
+    leading: IconButton(
+      icon: const Icon(
+        Icons.arrow_back,
+        color: Colors.white,
+      ),
+      onPressed: () {},
+    ),
     actions: [
       Padding(
           padding: const EdgeInsets.all(8),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tripedia/screens/ai/dreaming.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'screens/ai/form.dart';
 
 void main() {
+  Animate.restartOnHotReload = true;
   runApp(const MyApp());
 }
 
