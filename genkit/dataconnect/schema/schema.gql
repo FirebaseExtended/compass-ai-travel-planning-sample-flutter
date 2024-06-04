@@ -1,0 +1,25 @@
+type Activity @table(name: "activities", singular: "activity", plural: "activities", key: ["ref", "destinationRef"]) {
+  ref: String!
+  destinationRef: String!
+  name: String!
+  description: String!
+  locationName: String!
+  timeOfDay: String!
+  price: Float!
+  familyFriendly: Boolean!
+  duration: Float!
+  imageUrl: String!
+  embedding:  Vector! @col(size:768) # added for embedding
+  place: Place!
+}
+
+type Place @table(name: "places", singular: "place", plural: "places", key: ["ref"]) {
+  ref: String!
+  name: String!
+  country: String!
+  continent: String!
+  knownFor: String!
+  tags: [String]!
+  imageUrl: String!
+  embedding:  Vector! @col(size:768) # added for embedding
+}

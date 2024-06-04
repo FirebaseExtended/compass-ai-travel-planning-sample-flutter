@@ -1,0 +1,33 @@
+{
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node lib/index.js",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "name": "tripedia-genkit",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@compass/backend": "file:compass-generated",
+    "@genkit-ai/ai": "^0.5.5",
+    "@genkit-ai/core": "^0.5.5",
+    "@genkit-ai/dotprompt": "^0.5.5",
+    "@genkit-ai/firebase": "^0.5.5",
+    "@genkit-ai/flow": "^0.5.5",
+    "@genkit-ai/google-cloud": "^0.5.2",
+    "@genkit-ai/googleai": "^0.5.5",
+    "@genkit-ai/vertexai": "^0.5.5",
+    "axios": "^1.7.2",
+    "express": "^4.19.2",
+    "firebase": "^10.12.0-dataconnect-preview.388b61c7e",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}

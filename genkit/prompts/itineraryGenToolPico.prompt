@@ -1,0 +1,79 @@
+---
+model: googleai/gemini-1.5-flash-latest
+config:
+  temperature: 1.0
+  safetySettings:
+    - category: HARM_CATEGORY_HATE_SPEECH
+      threshold: BLOCK_LOW_AND_ABOVE
+    - category: HARM_CATEGORY_DANGEROUS_CONTENT
+      threshold: BLOCK_ONLY_HIGH
+    - category: HARM_CATEGORY_HARASSMENT
+      threshold: BLOCK_LOW_AND_ABOVE
+    - category: HARM_CATEGORY_SEXUALLY_EXPLICIT
+      threshold: BLOCK_LOW_AND_ABOVE
+input:
+  schema:
+    request: string, The users request for where they want to travel to.
+    place: string, The place that closely represents the users request.
+    placeDescription: string, A description of that place.
+    activities(array, a stringify list of activities that can be found at the specified place): string
+    restaurants?(array, a stringify list of all the restaurants found at that location): string
+output:
+  schema:
+    place: string, The place the user is traveling to.
+    itineraryName: string, a catchy itinerary name that encapsulates the spirit of the trip and includes the place name
+    startDate: string, the start date of the trip
+    endDate: string, the end date of the trip
+    tags(array, relevant tags for the trip): string
+    itinerary(array):
+      day: number
+      date: string
+      planForDay(array):
+        activityRef: string, the reference value for the activity - this comes from the available activities JSON. If no value is present use a ref value of restaurant.
+        activityTitle: string, a catchy title for the activity
+        activityDesc: string, a six word description of the activity
+        photoUri?: string, set the photo uri value for restaurants only.
+        googleMapsUri?: string, if this is a restaurant include the googleMapsUri
+---
+
+Generate an itinerary for a tourist planning on traveling to the location specified based in their request.
+If there is something that does not exist within the list of activities, do not include it in your answer.
+Feel free to relate the activitiy to the request in a meaningful way.
+In the plan for day array, put activities as a travel brouchure might do.
+Come up with a catchy name for the itinerary.
+
+Pick three activities per day, minimum of three day trip unless otherwise specified in the request.
+
+Output schema should not include the properties type or object.
+
+Pick a date after 2024-05-14 but before 2024-12-31.
+
+The output date must be in the format year-month-day.
+
+Give each activity a unique title and description.
+
+Limit activity descriptions to 6 words.
+
+If no restaurants are supplied, do not recommend any restaurants to eat at.
+
+{{#if restaurants}}
+Find a restaurant to eat at each day.
+
+Include a restaurant to visit in the itinerary for each day from the available restaurants.
+The restaurant should be the only activity with a photoUri.
+The photoUri for the restaurant should be from the photoUri property from the restaurant array.
+If there are no restaurants to pick from, do not include it in the list.
+
+The photoUri from the restaurantFinder should be in the format of places/${placeId}/photos/${photoId}
+
+Each restaurant should be unique to the overall itinerary.
+Each restaurant must contain a photoUri in their output JSON schema.
+Each restaurant must also include  an activitiyRef, activityTitle, and activityDesc in their output
+{{/if}}
+Output must be in JSON format.
+
+REQUEST : {{request}}
+PLACE : {{place}}
+PLACE DESCRIPTION : {{placeDescription}}
+AVAILABLE ACTIVITIES : {{activities}}
+RESTAURANTS : {{restaurants}}

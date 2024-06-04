@@ -1,0 +1,39 @@
+---
+model: googleai/gemini-1.5-pro-latest
+config:
+  temperature: 1.0
+  safetySettings:
+  - category: HARM_CATEGORY_HATE_SPEECH
+    threshold: BLOCK_LOW_AND_ABOVE
+  - category: HARM_CATEGORY_DANGEROUS_CONTENT
+    threshold: BLOCK_ONLY_HIGH
+  - category: HARM_CATEGORY_HARASSMENT
+    threshold: BLOCK_LOW_AND_ABOVE
+  - category: HARM_CATEGORY_SEXUALLY_EXPLICIT
+    threshold: BLOCK_LOW_AND_ABOVE
+input:
+  schema:
+    properties:
+      request: {type: string}
+      place: {type: string}
+    required: [request]
+  default:
+    subject: New York City
+tools:
+ - restaurantFinder
+---
+
+If the user indicates that they:
+ do not want to eat out
+or prefer dining in
+or prefer their own cooking, then
+do not try to find restaurants and do not run the restaurantFinder tool.
+
+If the REQUEST indicates that the user would prefer to not eat out, do not run 
+the restaurantFinder tool. If the request does not contain any information about
+eating, assume the user wants to eat out and recommend a restaurant.
+
+REQUEST: {{request}}
+
+Find restaurants in a nearby area to {{place}} that match the users request: {{request}}
+

@@ -1,0 +1,79 @@
+query getNearestPlace ($placeDescriptionVector: Vector!) @auth(level:PUBLIC) {
+  places_embedding_similarity(compare: $placeDescriptionVector, method: L2, limit: 3)
+  {
+    ref
+    name
+    country
+    continent
+    knownFor
+    tags
+    imageUrl
+  }
+}
+
+query getActivitiesForPlace ($placeId: String!) @auth(level:PUBLIC) {
+  activities(where: {destinationRef: {eq: $placeId } } ) {
+    ref
+    destinationRef
+    name
+    description
+    locationName
+    timeOfDay
+    price
+    familyFriendly
+    duration
+    imageUrl
+  }
+}
+
+query GetPlace ($placeId: Place_Key!) @auth(level:PUBLIC) {
+  place(key: $placeId ) {
+    ref
+    continent
+    country
+    embedding
+    imageUrl
+    knownFor
+    name
+    tags
+  }
+}
+
+query ListActivities @auth(level: NO_ACCESS) {
+  activities {
+    ref
+    destinationRef
+    name
+    description
+    locationName
+    timeOfDay
+    price
+    familyFriendly
+    duration
+    imageUrl
+  }
+}
+
+query ListPlaces @auth(level: NO_ACCESS) {
+  places (limit: 3) {
+    ref
+    name
+    country
+    continent
+    knownFor
+    tags
+    imageUrl
+  }
+}
+
+query ListPlacesByContinent ($continent: String!) @auth(level: NO_ACCESS) {
+  places(where: {continent: {eq: $continent}}) {
+    ref
+    name
+    country
+    continent
+    knownFor
+    tags
+    imageUrl
+  }
+}
