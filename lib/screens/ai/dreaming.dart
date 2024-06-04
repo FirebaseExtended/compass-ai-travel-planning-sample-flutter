@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../branding.dart';
 import '../components/app_bar.dart';
 import 'dart:math';
+import 'dart:ui';
 
 class DreamingScreen extends StatefulWidget {
   const DreamingScreen({super.key});
@@ -25,7 +26,7 @@ class _DreamingScreenState extends State<DreamingScreen> {
           child: RotatingWidget(
             width: 400,
             child: Image.network(
-                width: 1000, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+                width: 400, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
           ),
         ),
         Positioned(
@@ -34,7 +35,7 @@ class _DreamingScreenState extends State<DreamingScreen> {
           child: RotatingWidget(
             width: 200,
             child: Image.network(
-                width: 1000, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+                width: 200, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
           ),
         ),
         Positioned(
@@ -43,7 +44,7 @@ class _DreamingScreenState extends State<DreamingScreen> {
           child: RotatingWidget(
             width: 100,
             child: Image.network(
-                width: 1000, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+                width: 100, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
           ),
         ),
         Positioned(
@@ -51,8 +52,11 @@ class _DreamingScreenState extends State<DreamingScreen> {
           right: -100,
           child: RotatingWidget(
             width: 400,
-            child: Image.network(
-                width: 1000, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              child: Image.network(
+                  width: 400, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+            ),
           ),
         ),
         Row(
@@ -101,7 +105,7 @@ class RotatingWidget extends StatefulWidget {
 class _RotatingWidgetState extends State<RotatingWidget>
     with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 12),
+    duration: const Duration(seconds: 13),
     vsync: this,
   )..repeat();
 
