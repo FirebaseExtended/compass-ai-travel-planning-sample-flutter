@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:tripedia/screens/ai/dreaming.dart';
 
 import 'screens/ai/form.dart';
 
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xff7B4E7F),
         ),
+        textTheme: GoogleFonts.rubikTextTheme(),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -34,16 +37,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  var pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
-    return const FormScreen();
+    return PageView(controller: pageController, children: const [
+      FormScreen(),
+      DreamingScreen(),
+    ]);
   }
 }

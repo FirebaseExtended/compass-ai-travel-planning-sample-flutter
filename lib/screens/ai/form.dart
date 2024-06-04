@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../branding.dart';
+
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
 
@@ -12,14 +14,7 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(8),
-          child: Image(
-            width: 38,
-            height: 38,
-            image: AssetImage('assets/images/stars.png'),
-          ),
-        ),
+        leading: const AppLogo(dimension: 38),
         actions: [
           Padding(
               padding: const EdgeInsets.all(8),
@@ -94,7 +89,7 @@ class _FormScreenState extends State<FormScreen> {
                 ),
               )
             ]),
-            SizedBox.square(dimension: 16),
+            const SizedBox.square(dimension: 16),
             Row(children: [
               Expanded(
                 child: TextButton(
