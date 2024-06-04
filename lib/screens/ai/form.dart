@@ -80,7 +80,7 @@ class _FormScreenState extends State<FormScreen> {
                       BrandGradient(
                           child: const Icon(
                         Icons.image_outlined,
-                        size: 42,
+                        size: 36,
                       )),
                       SizedBox.square(dimension: 8),
                       /*const Image(
