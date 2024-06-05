@@ -787,11 +787,11 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
                     ? () {
                         // In the vertical case we need to scroll to the newly tapped
                         // step.
-                        Scrollable.ensureVisible(
+                        /*Scrollable.ensureVisible(
                           _keys[i].currentContext!,
                           curve: Curves.fastOutSlowIn,
                           duration: kThemeAnimationDuration,
-                        );
+                        );*/
 
                         widget.onStepTapped?.call(i);
                       }
