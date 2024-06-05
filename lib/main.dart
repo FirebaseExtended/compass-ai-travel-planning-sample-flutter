@@ -4,6 +4,7 @@ import 'package:tripedia/screens/ai/dreaming.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'screens/ai/form.dart';
+import 'screens/ai/itineraries.dart';
 
 void main() {
   Animate.restartOnHotReload = true;
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return PageView(controller: pageController, children: const [
       FormScreen(),
       DreamingScreen(),
+      Itineraries(),
     ]);
   }
 }

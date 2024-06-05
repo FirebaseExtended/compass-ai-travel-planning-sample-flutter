@@ -26,7 +26,7 @@ AppBar get brandedAppBar {
             ),
             onPressed: () => {},
             icon: const Icon(
-              Icons.home,
+              Icons.home_outlined,
             ),
           )),
     ],
