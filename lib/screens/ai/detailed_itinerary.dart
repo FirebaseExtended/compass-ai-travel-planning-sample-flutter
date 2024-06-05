@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:tripedia/screens/components/app_bar.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 import '../branding.dart';
-import '../components/custom_stepper.dart' as customStepper;
+import '../components/custom_stepper.dart' as custom_stepper;
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({super.key});
@@ -197,7 +194,7 @@ class _DayStepperState extends State<DayStepper> {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: customStepper.Stepper(
+      child: custom_stepper.Stepper(
         key: widget.key,
         stepIconWidth: 80,
         stepIconHeight: 80,
