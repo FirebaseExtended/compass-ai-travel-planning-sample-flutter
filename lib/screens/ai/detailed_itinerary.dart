@@ -4,6 +4,7 @@ import 'package:tripedia/screens/components/app_bar.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../branding.dart';
+import '../components/custom_stepper.dart' as customStepper;
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({super.key});
@@ -22,7 +23,6 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
           slivers: [
             SliverAppBar(
               expandedHeight: 240,
-              pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 title: Padding(
                   padding: const EdgeInsets.only(left: 16),
@@ -107,76 +107,19 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                     )),
               ],
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
                     const DayTitle(title: 'Day 1'),
-                    SizedBox(
-                      child: Stepper(
-                        margin: const EdgeInsets.only(top: 0),
-                        controlsBuilder: (context, details) {
-                          return const SizedBox.shrink();
-                        },
-                        stepIconWidth: 80,
-                        stepIconHeight: 80,
-                        currentStep: activeStep,
-                        stepIconBuilder: (stepIndex, stepState) {
-                          if (stepIndex == activeStep) {
-                            return Container(
-                              width: 80,
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(4),
-                                ),
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage('assets/images/louvre.png'),
-                                ),
-                                color: Colors.green, // b
-                              ),
-                            );
-                          }
-                          return Container(
-                            width: 28,
-                            height: 28,
-                            decoration: const BoxDecoration(
-                              color: Colors.yellow, // border color
-                              shape: BoxShape.circle,
-                            ),
-                          );
-                        },
-                        onStepTapped: (value) {
-                          setState(() {
-                            activeStep = value;
-                          });
-                        },
-                        steps: const [
-                          Step(
-                            title: Text('Louvre Museum Guided Tour'),
-                            subtitle: Text('May 14, Morning'),
-                            content: Text(
-                                "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
-                          ),
-                          Step(
-                            title: Text('Seine River Cruise'),
-                            content: Text(
-                              "Parisian allure awaits on the Seine River aboard traditional, luxurious vessels.",
-                            ),
-                          ),
-                          Step(
-                            title: Text('Louvre Museum Guided Tour'),
-                            content: Text(
-                                "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const DayStepper(key: Key('Stepper1')),
                     const DayTitle(title: 'Day 2'),
+                    const DayStepper(key: Key('Stepper2')),
                     const DayTitle(title: 'Day 3'),
-                  ])
-                ],
+                    const DayStepper(key: Key('Stepper3')),
+                  ],
+                ),
               ),
             )
           ],
@@ -226,10 +169,121 @@ class DayTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(36, 0, 0, 8),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+        ),
+      ),
+    );
+  }
+}
+
+class DayStepper extends StatefulWidget {
+  const DayStepper({super.key});
+
+  @override
+  State<DayStepper> createState() => _DayStepperState();
+}
+
+class _DayStepperState extends State<DayStepper> {
+  int activeStep = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: customStepper.Stepper(
+        key: widget.key,
+        stepIconWidth: 80,
+        stepIconHeight: 80,
+        margin: const EdgeInsets.all(0),
+        controlsBuilder: (context, details) {
+          return const SizedBox.shrink();
+        },
+        currentStep: activeStep,
+        stepIconBuilder: (stepIndex, stepState) {
+          if (stepIndex == activeStep) {
+            return Container(
+              width: 80,
+              height: 80,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(4),
+                ),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/images/louvre.png'),
+                ),
+                color: Colors.green, // b
+              ),
+            );
+          }
+          return Icon(
+            Icons.circle,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          );
+        },
+        onStepTapped: (value) {
+          setState(() {
+            activeStep = value;
+          });
+        },
+        steps: const [
+          Step(
+            stepStyle: StepStyle(
+              connectorThickness: 0,
+              color: Colors.transparent,
+            ),
+            title: Text('Louvre Museum Guided Tour',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                )),
+            subtitle: Text('May 14, Morning'),
+            content: Padding(
+              padding: EdgeInsets.fromLTRB(24, 0, 8, 0),
+              child: Text(
+                  "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
+            ),
+          ),
+          Step(
+            stepStyle: StepStyle(
+              connectorThickness: 0,
+              color: Colors.transparent,
+            ),
+            title: Text('Seine River Cruise',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                )),
+            subtitle: Text('May 14, Afternoon'),
+            content: Padding(
+              padding: EdgeInsets.fromLTRB(24, 0, 8, 0),
+              child: Text(
+                "Parisian allure awaits on the Seine River aboard traditional, luxurious vessels.",
+              ),
+            ),
+          ),
+          Step(
+            stepStyle: StepStyle(
+              connectorThickness: 0,
+              color: Colors.transparent,
+            ),
+            title: Text('Louvre Museum Guided Tour',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                )),
+            subtitle: Text('May 14, Evening'),
+            content: Padding(
+              padding: EdgeInsets.fromLTRB(24, 0, 8, 0),
+              child: Text(
+                  "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
+            ),
+          ),
+        ],
       ),
     );
   }
