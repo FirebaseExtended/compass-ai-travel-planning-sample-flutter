@@ -25,7 +25,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
               expandedHeight: 240,
               flexibleSpace: FlexibleSpaceBar(
                 title: Padding(
-                  padding: const EdgeInsets.only(left: 16),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 24, 8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,18 +61,18 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: 300,
+                      height: 240,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             begin: FractionalOffset.bottomCenter,
                             end: FractionalOffset.topCenter,
                             colors: [
-                              Color.fromARGB(150, 49, 49, 49),
+                              Color.fromARGB(165, 0, 0, 0),
                               Colors.transparent
                             ],
                             stops: [
-                              0.0,
-                              0.75
+                              0,
+                              1
                             ]),
                       ),
                     ),
