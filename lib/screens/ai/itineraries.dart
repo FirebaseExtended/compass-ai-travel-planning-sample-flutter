@@ -66,12 +66,12 @@ class ItineraryCard extends StatelessWidget {
                       begin: FractionalOffset.bottomCenter,
                       end: FractionalOffset.topCenter,
                       colors: [
-                        Color.fromARGB(255, 49, 49, 49),
+                        Color.fromARGB(150, 49, 49, 49),
                         Colors.transparent
                       ],
                       stops: [
-                        0.1,
-                        0.70
+                        0.0,
+                        0.75
                       ]),
                 ),
               ),
@@ -129,16 +129,23 @@ class BrandChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(canvasColor: Colors.transparent),
-      child: Chip(
-        //color: const WidgetStatePropertyAll(Colors.transparent),
-        backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.5),
-        shape: const StadiumBorder(side: BorderSide.none),
-        avatar:
-            Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
-        label: Text(
-          title,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 0,
+          horizontal: 4,
+        ),
+        child: Chip(
+          //color: const WidgetStatePropertyAll(Colors.transparent),
+          backgroundColor:
+              Theme.of(context).colorScheme.surface.withOpacity(0.8),
+          shape: const StadiumBorder(side: BorderSide.none),
+          avatar:
+              Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
+          label: Text(
+            title,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
       ),
