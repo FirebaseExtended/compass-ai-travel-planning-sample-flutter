@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tripedia/screens/ai/dreaming.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'screens/ai/form.dart';
 import 'screens/ai/itineraries.dart';
+import 'screens/ai/detailed_itinerary.dart';
+import 'screens/ai/dreaming.dart';
 
 void main() {
   Animate.restartOnHotReload = true;
@@ -48,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       FormScreen(),
       DreamingScreen(),
       Itineraries(),
+      DetailedItinerary(),
     ]);
   }
 }
