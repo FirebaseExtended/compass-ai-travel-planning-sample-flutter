@@ -23,7 +23,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
             const DayTitle(title: 'Day 1'),
             Stepper(
               controlsBuilder: (context, details) {
-                return Container();
+                return const SizedBox.shrink();
               },
               stepIconWidth: 80,
               stepIconHeight: 80,
@@ -31,8 +31,8 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
               stepIconBuilder: (stepIndex, stepState) {
                 if (stepIndex == activeStep) {
                   return Container(
-                    width: 100,
-                    height: 100,
+                    width: 80,
+                    height: 80,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(4),
@@ -45,7 +45,6 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                     ),
                   );
                 }
-
                 return Container(
                   width: 28,
                   height: 28,
@@ -63,6 +62,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
               steps: const [
                 Step(
                   title: Text('Louvre Museum Guided Tour'),
+                  subtitle: Text('May 14, Morning'),
                   content: Text(
                       "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
                 ),
@@ -89,7 +89,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                 border: Border(
                     top: BorderSide(
                         color: Theme.of(context).colorScheme.outlineVariant))),
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
             child: ElevatedButton(
               onPressed: () {},
               style: ButtonStyle(
