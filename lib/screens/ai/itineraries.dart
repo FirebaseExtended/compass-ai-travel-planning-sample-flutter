@@ -86,7 +86,7 @@ class ItineraryCard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 36,
+                        fontSize: 32,
                       )),
                   Text('14th May - 21st May, 2024',
                       style: TextStyle(
@@ -130,7 +130,7 @@ class BrandChip extends StatelessWidget {
     return Theme(
       data: ThemeData(canvasColor: Colors.transparent),
       child: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           vertical: 0,
           horizontal: 4,
         ),
