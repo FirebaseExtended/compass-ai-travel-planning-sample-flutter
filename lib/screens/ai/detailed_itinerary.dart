@@ -22,19 +22,24 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
+              collapsedHeight: kToolbarHeight + 20,
               expandedHeight: 240,
+              pinned: false,
+              floating: true,
               flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                expandedTitleScale: 2.25,
                 title: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 24, 8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppLogo(dimension: 24),
+                      //const AppLogo(dimension: 24),
                       Text(
                         widget.itinerary.name,
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 10,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
@@ -42,7 +47,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                       Text(
                         '${widget.itinerary.startDate} - ${widget.itinerary.endDate}',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 8,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
