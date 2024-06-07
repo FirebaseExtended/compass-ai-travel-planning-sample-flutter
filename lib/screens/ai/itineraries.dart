@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/screens/ai/detailed_itinerary.dart';
 import '../components/app_bar.dart';
 import '../../data/models/itinerary.dart';
 import '../../view_models/intineraries_viewmodel.dart';
@@ -34,7 +35,15 @@ class _ItinerariesState extends State<Itineraries> {
                 itemBuilder: (context, index) {
                   return ItineraryCard(
                     itinerary: itineraries[index],
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailedItinerary(itinerary: itineraries[index]),
+                        ),
+                      );
+                    },
                   );
                 }),
           ),
@@ -56,83 +65,86 @@ class ItineraryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-          height: 650,
-          width: 350,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(12),
-            ),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(itinerary.heroUrl),
-            ),
-          ),
-          child: Stack(children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 650,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12),
-                  ),
-                  gradient: LinearGradient(
-                      begin: FractionalOffset.bottomCenter,
-                      end: FractionalOffset.topCenter,
-                      colors: [
-                        Color.fromARGB(150, 49, 49, 49),
-                        Colors.transparent
-                      ],
-                      stops: [
-                        0.0,
-                        0.75
-                      ]),
+    return GestureDetector(
+        onTap: onTap,
+        child: Card(
+          child: Container(
+              height: 650,
+              width: 350,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(12),
+                ),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(itinerary.heroUrl),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(itinerary.name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 32,
-                      )),
-                  Text('${itinerary.startDate} - ${itinerary.endDate}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      )),
-                  SizedBox(
-                    height: 100,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(itinerary.tags.length, (index) {
-                        return BrandChip(
-                          title: itinerary.tags[index],
-                        );
-                      }),
+              child: Stack(children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 650,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                      gradient: LinearGradient(
+                          begin: FractionalOffset.bottomCenter,
+                          end: FractionalOffset.topCenter,
+                          colors: [
+                            Color.fromARGB(150, 49, 49, 49),
+                            Colors.transparent
+                          ],
+                          stops: [
+                            0.0,
+                            0.75
+                          ]),
                     ),
                   ),
-                  /*const Text(
+                ),
+                Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(itinerary.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 32,
+                          )),
+                      Text('${itinerary.startDate} - ${itinerary.endDate}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          )),
+                      SizedBox(
+                        height: 100,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children:
+                              List.generate(itinerary.tags.length, (index) {
+                            return BrandChip(
+                              title: itinerary.tags[index],
+                            );
+                          }),
+                        ),
+                      ),
+                      /*const Text(
                     'From the Eiffel Tower to Montmartre\'s streets, every corner invites exploration. Wander along the Seine, savor pastries, and uncover hidden courtyards steeped in history.',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
                   ),*/
-                ],
-              ),
-            ),
-          ])),
-    );
+                    ],
+                  ),
+                ),
+              ])),
+        ));
   }
 }
 

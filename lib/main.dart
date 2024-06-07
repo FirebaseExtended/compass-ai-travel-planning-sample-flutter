@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
           FormScreen(),
           DreamingScreen(),
           Itineraries(),
-          DetailedItinerary(),
+          //DetailedItinerary(),
         ],
       ),
     );

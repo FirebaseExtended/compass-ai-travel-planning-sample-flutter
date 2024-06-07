@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../branding.dart';
 import '../components/custom_stepper.dart' as custom_stepper;
+import '../../data/models/itinerary.dart';
 
 class DetailedItinerary extends StatefulWidget {
-  const DetailedItinerary({super.key});
+  const DetailedItinerary({required this.itinerary, super.key});
+
+  final Itinerary itinerary;
 
   @override
   State<DetailedItinerary> createState() => _DetailedItineraryState();
@@ -29,7 +32,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                     children: [
                       const AppLogo(dimension: 24),
                       Text(
-                        'Romantic Parisian Getaway',
+                        widget.itinerary.name,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -37,7 +40,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                         ),
                       ),
                       Text(
-                        '14th May - 21st May, 2024',
+                        '${widget.itinerary.startDate} - ${widget.itinerary.endDate}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Theme.of(context).colorScheme.onPrimary,
@@ -47,11 +50,11 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                   ),
                 ),
                 background: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(
-                        'assets/images/paris.png',
+                      image: NetworkImage(
+                        widget.itinerary.heroUrl,
                       ),
                     ),
                   ),
@@ -77,12 +80,25 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                 ),
               ),
               backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+              leading: Padding(
+                padding: const EdgeInsets.all(8),
+                child: IconButton(
+                  style: ButtonStyle(
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
+                  ),
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-                onPressed: () {},
               ),
               actions: [
                 Padding(
