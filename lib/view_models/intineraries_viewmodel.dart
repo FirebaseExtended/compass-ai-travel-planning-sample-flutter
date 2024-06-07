@@ -10,13 +10,8 @@ class ItinerariesViewModel extends ChangeNotifier {
 
   ItinerariesViewModel(this.client);
 
-  Future<void> init() async {
-    try {
-      itineraries = await client.loadItinerariesFromServer();
-    } catch (e) {
-      errorMessage = 'Could not initialize counter';
-    }
-    notifyListeners();
+  Future<void> loadItineraries() async {
+    itineraries = await client.loadItinerariesFromServer();
   }
 
   Future<void> selectItinerary(int index) async {
