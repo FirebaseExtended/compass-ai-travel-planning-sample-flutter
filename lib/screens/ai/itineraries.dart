@@ -56,8 +56,6 @@ class ItineraryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(itinerary.toString);
-
     return Card(
       child: Container(
           height: 650,
