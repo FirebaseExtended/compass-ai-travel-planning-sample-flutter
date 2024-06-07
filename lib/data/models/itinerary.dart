@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class Itinerary {
-  List<DayPlan> days = [];
+  List<DayPlan> dayPlans = [];
   String place = '';
   String name = '';
   String startDate = '';
@@ -13,7 +13,7 @@ class Itinerary {
   String heroUrl = '';
   String placeRef = '';
 
-  Itinerary(days, place, name);
+  Itinerary(days, place, name, startDate, endDate, tags, heroUrl, placeRef);
 }
 
 class DayPlan {
@@ -88,8 +88,16 @@ List<Itinerary> parseItineraries(String jsonStr) {
       final event = DayPlan.fromJson(dayData);
       days.add(event);
     }
-    final itinerary =
-        Itinerary(days, itineraryData['place'], itineraryData['itineraryName']);
+    final itinerary = Itinerary(
+      days,
+      itineraryData['place'],
+      itineraryData['itineraryName'],
+      itineraryData['startDate'],
+      itineraryData['endDate'],
+      itineraryData['tags'],
+      itineraryData['itineraryImageUrl'],
+      itineraryData['placeRef'],
+    );
     itineraries.add(itinerary);
   }
 
@@ -117,29 +125,4 @@ void main() async {
   List<Itinerary> allItineraries = parseItineraries(response.body);
 
   print(allItineraries);
-
-  /*var decodedBody = jsonDecode(response.body) as Map<String, dynamic>;
-  var result = decodedBody['result'] as Map<String, dynamic>;
-  var itineraries = result['itineraries'] as List<dynamic>;
-
-  for (var itineraryHolder in itineraries) {
-    //print(itineraryHolder);
-    var thisItinerary = itineraryHolder as Map<String, dynamic>;
-    var itineraryList = thisItinerary['itinerary'];
-
-    /*int locId, locActivityId;
-    List<String> locPlanForDay;*/
-
-    print(itineraryList);
-    print('\n');
-  }*/
-
-  /*List<dynamic> itineraries;
-
-  {'result': {'itineraries': itineraries}} =
-      jsonDecode(response.body) as Map<String, Map<String, List<dynamic>>>;
-
-  //print(decodedBody['result'].keys);*/
-
-  //print(itineraries);
 }
