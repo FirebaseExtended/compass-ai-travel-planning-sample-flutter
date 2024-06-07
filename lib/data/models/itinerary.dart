@@ -12,7 +12,21 @@ class Itinerary {
   String heroUrl = '';
   String placeRef = '';
 
-  Itinerary(days, place, name, startDate, endDate, tags, heroUrl, placeRef);
+  Itinerary(this.dayPlans, this.place, this.name, this.startDate, this.endDate,
+      this.tags, this.heroUrl, this.placeRef);
+
+  @override
+  String toString() {
+    return '''
+      place: $place,
+      name: $name,
+      startDate: $startDate,
+      endDate: $endDate,
+      tags: ${tags.toString()},
+      heroUrl: $heroUrl,
+      placeRef: $placeRef
+    ''';
+  }
 }
 
 class DayPlan {
@@ -107,19 +121,22 @@ class ItineraryClient {
     for (final itineraryData in itineraryList) {
       final days = <DayPlan>[];
       for (final dayData in itineraryData['itinerary']) {
-        print(dayData);
+        //print(dayData);
         final event = DayPlan.fromJson(dayData);
         days.add(event);
       }
+
+      print(itineraryData['itineraryImageUrl']);
+
       final itinerary = Itinerary(
         days,
-        itineraryData['place'],
-        itineraryData['itineraryName'],
-        itineraryData['startDate'],
-        itineraryData['endDate'],
-        itineraryData['tags'],
-        itineraryData['itineraryImageUrl'],
-        itineraryData['placeRef'],
+        itineraryData['place'] as String,
+        itineraryData['itineraryName'] as String,
+        itineraryData['startDate'] as String,
+        itineraryData['endDate'] as String,
+        List<String>.from(itineraryData['tags'] as List),
+        itineraryData['itineraryImageUrl'] as String,
+        itineraryData['placeRef'] as String,
       );
       itineraries.add(itinerary);
     }
@@ -132,5 +149,5 @@ void main() async {
   List<Itinerary> itineraries =
       await ItineraryClient().loadItinerariesFromServer();
 
-  print(itineraries);
+  //print(itineraries);
 }

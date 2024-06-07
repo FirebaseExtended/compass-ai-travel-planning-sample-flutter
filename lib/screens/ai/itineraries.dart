@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../components/app_bar.dart';
+import '../../data/models/itinerary.dart';
+import '../../view_models/intineraries_viewmodel.dart';
 
 import 'dart:math';
 
@@ -13,21 +16,27 @@ class Itineraries extends StatefulWidget {
 class _ItinerariesState extends State<Itineraries> {
   @override
   Widget build(BuildContext context) {
+    var itineraries = context.watch<ItinerariesViewModel>().itineraries;
+
+    if (itineraries == null) {
+      return const Placeholder();
+    }
+
     return Scaffold(
       appBar: brandedAppBar,
       body: Column(
         children: [
           SizedBox(
             height: 650,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                ItineraryCard(),
-                ItineraryCard(),
-                ItineraryCard(),
-                ItineraryCard(),
-              ],
-            ),
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: itineraries.length,
+                itemBuilder: (context, index) {
+                  return ItineraryCard(
+                    itinerary: itineraries[index],
+                    onTap: () {},
+                  );
+                }),
           ),
         ],
       ),
@@ -36,21 +45,30 @@ class _ItinerariesState extends State<Itineraries> {
 }
 
 class ItineraryCard extends StatelessWidget {
-  const ItineraryCard({super.key});
+  const ItineraryCard({
+    required this.itinerary,
+    required this.onTap,
+    super.key,
+  });
+
+  final Itinerary itinerary;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    print(itinerary.toString);
+
     return Card(
       child: Container(
           height: 650,
           width: 350,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(
               Radius.circular(12),
             ),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/paris.png'),
+              image: NetworkImage(itinerary.heroUrl),
             ),
           ),
           child: Stack(children: [
@@ -76,37 +94,42 @@ class ItineraryCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Romantic Parisian Getaway',
-                      style: TextStyle(
+                  Text(itinerary.name,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 32,
                       )),
-                  Text('14th May - 21st May, 2024',
-                      style: TextStyle(
+                  Text('${itinerary.startDate} - ${itinerary.endDate}',
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       )),
-                  Row(
-                    children: [
-                      BrandChip(icon: Icons.location_city, title: 'City'),
-                      BrandChip(icon: Icons.favorite, title: 'Couples'),
-                    ],
+                  SizedBox(
+                    height: 100,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: List.generate(itinerary.tags.length, (index) {
+                        return BrandChip(
+                          title: itinerary.tags[index],
+                        );
+                      }),
+                    ),
                   ),
-                  Text(
+                  /*const Text(
                     'From the Eiffel Tower to Montmartre\'s streets, every corner invites exploration. Wander along the Seine, savor pastries, and uncover hidden courtyards steeped in history.',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -118,12 +141,12 @@ class ItineraryCard extends StatelessWidget {
 class BrandChip extends StatelessWidget {
   const BrandChip({
     required this.title,
-    required this.icon,
+    this.icon,
     super.key,
   });
 
   final String title;
-  final IconData icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +162,10 @@ class BrandChip extends StatelessWidget {
           backgroundColor:
               Theme.of(context).colorScheme.surface.withOpacity(0.8),
           shape: const StadiumBorder(side: BorderSide.none),
-          avatar:
-              Icon(icon, color: Theme.of(context).colorScheme.onSurfaceVariant),
+          avatar: (icon != null)
+              ? Icon(icon,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant)
+              : null,
           label: Text(
             title,
             style: TextStyle(
