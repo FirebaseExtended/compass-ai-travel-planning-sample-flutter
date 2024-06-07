@@ -4,42 +4,75 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class Itinerary {
-  List<Event> events = [];
+  List<DayPlan> days = [];
   String place = '';
   String name = '';
+  String startDate = '';
+  String endDate = '';
+  List<String> tags = [];
+  String heroUrl = '';
+  String placeRef = '';
 
-  Itinerary(events, place, name);
+  Itinerary(days, place, name);
 }
 
-class Event {
-  int activityId;
+class DayPlan {
   int dayNum;
-  List<String> planForDay;
+  String date;
+  List<Activity> planForDay;
 
-  Event(
-      {required this.activityId,
-      required this.dayNum,
-      required this.planForDay});
+  DayPlan({required this.dayNum, required this.date, required this.planForDay});
 
-  static Event fromJson(Map<String, dynamic> jsonMap) {
-    int localActivityId, localDayNum;
+  static DayPlan fromJson(Map<String, dynamic> jsonMap) {
+    int localDayNum;
+    String localDate;
     List<dynamic> localPlan;
 
     {
       'day': localDayNum,
-      'activityId': localActivityId,
+      'date': localDate,
       'planForDay': localPlan,
     } = jsonMap;
 
-    /*dayNum = localDayNum;
-    activityId = localActivityId;
-    planForDay = localPlan;*/
-
-    return Event(
-      activityId: localActivityId,
+    return DayPlan(
       dayNum: localDayNum,
-      planForDay: List<String>.from(localPlan),
+      date: localDate,
+      planForDay: List<Activity>.from(
+        localPlan.map(
+          (activity) => Activity.fromJson(activity),
+        ),
+      ),
     );
+  }
+}
+
+class Activity {
+  String ref = '';
+  String title = '';
+  String description = '';
+  String imageUrl = '';
+
+  Activity(
+      {required this.ref,
+      required this.title,
+      required this.description,
+      required this.imageUrl});
+
+  static Activity fromJson(Map<String, dynamic> jsonMap) {
+    String localRef, localTitle, localDescription, localImageUrl;
+
+    {
+      'activityRef': localRef,
+      'activityTitle': localTitle,
+      'activityDesc': localDescription,
+      'imgUrl': localImageUrl
+    } = jsonMap;
+
+    return Activity(
+        ref: localRef,
+        title: localTitle,
+        description: localDescription,
+        imageUrl: localImageUrl);
   }
 }
 
@@ -49,14 +82,14 @@ List<Itinerary> parseItineraries(String jsonStr) {
 
   final itineraryList = jsonData['result']['itineraries'];
   for (final itineraryData in itineraryList) {
-    final events = <Event>[];
-    for (final eventData in itineraryData['itinerary']) {
-      print(eventData);
-      final event = Event.fromJson(eventData);
-      events.add(event);
+    final days = <DayPlan>[];
+    for (final dayData in itineraryData['itinerary']) {
+      print(dayData);
+      final event = DayPlan.fromJson(dayData);
+      days.add(event);
     }
-    final itinerary = Itinerary(
-        events, itineraryData['place'], itineraryData['itineraryName']);
+    final itinerary =
+        Itinerary(days, itineraryData['place'], itineraryData['itineraryName']);
     itineraries.add(itinerary);
   }
 
@@ -65,7 +98,7 @@ List<Itinerary> parseItineraries(String jsonStr) {
 
 void main() async {
   var endpoint = Uri.https(
-    'genkit-express-hovwuqnpzq-uc.a.run.app',
+    'tripedia-genkit-hovwuqnpzq-uc.a.run.app',
     '/itineraryGenerator',
   );
 
