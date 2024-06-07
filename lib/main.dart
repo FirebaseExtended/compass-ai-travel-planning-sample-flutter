@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
+import 'package:tripedia/data/models/itinerary.dart';
 
 import 'screens/ai/form.dart';
 import 'screens/ai/itineraries.dart';
 import 'screens/ai/detailed_itinerary.dart';
 import 'screens/ai/dreaming.dart';
+import 'view_models/intineraries_viewmodel.dart';
 
 void main() {
   Animate.restartOnHotReload = true;
@@ -45,11 +48,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(controller: pageController, children: const [
-      FormScreen(),
-      DreamingScreen(),
-      Itineraries(),
-      DetailedItinerary(),
-    ]);
+    return ChangeNotifierProvider(
+      create: (context) => ItinerariesViewModel(ItineraryClient()),
+      child: PageView(
+        controller: pageController,
+        children: const [
+          FormScreen(),
+          DreamingScreen(),
+          Itineraries(),
+          DetailedItinerary(),
+        ],
+      ),
+    );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 
 import '../branding.dart';
 
@@ -10,6 +12,10 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
+  void generateItineraries() {
+    context.read<ItinerariesViewModel>().loadItineraries();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +115,7 @@ class _FormScreenState extends State<FormScreen> {
                       Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: generateItineraries,
                   child: Text(
                     'Plan my dream trip',
                     style: TextStyle(
