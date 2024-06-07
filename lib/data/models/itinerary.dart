@@ -76,53 +76,62 @@ class Activity {
   }
 }
 
-List<Itinerary> parseItineraries(String jsonStr) {
-  final jsonData = jsonDecode(jsonStr);
-  final itineraries = <Itinerary>[];
-
-  final itineraryList = jsonData['result']['itineraries'];
-  for (final itineraryData in itineraryList) {
-    final days = <DayPlan>[];
-    for (final dayData in itineraryData['itinerary']) {
-      print(dayData);
-      final event = DayPlan.fromJson(dayData);
-      days.add(event);
-    }
-    final itinerary = Itinerary(
-      days,
-      itineraryData['place'],
-      itineraryData['itineraryName'],
-      itineraryData['startDate'],
-      itineraryData['endDate'],
-      itineraryData['tags'],
-      itineraryData['itineraryImageUrl'],
-      itineraryData['placeRef'],
+class ItineraryClient {
+  Future<List<Itinerary>> loadItinerariesFromServer() async {
+    var endpoint = Uri.https(
+      'tripedia-genkit-hovwuqnpzq-uc.a.run.app',
+      '/itineraryGenerator',
     );
-    itineraries.add(itinerary);
+
+    var response = await http.post(
+      endpoint,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(
+        {
+          'data': {
+            'request': "I want a vacation with beautiful views and good food."
+          },
+        },
+      ),
+    );
+
+    List<Itinerary> allItineraries = parseItineraries(response.body);
+
+    return allItineraries;
   }
 
-  return itineraries;
+  List<Itinerary> parseItineraries(String jsonStr) {
+    final jsonData = jsonDecode(jsonStr);
+    final itineraries = <Itinerary>[];
+
+    final itineraryList = jsonData['result']['itineraries'];
+    for (final itineraryData in itineraryList) {
+      final days = <DayPlan>[];
+      for (final dayData in itineraryData['itinerary']) {
+        print(dayData);
+        final event = DayPlan.fromJson(dayData);
+        days.add(event);
+      }
+      final itinerary = Itinerary(
+        days,
+        itineraryData['place'],
+        itineraryData['itineraryName'],
+        itineraryData['startDate'],
+        itineraryData['endDate'],
+        itineraryData['tags'],
+        itineraryData['itineraryImageUrl'],
+        itineraryData['placeRef'],
+      );
+      itineraries.add(itinerary);
+    }
+
+    return itineraries;
+  }
 }
 
 void main() async {
-  var endpoint = Uri.https(
-    'tripedia-genkit-hovwuqnpzq-uc.a.run.app',
-    '/itineraryGenerator',
-  );
+  List<Itinerary> itineraries =
+      await ItineraryClient().loadItinerariesFromServer();
 
-  var response = await http.post(
-    endpoint,
-    headers: {'Content-Type': 'application/json'},
-    body: jsonEncode(
-      {
-        'data': {
-          'request': "I want a vacation with beautiful views and good food."
-        },
-      },
-    ),
-  );
-
-  List<Itinerary> allItineraries = parseItineraries(response.body);
-
-  print(allItineraries);
+  print(itineraries);
 }
