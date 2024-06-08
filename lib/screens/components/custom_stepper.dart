@@ -756,12 +756,11 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
               end: 24.0,
               bottom: 16.0,
             ),
-            child: Column(
-              children: <Widget>[
-                widget.steps[index].content,
-                _buildVerticalControls(index),
-              ],
-            ),
+            child: Row(children: [
+              Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: widget.steps[index].content)
+            ]),
           ),
           firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
           secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
