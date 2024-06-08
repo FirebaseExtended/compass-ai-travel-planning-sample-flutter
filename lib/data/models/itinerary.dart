@@ -102,7 +102,8 @@ class ItineraryClient {
       body: jsonEncode(
         {
           'data': {
-            'request': "I want a vacation with beautiful views and good food."
+            'request':
+                "I want a vacation with a lot of history, art, and outdoor activities."
           },
         },
       ),

@@ -128,16 +128,31 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
               sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
+                delegate: SliverChildListDelegate(List.generate(
+                  widget.itinerary.dayPlans.length,
+                  (day) {
+                    var dayPlan = widget.itinerary.dayPlans[day];
+
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DayTitle(title: 'Day ${dayPlan.dayNum.toString()}'),
+                          DayStepper(
+                            key: Key('stepper$day'),
+                            activities: dayPlan.planForDay,
+                          )
+                        ]);
+                  },
+                )
+                    /*[
                     const DayTitle(title: 'Day 1'),
                     const DayStepper(key: Key('Stepper1')),
                     const DayTitle(title: 'Day 2'),
                     const DayStepper(key: Key('Stepper2')),
                     const DayTitle(title: 'Day 3'),
                     const DayStepper(key: Key('Stepper3')),
-                  ],
-                ),
+                  ],*/
+                    ),
               ),
             )
           ],
@@ -201,7 +216,9 @@ class DayTitle extends StatelessWidget {
 }
 
 class DayStepper extends StatefulWidget {
-  const DayStepper({super.key});
+  const DayStepper({required this.activities, super.key});
+
+  final List<Activity> activities;
 
   @override
   State<DayStepper> createState() => _DayStepperState();
@@ -209,6 +226,20 @@ class DayStepper extends StatefulWidget {
 
 class _DayStepperState extends State<DayStepper> {
   int activeStep = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    for (var activity in widget.activities) {
+      precacheImage(NetworkImage(activity.imageUrl), context);
+    }
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,13 +260,13 @@ class _DayStepperState extends State<DayStepper> {
             return Container(
               width: 80,
               height: 80,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                   Radius.circular(4),
                 ),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/images/louvre.png'),
+                  image: NetworkImage(widget.activities[activeStep].imageUrl),
                 ),
                 color: Colors.green, // b
               ),
@@ -251,8 +282,22 @@ class _DayStepperState extends State<DayStepper> {
             activeStep = value;
           });
         },
-        steps: const [
-          Step(
+        steps: [
+          ...List.generate(widget.activities.length, (index) {
+            return Step(
+              stepStyle: const StepStyle(
+                connectorThickness: 0,
+                color: Colors.transparent,
+              ),
+              title: Text(widget.activities[index].title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+              subtitle: Text(widget.activities[index].ref),
+              content: Text(widget.activities[index].description),
+            );
+          }),
+          /*Step(
             stepStyle: StepStyle(
               connectorThickness: 0,
               color: Colors.transparent,
@@ -300,7 +345,7 @@ class _DayStepperState extends State<DayStepper> {
               child: Text(
                   "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
             ),
-          ),
+          ),*/
         ],
       ),
     );
