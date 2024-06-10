@@ -6,7 +6,6 @@ import 'package:tripedia/data/models/itinerary.dart';
 
 import 'screens/ai/form.dart';
 import 'screens/ai/itineraries.dart';
-import 'screens/ai/detailed_itinerary.dart';
 import 'screens/ai/dreaming.dart';
 import 'view_models/intineraries_viewmodel.dart';
 
