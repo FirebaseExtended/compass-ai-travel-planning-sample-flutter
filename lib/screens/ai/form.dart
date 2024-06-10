@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/screens/ai/load_itineraries.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 
 import '../branding.dart';
@@ -14,6 +16,7 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   void generateItineraries() {
     context.read<ItinerariesViewModel>().loadItineraries();
+    context.push('/itineraries');
   }
 
   @override
