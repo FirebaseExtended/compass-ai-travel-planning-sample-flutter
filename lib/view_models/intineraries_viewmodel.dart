@@ -11,8 +11,16 @@ class ItinerariesViewModel extends ChangeNotifier {
   ItinerariesViewModel(this.client);
 
   Future<void> loadItineraries() async {
-    itineraries = await client.loadItinerariesFromServer();
+    try {
+      itineraries = await client.loadItinerariesFromServer();
+    } catch (e) {
+      errorMessage = 'Oops we couldn\'t fetch itineraries';
+    }
     notifyListeners();
+  }
+
+  void clearError() {
+    errorMessage = null;
   }
 
   Future<void> selectItinerary(int index) async {

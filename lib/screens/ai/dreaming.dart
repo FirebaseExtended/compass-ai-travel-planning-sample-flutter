@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../branding.dart';
 import '../components/app_bar.dart';
 import 'dart:math';
 import 'dart:ui';
+import '../../view_models/intineraries_viewmodel.dart';
 
 class DreamingScreen extends StatefulWidget {
   const DreamingScreen({super.key});
@@ -13,6 +16,47 @@ class DreamingScreen extends StatefulWidget {
 }
 
 class _DreamingScreenState extends State<DreamingScreen> {
+  late final itinerariesVM = context.read<ItinerariesViewModel>();
+
+  @override
+  void initState() {
+    itinerariesVM.addListener(_showError);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    itinerariesVM.removeListener(_showError);
+    super.dispose();
+  }
+
+  void _showError() async {
+    var vm = context.read<ItinerariesViewModel>();
+    var errorMessage = vm.errorMessage;
+
+    if (errorMessage != null) {
+      await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(
+            errorMessage,
+          ),
+          content: const Text('Please try again.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                vm.clearError();
+                Navigator.of(context).pop();
+                context.go('/');
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
