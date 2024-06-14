@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Turning voice into text input</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need to record voice to turn into text input</string>
 </dict>
 </plist>

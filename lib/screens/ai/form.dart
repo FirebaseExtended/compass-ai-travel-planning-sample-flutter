@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/screens/ai/load_itineraries.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 import '../branding.dart';
 
@@ -101,6 +103,11 @@ class _FormScreenState extends State<FormScreen> {
                 ),
               ),
             ),
+            TalkToMe(onVoiceInput: (String input) {
+              setState(() {
+                _queryController.text = input;
+              });
+            }),
             Row(children: [
               Expanded(
                 child: Container(
@@ -189,6 +196,67 @@ class BrandGradient extends StatelessWidget {
         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
       ),
       child: child,
+    );
+  }
+}
+
+class TalkToMe extends StatefulWidget {
+  const TalkToMe({required this.onVoiceInput, super.key});
+
+  final void Function(String words) onVoiceInput;
+
+  @override
+  State<TalkToMe> createState() => _TalkToMeState();
+}
+
+class _TalkToMeState extends State<TalkToMe> {
+  SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+  }
+
+  void _startListening() async {
+    await _speechToText.listen(onResult: _onSpeechResult);
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    widget.onVoiceInput(result.recognizedWords);
+
+    setState(() {
+      _lastWords = result.recognizedWords;
+    });
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(
+          _speechToText.isListening
+              ? Colors.red
+              : Theme.of(context).primaryColor,
+        ),
+        iconColor: const WidgetStatePropertyAll(Colors.white),
+      ),
+      onPressed: () {
+        _speechToText.isNotListening ? _startListening() : _stopListening();
+      },
+      icon: _speechToText.isListening
+          ? const Icon(Icons.mic)
+          : const Icon(Icons.mic_off),
     );
   }
 }
