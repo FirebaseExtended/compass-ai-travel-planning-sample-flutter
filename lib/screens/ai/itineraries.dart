@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/screens/ai/detailed_itinerary.dart';
+import 'package:tripedia/utilties.dart';
 import '../components/app_bar.dart';
 import '../../data/models/itinerary.dart';
 import '../../view_models/intineraries_viewmodel.dart';
@@ -115,7 +116,8 @@ class ItineraryCard extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 32,
                           )),
-                      Text('${itinerary.startDate} - ${itinerary.endDate}',
+                      Text(
+                          '${prettyDate(itinerary.startDate)} - ${prettyDate(itinerary.endDate)}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

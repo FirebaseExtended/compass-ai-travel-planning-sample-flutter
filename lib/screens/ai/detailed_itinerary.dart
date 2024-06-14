@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tripedia/utilties.dart';
 
-import '../branding.dart';
 import '../components/custom_stepper.dart' as custom_stepper;
 import '../../data/models/itinerary.dart';
 
@@ -45,7 +45,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                         ),
                       ),
                       Text(
-                        '${widget.itinerary.startDate} - ${widget.itinerary.endDate}',
+                        '${prettyDate(widget.itinerary.startDate)} - ${prettyDate(widget.itinerary.endDate)}',
                         style: TextStyle(
                           fontSize: 8,
                           color: Theme.of(context).colorScheme.onPrimary,
