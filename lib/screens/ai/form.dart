@@ -14,9 +14,39 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
+  TextEditingController _queryController = TextEditingController();
+
   void generateItineraries() {
-    context.read<ItinerariesViewModel>().loadItineraries();
+    var query = _queryController.text.trim();
+    if (query.isEmpty) {
+      _showAlert();
+      return;
+    }
+
+    context.read<ItinerariesViewModel>().loadItineraries(query);
     context.push('/itineraries');
+  }
+
+  _showAlert() {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text(
+            'Please tell us about your dream vacation!',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -60,11 +90,12 @@ class _FormScreenState extends State<FormScreen> {
               ),
             ),
             SizedBox.square(dimension: 8),
-            const Expanded(
+            Expanded(
               child: TextField(
+                controller: _queryController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Write anything',
                   border: InputBorder.none,
                 ),

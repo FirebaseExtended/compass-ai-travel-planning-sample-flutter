@@ -90,7 +90,7 @@ class Activity {
 }
 
 class ItineraryClient {
-  Future<List<Itinerary>> loadItinerariesFromServer() async {
+  Future<List<Itinerary>> loadItinerariesFromServer(String query) async {
     var endpoint = Uri.https(
       'tripedia-genkit-hovwuqnpzq-uc.a.run.app',
       '/itineraryGenerator',
@@ -102,8 +102,7 @@ class ItineraryClient {
       body: jsonEncode(
         {
           'data': {
-            'request':
-                "I want a vacation with a lot of history, art, and outdoor activities."
+            'request': query,
           },
         },
       ),
@@ -147,8 +146,9 @@ class ItineraryClient {
 }
 
 void main() async {
-  List<Itinerary> itineraries =
-      await ItineraryClient().loadItinerariesFromServer();
+  List<Itinerary> itineraries = await ItineraryClient()
+      .loadItinerariesFromServer(
+          'I want a vacation at the beach with beautiful views and good food');
 
   //print(itineraries);
 }
