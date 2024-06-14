@@ -20,41 +20,49 @@ class _DreamingScreenState extends State<DreamingScreen> {
 
   @override
   void initState() {
-    itinerariesVM.addListener(_showError);
+    itinerariesVM.addListener(_waitForItineraries);
     super.initState();
   }
 
   @override
   void dispose() {
-    itinerariesVM.removeListener(_showError);
+    itinerariesVM.removeListener(_waitForItineraries);
     super.dispose();
   }
 
-  void _showError() async {
+  void _waitForItineraries() {
     var vm = context.read<ItinerariesViewModel>();
     var errorMessage = vm.errorMessage;
+    var itineraries = vm.itineraries;
 
     if (errorMessage != null) {
-      await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text(
-            errorMessage,
-          ),
-          content: const Text('Please try again.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                vm.clearError();
-                Navigator.of(context).pop();
-                context.go('/');
-              },
-              child: const Text('Okay'),
-            ),
-          ],
-        ),
-      );
+      _showError(errorMessage, () {
+        vm.clearError();
+        Navigator.of(context).pop();
+        context.go('/');
+      });
+    } else if (itineraries != null) {
+      print('go to /itineraries');
+      context.go('/itineraries');
     }
+  }
+
+  void _showError(String errorMessage, VoidCallback onDismissed) async {
+    await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(
+          errorMessage,
+        ),
+        content: const Text('Please try again.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: onDismissed,
+            child: const Text('Okay'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

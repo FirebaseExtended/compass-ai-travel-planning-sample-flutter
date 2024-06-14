@@ -25,8 +25,12 @@ final _router = GoRouter(
       builder: (context, state) => const FormScreen(),
       routes: [
         GoRoute(
+          path: 'dreaming',
+          builder: (context, state) => const DreamingScreen(),
+        ),
+        GoRoute(
           path: 'itineraries',
-          builder: (context, state) => const LoadItinerariesScreen(),
+          builder: (context, state) => const Itineraries(),
         ),
       ],
     ),

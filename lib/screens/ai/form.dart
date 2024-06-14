@@ -24,7 +24,7 @@ class _FormScreenState extends State<FormScreen> {
     }
 
     context.read<ItinerariesViewModel>().loadItineraries(query);
-    context.push('/itineraries');
+    context.go('/dreaming');
   }
 
   _showAlert() {
