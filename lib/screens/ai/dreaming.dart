@@ -42,7 +42,6 @@ class _DreamingScreenState extends State<DreamingScreen> {
         context.go('/');
       });
     } else if (itineraries != null) {
-      print('go to /itineraries');
       context.go('/itineraries');
     }
   }
