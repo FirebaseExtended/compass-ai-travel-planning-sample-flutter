@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -22,11 +23,25 @@ class ImageClient {
 
     return (uploadUrl, downloadUrl);
   }
+
+  static Future<String> uploadImage(File imageFile) async {
+    String uploadUrl, downloadUrl;
+    (uploadUrl, downloadUrl) = await ImageClient.tempUrls;
+
+    await http.put(
+      Uri.parse(uploadUrl),
+      headers: {'Content-Type': 'application/octet-stream'},
+      body: await imageFile.readAsBytes(),
+    );
+
+    return downloadUrl;
+  }
 }
 
 void main() async {
-  String uploadUrl, downloadUrl;
-  (uploadUrl, downloadUrl) = ImageClient.tempUrls;
+  var imageFile = File('assets/images/la-jolla.jpeg');
 
-  //print(itineraries);
+  var downloadUrl = await ImageClient.uploadImage(imageFile);
+
+  print('Uploaded! Check it out:\n$downloadUrl');
 }
