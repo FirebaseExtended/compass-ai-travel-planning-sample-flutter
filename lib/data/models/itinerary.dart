@@ -94,8 +94,8 @@ class ItineraryClient {
   Future<List<Itinerary>> loadItinerariesFromServer(String query,
       {List<String>? imageUrls}) async {
     var endpoint = Uri.https(
-      'tripedia-genkit-hovwuqnpzq-uc.a.run.app',
-      '/itineraryGenerator',
+      'tripedia-genkit-exp-hovwuqnpzq-uc.a.run.app',
+      '/itineraryGenerator2',
     );
 
     var jsonBody = jsonEncode(
