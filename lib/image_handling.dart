@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 
@@ -37,6 +38,19 @@ class ImageClient {
     return downloadUrl;
   }
 
+  static Future<String> uploadImageBytes(Uint8List imageBytes) async {
+    String uploadUrl, downloadUrl;
+    (uploadUrl, downloadUrl) = await ImageClient.tempUrls;
+
+    await http.put(
+      Uri.parse(uploadUrl),
+      headers: {'Content-Type': 'application/octet-stream'},
+      body: imageBytes,
+    );
+
+    return downloadUrl;
+  }
+
   static Future<List<String>> uploadImages(List<File> images) async {
     List<Future<String>> imagesFutures = List.generate(
       images.length,
@@ -44,6 +58,19 @@ class ImageClient {
     );
 
     var imagesDownloadUrls = await Future.wait(imagesFutures);
+
+    return imagesDownloadUrls;
+  }
+
+  static Future<List<String>> uploadImagesBytes(List<Uint8List> images) async {
+    List<Future<String>> imagesFutures = List.generate(
+      images.length,
+      (idx) => uploadImageBytes(images[idx]),
+    );
+
+    var imagesDownloadUrls = await Future.wait(imagesFutures);
+
+    print('Uploaded all images!\n$imagesDownloadUrls');
 
     return imagesDownloadUrls;
   }
@@ -57,13 +84,15 @@ void main() async {
   //print('Uploaded! Check it out:\n$downloadUrl');
 
   var images = [
-    File('assets/images/la-jolla.jpeg'),
-    File('assets/images/coronado-island.jpeg'),
-    File('assets/images/louvre.png'),
-    File('assets/images/paris.png'),
+    File('assets/images/la-jolla.jpeg').readAsBytes(),
+    File('assets/images/coronado-island.jpeg').readAsBytes(),
+    File('assets/images/louvre.png').readAsBytes(),
+    File('assets/images/paris.png').readAsBytes(),
   ];
 
-  var downloadUrls = await ImageClient.uploadImages(images);
+  var imageBytes = await Future.wait(images);
+
+  var downloadUrls = await ImageClient.uploadImagesBytes(imageBytes);
 
   print(downloadUrls);
 }
