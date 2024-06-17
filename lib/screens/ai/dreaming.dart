@@ -30,6 +30,22 @@ class _DreamingScreenState extends State<DreamingScreen> {
     super.dispose();
   }
 
+  void didChangeDependencies() {
+    var itineraries = context.read<ItinerariesViewModel>().itineraries;
+
+    if (itineraries == null) return;
+
+    for (var itinerary in itineraries) {
+      for (var day in itinerary.dayPlans) {
+        for (var activity in day.planForDay) {
+          precacheImage(NetworkImage(activity.imageUrl), context);
+        }
+      }
+    }
+
+    super.didChangeDependencies();
+  }
+
   void _waitForItineraries() {
     var vm = context.read<ItinerariesViewModel>();
     var errorMessage = vm.errorMessage;
