@@ -36,12 +36,34 @@ class ImageClient {
 
     return downloadUrl;
   }
+
+  static Future<List<String>> uploadImages(List<File> images) async {
+    List<Future<String>> imagesFutures = List.generate(
+      images.length,
+      (idx) => uploadImage(images[idx]),
+    );
+
+    var imagesDownloadUrls = await Future.wait(imagesFutures);
+
+    return imagesDownloadUrls;
+  }
 }
 
 void main() async {
-  var imageFile = File('assets/images/la-jolla.jpeg');
+  //var imageFile = File('assets/images/la-jolla.jpeg');
 
-  var downloadUrl = await ImageClient.uploadImage(imageFile);
+  //var downloadUrl = await ImageClient.uploadImage(imageFile);
 
-  print('Uploaded! Check it out:\n$downloadUrl');
+  //print('Uploaded! Check it out:\n$downloadUrl');
+
+  var images = [
+    File('assets/images/la-jolla.jpeg'),
+    File('assets/images/coronado-island.jpeg'),
+    File('assets/images/louvre.png'),
+    File('assets/images/paris.png'),
+  ];
+
+  var downloadUrls = await ImageClient.uploadImages(images);
+
+  print(downloadUrls);
 }
