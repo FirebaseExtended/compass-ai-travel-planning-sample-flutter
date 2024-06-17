@@ -1,4 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tripedia/image_handling.dart';
+import 'dart:io';
 
 import '../data/models/itinerary.dart';
 
@@ -10,9 +15,19 @@ class ItinerariesViewModel extends ChangeNotifier {
 
   ItinerariesViewModel(this.client);
 
-  Future<void> loadItineraries(String query) async {
+  Future<void> loadItineraries(
+    String query,
+    List<Uint8List>? images,
+  ) async {
     try {
-      itineraries = await client.loadItinerariesFromServer(query);
+      // upload images'
+      var imageUrls =
+          (images != null) ? await ImageClient.uploadImagesBytes(images) : null;
+
+      itineraries = await client.loadItinerariesFromServer(
+        query,
+        imageUrls: imageUrls,
+      );
     } catch (e) {
       errorMessage = 'Oops we couldn\'t fetch itineraries';
     }

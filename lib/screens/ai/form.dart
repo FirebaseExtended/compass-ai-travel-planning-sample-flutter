@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,8 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  TextEditingController _queryController = TextEditingController();
+  final TextEditingController _queryController = TextEditingController();
+  List<Uint8List>? images;
 
   void generateItineraries() {
     var query = _queryController.text.trim();
@@ -25,7 +28,7 @@ class _FormScreenState extends State<FormScreen> {
       return;
     }
 
-    context.read<ItinerariesViewModel>().loadItineraries(query);
+    context.read<ItinerariesViewModel>().loadItineraries(query, images);
     context.go('/dreaming');
   }
 
@@ -49,6 +52,12 @@ class _FormScreenState extends State<FormScreen> {
         );
       },
     );
+  }
+
+  void setImages(List<Uint8List> selectedImagesBytesList) {
+    setState(() {
+      images = selectedImagesBytesList;
+    });
   }
 
   @override
@@ -91,7 +100,7 @@ class _FormScreenState extends State<FormScreen> {
                 'Dream Your\nVacation',
               ),
             ),
-            SizedBox.square(dimension: 8),
+            const SizedBox.square(dimension: 8),
             Expanded(
               child: TextField(
                 controller: _queryController,
@@ -108,7 +117,9 @@ class _FormScreenState extends State<FormScreen> {
                 _queryController.text = input;
               });
             }),
-            ImageSelector(),
+            ImageSelector(
+              onSelect: setImages,
+            ),
             const SizedBox.square(dimension: 16),
             Row(children: [
               Expanded(
@@ -235,43 +246,69 @@ class _TalkToMeState extends State<TalkToMe> {
 }
 
 class ImageSelector extends StatefulWidget {
-  const ImageSelector({super.key});
+  const ImageSelector({required this.onSelect, super.key});
+
+  final Function(List<Uint8List>) onSelect;
 
   @override
   State<ImageSelector> createState() => _ImageSelectorState();
 }
 
 class _ImageSelectorState extends State<ImageSelector> {
-  List<XFile>? _selectedImages = [
-    XFile('assets/images/la-jolla.jpeg'),
-  ];
+  final ImagePicker _picker = ImagePicker();
+  List<XFile>? _selectedImages;
+  List<Uint8List>? imageBytesList;
+
+  void selectImages() async {
+    var picked = await _picker.pickMultiImage();
+
+    List<Uint8List> listAsBytes = [];
+
+    for (var image in picked) {
+      listAsBytes.add(await image.readAsBytes());
+    }
+
+    setState(() {
+      _selectedImages = picked;
+      imageBytesList = listAsBytes;
+      if (imageBytesList != null) {
+        widget.onSelect(listAsBytes);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return (_selectedImages == null)
-        ? const ImageSelectorEmpty()
-        : Row(children: [
-            Expanded(
-                child: Container(
-              height: 120,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const [
-                  Thumbnail(imageUrl: 'assets/images/la-jolla.jpeg'),
-                  Thumbnail(imageUrl: 'assets/images/coronado-island.jpeg'),
-                  Thumbnail(imageUrl: 'assets/images/seine.png'),
-                  Thumbnail(imageUrl: 'assets/images/louvre.png'),
-                ],
-              ),
-            ))
-          ]);
+    return (_selectedImages == null || imageBytesList == null)
+        ? GestureDetector(
+            onTap: selectImages,
+            child: const ImageSelectorEmpty(),
+          )
+        : Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(
+                      imageBytesList!.length,
+                      (idx) => Thumbnail(
+                        imageBytes: imageBytesList![idx],
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
   }
 }
 
 class Thumbnail extends StatelessWidget {
-  const Thumbnail({required this.imageUrl, super.key});
+  const Thumbnail({required this.imageBytes, super.key});
 
-  final String imageUrl;
+  final Uint8List imageBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +320,7 @@ class Thumbnail extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           image: DecorationImage(
-            image: AssetImage(imageUrl),
+            image: MemoryImage(imageBytes),
             fit: BoxFit.cover,
           ),
         ),
