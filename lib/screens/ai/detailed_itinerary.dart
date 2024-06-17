@@ -233,15 +233,6 @@ class _DayStepperState extends State<DayStepper> {
   }
 
   @override
-  void didChangeDependencies() {
-    for (var activity in widget.activities) {
-      precacheImage(NetworkImage(activity.imageUrl), context);
-    }
-
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MediaQuery.removePadding(
       context: context,
@@ -261,7 +252,7 @@ class _DayStepperState extends State<DayStepper> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(4),
                 ),
                 image: DecorationImage(
