@@ -49,5 +49,9 @@
 	<string>Turning voice into text input</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Need to record voice to turn into text input</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Let user upload photos from Photo Library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Let users take photos with device camera to upload</string>
 </dict>
 </plist>

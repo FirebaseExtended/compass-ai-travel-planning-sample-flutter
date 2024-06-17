@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/screens/ai/load_itineraries.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../branding.dart';
 
@@ -108,34 +108,7 @@ class _FormScreenState extends State<FormScreen> {
                 _queryController.text = input;
               });
             }),
-            Row(children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.surfaceContainer,
-                  ),
-                  height: 120,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BrandGradient(
-                          child: const Icon(
-                        Icons.image_outlined,
-                        size: 32,
-                      )),
-                      const SizedBox.square(dimension: 16),
-                      /*const Image(
-                        width: 38,
-                        height: 38,
-                        image: AssetImage('assets/images/image.png'),
-                      ),*/
-                      const Text('Add images for inspiration'),
-                    ],
-                  ),
-                ),
-              )
-            ]),
+            ImageSelector(),
             const SizedBox.square(dimension: 16),
             Row(children: [
               Expanded(
@@ -258,5 +231,94 @@ class _TalkToMeState extends State<TalkToMe> {
           ? const Icon(Icons.mic)
           : const Icon(Icons.mic_off),
     );
+  }
+}
+
+class ImageSelector extends StatefulWidget {
+  const ImageSelector({super.key});
+
+  @override
+  State<ImageSelector> createState() => _ImageSelectorState();
+}
+
+class _ImageSelectorState extends State<ImageSelector> {
+  List<XFile>? _selectedImages = [
+    XFile('assets/images/la-jolla.jpeg'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return (_selectedImages == null)
+        ? const ImageSelectorEmpty()
+        : Row(children: [
+            Expanded(
+                child: Container(
+              height: 120,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: const [
+                  Thumbnail(imageUrl: 'assets/images/la-jolla.jpeg'),
+                  Thumbnail(imageUrl: 'assets/images/coronado-island.jpeg'),
+                  Thumbnail(imageUrl: 'assets/images/seine.png'),
+                  Thumbnail(imageUrl: 'assets/images/louvre.png'),
+                ],
+              ),
+            ))
+          ]);
+  }
+}
+
+class Thumbnail extends StatelessWidget {
+  const Thumbnail({required this.imageUrl, super.key});
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          image: DecorationImage(
+            image: AssetImage(imageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageSelectorEmpty extends StatelessWidget {
+  const ImageSelectorEmpty({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Expanded(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          height: 120,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BrandGradient(
+                  child: const Icon(
+                Icons.image_outlined,
+                size: 32,
+              )),
+              const SizedBox.square(dimension: 16),
+              const Text('Add images for inspiration'),
+            ],
+          ),
+        ),
+      )
+    ]);
   }
 }
