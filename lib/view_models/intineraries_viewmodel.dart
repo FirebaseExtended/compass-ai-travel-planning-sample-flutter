@@ -17,13 +17,15 @@ class ItinerariesViewModel extends ChangeNotifier {
 
   Future<void> loadItineraries(
     String query,
-    List<Uint8List>? images,
+    Map<String, Uint8List>? images,
   ) async {
     try {
       // upload images'
-      var imageUrls =
-          (images != null) ? await ImageClient.uploadImagesBytes(images) : null;
+      print('Upload images');
+      print(images);
+      var imageUrls = await ImageClient.uploadImagesBytes(images!);
 
+      print('loadItineraries from server');
       itineraries = await client.loadItinerariesFromServer(
         query,
         imageUrls: imageUrls,

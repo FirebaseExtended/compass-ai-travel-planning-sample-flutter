@@ -19,7 +19,7 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
-  List<Uint8List>? images;
+  Map<String, Uint8List>? selectedImages;
 
   void generateItineraries() {
     var query = _queryController.text.trim();
@@ -28,7 +28,7 @@ class _FormScreenState extends State<FormScreen> {
       return;
     }
 
-    context.read<ItinerariesViewModel>().loadItineraries(query, images);
+    context.read<ItinerariesViewModel>().loadItineraries(query, selectedImages);
     context.go('/dreaming');
   }
 
@@ -54,9 +54,9 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 
-  void setImages(List<Uint8List> selectedImagesBytesList) {
+  void setImages(Map<String, Uint8List> selectedImagesMap) {
     setState(() {
-      images = selectedImagesBytesList;
+      selectedImages = selectedImagesMap;
     });
   }
 
@@ -248,7 +248,7 @@ class _TalkToMeState extends State<TalkToMe> {
 class ImageSelector extends StatefulWidget {
   const ImageSelector({required this.onSelect, super.key});
 
-  final Function(List<Uint8List>) onSelect;
+  final Function(Map<String, Uint8List>) onSelect;
 
   @override
   State<ImageSelector> createState() => _ImageSelectorState();
@@ -257,21 +257,22 @@ class ImageSelector extends StatefulWidget {
 class _ImageSelectorState extends State<ImageSelector> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _selectedImages;
-  List<Uint8List>? imageBytesList;
+  Map<String, Uint8List>? imagesList;
 
   void selectImages() async {
     var picked = await _picker.pickMultiImage();
 
-    List<Uint8List> listAsBytes = [];
+    Map<String, Uint8List> listAsBytes = {};
 
     for (var image in picked) {
-      listAsBytes.add(await image.readAsBytes());
+      print(image.path);
+      listAsBytes[image.path] = await image.readAsBytes();
     }
 
     setState(() {
       _selectedImages = picked;
-      imageBytesList = listAsBytes;
-      if (imageBytesList != null) {
+      imagesList = listAsBytes;
+      if (imagesList != null) {
         widget.onSelect(listAsBytes);
       }
     });
@@ -279,29 +280,33 @@ class _ImageSelectorState extends State<ImageSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return (_selectedImages == null || imageBytesList == null)
-        ? GestureDetector(
-            onTap: selectImages,
-            child: const ImageSelectorEmpty(),
-          )
-        : Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 120,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: List.generate(
-                      imageBytesList!.length,
-                      (idx) => Thumbnail(
-                        imageBytes: imageBytesList![idx],
-                      ),
-                    ),
-                  ),
+    if (_selectedImages == null || imagesList == null) {
+      return GestureDetector(
+        onTap: selectImages,
+        child: const ImageSelectorEmpty(),
+      );
+    }
+
+    var images = imagesList!.values.toList();
+
+    return Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            height: 120,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                images.length,
+                (idx) => Thumbnail(
+                  imageBytes: images[idx],
                 ),
-              )
-            ],
-          );
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
 
