@@ -10,15 +10,12 @@ var imageMimeTypeResourceEndpoint = 'us-central1-yt-rag.cloudfunctions.net';
 
 class ImageClient {
   static tempUrls(String path) async {
-    print('tempUrls');
     var endpoint = Uri.https(
       imageMimeTypeResourceEndpoint,
       '/UploadImgTrip',
     );
 
     String? mimeType = lookupMimeType(path);
-
-    print(mimeType);
 
     if (mimeType == null) return;
 
@@ -32,8 +29,6 @@ class ImageClient {
       'uploadLocation': uploadUrl as String,
       'downloadLocation': downloadUrl as String,
     } = jsonMap;
-
-    print('Upload: $uploadUrl, Download: $downloadUrl');
 
     return (uploadUrl, downloadUrl);
   }
@@ -53,7 +48,6 @@ class ImageClient {
 
   static Future<String> uploadImageBytes(
       String path, Uint8List imageBytes) async {
-    print('uploadImageBytes');
     String uploadUrl, downloadUrl;
     (uploadUrl, downloadUrl) = await ImageClient.tempUrls(path);
 
@@ -62,8 +56,6 @@ class ImageClient {
       headers: {'Content-Type': lookupMimeType(path)!},
       body: imageBytes,
     );
-
-    print(downloadUrl);
 
     return downloadUrl;
   }
@@ -81,19 +73,21 @@ class ImageClient {
 
   static Future<List<String>> uploadImagesBytes(
       Map<String, Uint8List> images) async {
-    print('uploadImagesBytes');
-    var paths = images.keys.toList();
-    print(paths);
-    List<Future<String>> imagesFutures = List.generate(
-      images.length,
-      (idx) => uploadImageBytes(paths[idx], images[paths[idx]]!),
-    );
+    try {
+      var paths = images.keys.toList();
+      List<Future<String>> imagesFutures = List.generate(
+        images.length,
+        (idx) => uploadImageBytes(paths[idx], images[paths[idx]]!),
+      );
 
-    var imagesDownloadUrls = await Future.wait(imagesFutures);
+      var imagesDownloadUrls = await Future.wait(imagesFutures);
 
-    print('Uploaded all images!\n$imagesDownloadUrls');
+      print('Uploaded all images!\n$imagesDownloadUrls');
 
-    return imagesDownloadUrls;
+      return imagesDownloadUrls;
+    } catch (e) {
+      throw ('Unable to upload images');
+    }
   }
 }
 

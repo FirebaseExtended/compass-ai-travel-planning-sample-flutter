@@ -260,12 +260,12 @@ class _ImageSelectorState extends State<ImageSelector> {
   Map<String, Uint8List>? imagesList;
 
   void selectImages() async {
+    // TODO: Only allow JPEG and PNG images.
     var picked = await _picker.pickMultiImage();
 
     Map<String, Uint8List> listAsBytes = {};
 
     for (var image in picked) {
-      print(image.path);
       listAsBytes[image.path] = await image.readAsBytes();
     }
 
