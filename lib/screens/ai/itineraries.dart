@@ -6,8 +6,6 @@ import '../components/app_bar.dart';
 import '../../data/models/itinerary.dart';
 import '../../view_models/intineraries_viewmodel.dart';
 
-import 'dart:math';
-
 class Itineraries extends StatefulWidget {
   const Itineraries({super.key});
 

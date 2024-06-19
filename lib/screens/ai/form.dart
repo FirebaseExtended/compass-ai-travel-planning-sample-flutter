@@ -1,10 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/screens/ai/load_itineraries.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../branding.dart';
 
@@ -16,7 +18,8 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  TextEditingController _queryController = TextEditingController();
+  final TextEditingController _queryController = TextEditingController();
+  Map<String, Uint8List>? selectedImages;
 
   void generateItineraries() {
     var query = _queryController.text.trim();
@@ -25,7 +28,7 @@ class _FormScreenState extends State<FormScreen> {
       return;
     }
 
-    context.read<ItinerariesViewModel>().loadItineraries(query);
+    context.read<ItinerariesViewModel>().loadItineraries(query, selectedImages);
     context.go('/dreaming');
   }
 
@@ -49,6 +52,12 @@ class _FormScreenState extends State<FormScreen> {
         );
       },
     );
+  }
+
+  void setImages(Map<String, Uint8List> selectedImagesMap) {
+    setState(() {
+      selectedImages = selectedImagesMap;
+    });
   }
 
   @override
@@ -91,7 +100,7 @@ class _FormScreenState extends State<FormScreen> {
                 'Dream Your\nVacation',
               ),
             ),
-            SizedBox.square(dimension: 8),
+            const SizedBox.square(dimension: 8),
             Expanded(
               child: TextField(
                 controller: _queryController,
@@ -108,34 +117,9 @@ class _FormScreenState extends State<FormScreen> {
                 _queryController.text = input;
               });
             }),
-            Row(children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.surfaceContainer,
-                  ),
-                  height: 120,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      BrandGradient(
-                          child: const Icon(
-                        Icons.image_outlined,
-                        size: 32,
-                      )),
-                      const SizedBox.square(dimension: 16),
-                      /*const Image(
-                        width: 38,
-                        height: 38,
-                        image: AssetImage('assets/images/image.png'),
-                      ),*/
-                      const Text('Add images for inspiration'),
-                    ],
-                  ),
-                ),
-              )
-            ]),
+            ImageSelector(
+              onSelect: setImages,
+            ),
             const SizedBox.square(dimension: 16),
             Row(children: [
               Expanded(
@@ -258,5 +242,125 @@ class _TalkToMeState extends State<TalkToMe> {
           ? const Icon(Icons.mic)
           : const Icon(Icons.mic_off),
     );
+  }
+}
+
+class ImageSelector extends StatefulWidget {
+  const ImageSelector({required this.onSelect, super.key});
+
+  final Function(Map<String, Uint8List>) onSelect;
+
+  @override
+  State<ImageSelector> createState() => _ImageSelectorState();
+}
+
+class _ImageSelectorState extends State<ImageSelector> {
+  final ImagePicker _picker = ImagePicker();
+  List<XFile>? _selectedImages;
+  Map<String, Uint8List>? imagesList;
+
+  void selectImages() async {
+    // TODO: Only allow JPEG and PNG images.
+    var picked = await _picker.pickMultiImage();
+
+    Map<String, Uint8List> listAsBytes = {};
+
+    for (var image in picked) {
+      listAsBytes[image.path] = await image.readAsBytes();
+    }
+
+    setState(() {
+      _selectedImages = picked;
+      imagesList = listAsBytes;
+      if (imagesList != null) {
+        widget.onSelect(listAsBytes);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_selectedImages == null || imagesList == null) {
+      return GestureDetector(
+        onTap: selectImages,
+        child: const ImageSelectorEmpty(),
+      );
+    }
+
+    var images = imagesList!.values.toList();
+
+    return Row(
+      children: [
+        Expanded(
+          child: SizedBox(
+            height: 120,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                images.length,
+                (idx) => Thumbnail(
+                  imageBytes: images[idx],
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class Thumbnail extends StatelessWidget {
+  const Thumbnail({required this.imageBytes, super.key});
+
+  final Uint8List imageBytes;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          image: DecorationImage(
+            image: MemoryImage(imageBytes),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageSelectorEmpty extends StatelessWidget {
+  const ImageSelectorEmpty({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Expanded(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          height: 120,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BrandGradient(
+                  child: const Icon(
+                Icons.image_outlined,
+                size: 32,
+              )),
+              const SizedBox.square(dimension: 16),
+              const Text('Add images for inspiration'),
+            ],
+          ),
+        ),
+      )
+    ]);
   }
 }

@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - image_picker_ios (0.0.1):
+    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -10,6 +12,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - speech_to_text (from `.symlinks/plugins/speech_to_text/ios`)
 
@@ -20,6 +23,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   speech_to_text:
@@ -27,6 +32,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96

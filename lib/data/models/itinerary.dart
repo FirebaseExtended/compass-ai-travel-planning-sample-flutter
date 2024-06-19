@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -90,58 +91,72 @@ class Activity {
 }
 
 class ItineraryClient {
-  Future<List<Itinerary>> loadItinerariesFromServer(String query) async {
+  Future<List<Itinerary>> loadItinerariesFromServer(String query,
+      {List<String>? imageUrls}) async {
     var endpoint = Uri.https(
-      'tripedia-genkit-hovwuqnpzq-uc.a.run.app',
-      '/itineraryGenerator',
+      'tripedia-genkit-exp-hovwuqnpzq-uc.a.run.app',
+      '/itineraryGenerator2',
     );
 
-    var response = await http.post(
-      endpoint,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(
-        {
-          'data': {
-            'request': query,
-          },
+    var jsonBody = jsonEncode(
+      {
+        'data': {
+          'request': query,
+          if (imageUrls != null) 'images': imageUrls,
         },
-      ),
+      },
     );
 
-    List<Itinerary> allItineraries = parseItineraries(response.body);
+    try {
+      var response = await http.post(
+        endpoint,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonBody,
+      );
 
-    return allItineraries;
+      List<Itinerary> allItineraries = parseItineraries(response.body);
+
+      return allItineraries;
+    } catch (e) {
+      debugPrint("Couldn't get itineraries.");
+      throw ("Couldn't get itineraries.");
+    }
   }
 
   List<Itinerary> parseItineraries(String jsonStr) {
-    final jsonData = jsonDecode(jsonStr);
-    final itineraries = <Itinerary>[];
+    try {
+      final jsonData = jsonDecode(jsonStr);
+      final itineraries = <Itinerary>[];
 
-    final itineraryList = jsonData['result']['itineraries'];
-    for (final itineraryData in itineraryList) {
-      final days = <DayPlan>[];
-      for (final dayData in itineraryData['itinerary']) {
-        //print(dayData);
-        final event = DayPlan.fromJson(dayData);
-        days.add(event);
+      final itineraryList = jsonData['result']['itineraries'];
+      for (final itineraryData in itineraryList) {
+        final days = <DayPlan>[];
+        for (final dayData in itineraryData['itinerary']) {
+          //print(dayData);
+          final event = DayPlan.fromJson(dayData);
+          days.add(event);
+        }
+
+        print(itineraryData['itineraryImageUrl']);
+
+        final itinerary = Itinerary(
+          days,
+          itineraryData['place'] as String,
+          itineraryData['itineraryName'] as String,
+          itineraryData['startDate'] as String,
+          itineraryData['endDate'] as String,
+          List<String>.from(itineraryData['tags'] as List),
+          itineraryData['itineraryImageUrl'] as String,
+          itineraryData['placeRef'] as String,
+        );
+        itineraries.add(itinerary);
       }
 
-      print(itineraryData['itineraryImageUrl']);
-
-      final itinerary = Itinerary(
-        days,
-        itineraryData['place'] as String,
-        itineraryData['itineraryName'] as String,
-        itineraryData['startDate'] as String,
-        itineraryData['endDate'] as String,
-        List<String>.from(itineraryData['tags'] as List),
-        itineraryData['itineraryImageUrl'] as String,
-        itineraryData['placeRef'] as String,
-      );
-      itineraries.add(itinerary);
+      return itineraries;
+    } catch (e) {
+      debugPrint('There was an error parsing the response:\n$jsonStr');
+      throw ('There was an error parsing the response');
     }
-
-    return itineraries;
   }
 }
 
