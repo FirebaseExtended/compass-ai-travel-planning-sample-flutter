@@ -44,10 +44,13 @@ dependencies:
   speech_to_text: ^6.6.2
   image_picker: ^1.1.2
   mime: ^1.0.5
+  storybook_flutter: ^0.14.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  storybook_flutter_test: any
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

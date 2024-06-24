@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -60,8 +62,7 @@ class _FormScreenState extends State<FormScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildSmallForm(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const AppLogo(dimension: 38),
@@ -101,61 +102,144 @@ class _FormScreenState extends State<FormScreen> {
               ),
             ),
             const SizedBox.square(dimension: 8),
-            Expanded(
-              child: TextField(
-                controller: _queryController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Write anything',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-            TalkToMe(onVoiceInput: (String input) {
-              setState(() {
-                _queryController.text = input;
-              });
-            }),
-            ImageSelector(
-              onSelect: setImages,
-            ),
-            const SizedBox.square(dimension: 16),
-            Row(children: [
-              Expanded(
-                child: TextButton(
-                  style: ButtonStyle(
-                    padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 8,
-                      ),
-                    ),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    backgroundColor: WidgetStatePropertyAll(
-                      Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  onPressed: generateItineraries,
-                  child: Text(
-                    'Plan my dream trip',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ]),
-            SizedBox.square(dimension: 32),
+            ..._buildInputBox(context)
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildLargeForm(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final displayXLTextTheme = GoogleFonts.rubikTextTheme()
+        .displayLarge
+        ?.copyWith(
+            fontSize: 90, fontWeight: FontWeight.w900, fontFamily: "Rubik");
+
+    const assetURI = 'assets/images/compass-icon.svg';
+    final iconColor = Theme.of(context).colorScheme.primary;
+    Widget compassIcon = SvgPicture.asset(
+      assetURI,
+      colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+    );
+    return Scaffold(
+      body: SafeArea(
+          child: Row(
+        children: [
+          NavigationRail(
+              useIndicator: false,
+              destinations: <NavigationRailDestination>[
+                NavigationRailDestination(
+                    icon: compassIcon, label: const Text('Home')),
+                // NavRail requires minimum two destinations, so this is a phantom one
+                const NavigationRailDestination(
+                    icon: Icon(null), label: Text(''), disabled: true)
+              ],
+              selectedIndex: 0),
+          Expanded(
+              flex: 5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const AppLogo(dimension: 72),
+                  BrandGradient(
+                      child: Text(
+                          textAlign: TextAlign.left,
+                          "Dream Your Vacation",
+                          style: displayXLTextTheme))
+                ],
+              )),
+          const SizedBox(
+            width: 32,
+          ),
+          Expanded(
+              flex: 5,
+              child: Padding(
+                  padding:
+                      const EdgeInsets.only(top: 48, bottom: 48, right: 32),
+                  child: Card(
+                      elevation: 0,
+                      color: colorScheme.surfaceContainerLowest,
+                      child: Padding(padding: const EdgeInsets.all(16), child:Column(
+                        children: _buildInputBox(context, showTalkIcon: false))),
+                      ))),
+        ],
+      )),
+    );
+  }
+
+  List<Widget> _buildInputBox(BuildContext context, { showTalkIcon = true}) {
+    return <Widget>[
+      Expanded(
+        child: TextField(
+          controller: _queryController,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          decoration: const InputDecoration(
+            hintText: 'Write anything',
+            border: InputBorder.none,
+          ),
+        ),
+      ),
+      if (showTalkIcon == true)TalkToMe(onVoiceInput: (String input) {
+        setState(() {
+          _queryController.text = input;
+        });
+      }),
+      ImageSelector(
+        onSelect: setImages,
+      ),
+      const SizedBox.square(dimension: 16),
+      Row(children: [
+        Expanded(
+          child: TextButton(
+            style: ButtonStyle(
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 8,
+                ),
+              ),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              backgroundColor: WidgetStatePropertyAll(
+                Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            onPressed: generateItineraries,
+            child: Text(
+              'Plan my dream trip',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        )
+      ])
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var w = MediaQuery.sizeOf(context).width;
+    var h = MediaQuery.sizeOf(context).height;
+    print(w);
+    print(h);
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      if (constraints.maxWidth < 1024) {
+        return _buildSmallForm(context);
+      } else {
+        return _buildLargeForm(context);
+      }
+    });
   }
 }
 
