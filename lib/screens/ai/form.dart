@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/image_handling.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -19,7 +20,7 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
-  Map<String, Uint8List>? selectedImages;
+  List<UserSelectedImage>? selectedImages;
 
   void generateItineraries() {
     var query = _queryController.text.trim();
@@ -54,9 +55,9 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 
-  void setImages(Map<String, Uint8List> selectedImagesMap) {
+  void setImages(List<UserSelectedImage> selectedImagesList) {
     setState(() {
-      selectedImages = selectedImagesMap;
+      selectedImages = selectedImagesList;
     });
   }
 
@@ -248,7 +249,7 @@ class _TalkToMeState extends State<TalkToMe> {
 class ImageSelector extends StatefulWidget {
   const ImageSelector({required this.onSelect, super.key});
 
-  final Function(Map<String, Uint8List>) onSelect;
+  final Function(List<UserSelectedImage>) onSelect;
 
   @override
   State<ImageSelector> createState() => _ImageSelectorState();
@@ -257,37 +258,42 @@ class ImageSelector extends StatefulWidget {
 class _ImageSelectorState extends State<ImageSelector> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _selectedImages;
-  Map<String, Uint8List>? imagesList;
+  List<UserSelectedImage>? imagesList;
 
   void selectImages() async {
     // TODO: Only allow JPEG and PNG images.
     var picked = await _picker.pickMultiImage();
 
-    Map<String, Uint8List> listAsBytes = {};
+    List<UserSelectedImage> userSelectedImages = [];
 
     for (var image in picked) {
-      listAsBytes[image.path] = await image.readAsBytes();
+      userSelectedImages.add(
+        UserSelectedImage(
+          image.path,
+          await image.readAsBytes(),
+        ),
+      );
     }
 
     setState(() {
       _selectedImages = picked;
-      imagesList = listAsBytes;
+      imagesList = userSelectedImages;
       if (imagesList != null) {
-        widget.onSelect(listAsBytes);
+        widget.onSelect(userSelectedImages);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedImages == null || imagesList == null) {
+    var images = imagesList;
+
+    if (_selectedImages == null || images == null) {
       return GestureDetector(
         onTap: selectImages,
         child: const ImageSelectorEmpty(),
       );
     }
-
-    var images = imagesList!.values.toList();
 
     return Row(
       children: [
@@ -299,7 +305,7 @@ class _ImageSelectorState extends State<ImageSelector> {
               children: List.generate(
                 images.length,
                 (idx) => Thumbnail(
-                  imageBytes: images[idx],
+                  imageBytes: images[idx].bytes,
                 ),
               ),
             ),

@@ -8,29 +8,54 @@ import 'package:http/http.dart' as http;
 var imageResourceEndpoint = 'uploadimgtrip-hovwuqnpzq-uc.a.run.app';
 var imageMimeTypeResourceEndpoint = 'us-central1-yt-rag.cloudfunctions.net';
 
+class UserSelectedImage {
+  String path;
+  Uint8List bytes;
+
+  UserSelectedImage(this.path, this.bytes);
+}
+
 class ImageClient {
-  static tempUrls(String path) async {
+  static String? getMimeType(UserSelectedImage image) {
+    List<int> header = [];
+
+    image.bytes.forEach((element) {
+      if (element == 0) return;
+      header.add(element);
+    });
+
+    String? mimeType = lookupMimeType(image.path, headerBytes: header);
+
+    return mimeType;
+  }
+
+  static tempUrls(String mimeType) async {
     var endpoint = Uri.https(
-      imageMimeTypeResourceEndpoint,
+      imageResourceEndpoint,
       '/UploadImgTrip',
     );
 
-    String? mimeType = lookupMimeType(path);
+    if (mimeType != 'image/png' && mimeType != 'image/jpeg') return;
 
-    if (mimeType == null) return;
+    try {
+      var response = await http.get(endpoint, headers: {
+        'mime': mimeType,
+      });
 
-    var response = await http.get(endpoint, headers: {'mime': mimeType});
+      var jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
 
-    var jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
+      String uploadUrl, downloadUrl;
 
-    String uploadUrl, downloadUrl;
+      {
+        'uploadLocation': uploadUrl as String,
+        'downloadLocation': downloadUrl as String,
+      } = jsonMap;
 
-    {
-      'uploadLocation': uploadUrl as String,
-      'downloadLocation': downloadUrl as String,
-    } = jsonMap;
-
-    return (uploadUrl, downloadUrl);
+      return (uploadUrl, downloadUrl);
+    } catch (e) {
+      print(e);
+      throw ('couldn\'t get image processing urls');
+    }
   }
 
   /*static Future<String> uploadImage(File imageFile) async {
@@ -46,16 +71,25 @@ class ImageClient {
     return downloadUrl;
   }*/
 
-  static Future<String> uploadImageBytes(
-      String path, Uint8List imageBytes) async {
+  static Future<String> uploadImageBytes(UserSelectedImage image) async {
     String uploadUrl, downloadUrl;
-    (uploadUrl, downloadUrl) = await ImageClient.tempUrls(path);
+    var mimeType = getMimeType(image);
+
+    if (!['image/jpeg', 'image/png'].contains(mimeType) || mimeType == null) {
+      throw ("Sorry we don't support that file type.");
+    }
+
+    (uploadUrl, downloadUrl) = await ImageClient.tempUrls(mimeType);
 
     await http.put(
       Uri.parse(uploadUrl),
-      headers: {'Content-Type': lookupMimeType(path)!},
-      body: imageBytes,
+      headers: {
+        'Content-Type': mimeType,
+      },
+      body: image.bytes,
     );
+
+    print(downloadUrl);
 
     return downloadUrl;
   }
@@ -72,12 +106,11 @@ class ImageClient {
   }*/
 
   static Future<List<String>> uploadImagesBytes(
-      Map<String, Uint8List> images) async {
+      List<UserSelectedImage> images) async {
     try {
-      var paths = images.keys.toList();
       List<Future<String>> imagesFutures = List.generate(
         images.length,
-        (idx) => uploadImageBytes(paths[idx], images[paths[idx]]!),
+        (idx) => uploadImageBytes(images[idx]),
       );
 
       var imagesDownloadUrls = await Future.wait(imagesFutures);

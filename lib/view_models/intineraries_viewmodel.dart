@@ -17,7 +17,7 @@ class ItinerariesViewModel extends ChangeNotifier {
 
   Future<void> loadItineraries(
     String query,
-    Map<String, Uint8List>? images,
+    List<UserSelectedImage>? images,
   ) async {
     try {
       var imageUrls =
