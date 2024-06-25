@@ -23,7 +23,11 @@ class _ItinerariesState extends State<Itineraries> {
     }
 
     return Scaffold(
-      appBar: brandedAppBar,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actionsIconTheme: const IconThemeData(color: Colors.black12),
+        actions: const [HomeButton()],
+      ),
       body: Column(
         children: [
           SizedBox(
