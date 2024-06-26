@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/image_handling.dart';
+import 'package:tripedia/screens/components/basics.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -21,6 +22,8 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
   List<UserSelectedImage>? selectedImages;
+  bool switchEnabled = false;
+  double sliderValue = 1;
 
   void generateItineraries() {
     var query = _queryController.text.trim();
@@ -103,6 +106,23 @@ class _FormScreenState extends State<FormScreen> {
               ),
             ),
             const SizedBox.square(dimension: 8),
+            CompassSwitch(
+              value: switchEnabled,
+              onChanged: (val) {
+                setState(() {
+                  switchEnabled = !switchEnabled;
+                });
+              },
+            ),
+            const CompassDateInput(),
+            CompassSlider(
+              value: sliderValue,
+              onChanged: (val) {
+                setState(() {
+                  sliderValue = val;
+                });
+              },
+            ),
             Expanded(
               child: TextField(
                 controller: _queryController,
