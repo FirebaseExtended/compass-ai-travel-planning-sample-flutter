@@ -22,18 +22,30 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
   List<UserSelectedImage>? selectedImages;
-  bool switchEnabled = false;
-  double sliderValue = 1;
 
-  void generateItineraries() {
+  void generateItineraries() async {
     var query = _queryController.text.trim();
     if (query.isEmpty) {
       _showAlert();
       return;
     }
 
-    context.read<ItinerariesViewModel>().loadItineraries(query, selectedImages);
-    context.go('/dreaming');
+    // Validate necessary info
+    var clarifyingAnswers = await showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return const MoreInfoSheet();
+      },
+    );
+
+    print(clarifyingAnswers);
+
+    if (mounted) {
+      context
+          .read<ItinerariesViewModel>()
+          .loadItineraries(query, selectedImages);
+      context.go('/dreaming');
+    }
   }
 
   _showAlert() {
@@ -105,24 +117,6 @@ class _FormScreenState extends State<FormScreen> {
                 'Dream Your\nVacation',
               ),
             ),
-            const SizedBox.square(dimension: 8),
-            CompassSwitch(
-              value: switchEnabled,
-              onChanged: (val) {
-                setState(() {
-                  switchEnabled = !switchEnabled;
-                });
-              },
-            ),
-            const CompassDateInput(),
-            CompassSlider(
-              value: sliderValue,
-              onChanged: (val) {
-                setState(() {
-                  sliderValue = val;
-                });
-              },
-            ),
             Expanded(
               child: TextField(
                 controller: _queryController,
@@ -134,6 +128,7 @@ class _FormScreenState extends State<FormScreen> {
                 ),
               ),
             ),
+            const SizedBox.square(dimension: 8),
             TalkToMe(onVoiceInput: (String input) {
               setState(() {
                 _queryController.text = input;

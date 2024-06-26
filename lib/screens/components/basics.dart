@@ -25,11 +25,16 @@ class CompassDateInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InputDatePickerFormField(
-      fieldLabelText: 'When would you like to travel?',
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now(),
-    );
+    return Row(children: [
+      const Icon(Icons.calendar_month),
+      const SizedBox.square(dimension: 8),
+      Expanded(
+          child: InputDatePickerFormField(
+        fieldLabelText: 'When would you like to travel?',
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now(),
+      ))
+    ]);
   }
 }
 
@@ -55,7 +60,7 @@ class CompassSlider extends StatelessWidget {
         children: [
           const Row(children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               child: Icon(
                 Icons.wallet,
               ),
@@ -68,16 +73,121 @@ class CompassSlider extends StatelessWidget {
               ),
             ),
           ]),
-          Slider(
-            label: getLabel(value),
-            value: value,
-            min: 1,
-            max: 5,
-            onChanged: onChanged,
-            divisions: 4,
-          )
+          Row(children: [
+            const Text('\$'),
+            Expanded(
+              child: Slider(
+                label: getLabel(value),
+                value: value,
+                min: 1,
+                max: 5,
+                onChanged: onChanged,
+                divisions: 4,
+              ),
+            ),
+            const Text('\$\$\$\$'),
+          ]),
         ],
       ),
+    );
+  }
+}
+
+class MoreInfoSheet extends StatefulWidget {
+  const MoreInfoSheet({super.key});
+
+  @override
+  State<MoreInfoSheet> createState() => _MoreInfoSheetState();
+}
+
+class _MoreInfoSheetState extends State<MoreInfoSheet> {
+  bool switchEnabled = false;
+  double sliderValue = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomSheet(
+      onClosing: () {},
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
+          child: Column(
+            children: [
+              Text(
+                'Just a few more details, please!',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox.square(
+                dimension: 8,
+              ),
+              CompassSwitch(
+                value: switchEnabled,
+                onChanged: (val) {
+                  setState(() {
+                    switchEnabled = !switchEnabled;
+                  });
+                },
+              ),
+              Divider(),
+              const SizedBox.square(
+                dimension: 16,
+              ),
+              const CompassDateInput(),
+              const SizedBox.square(
+                dimension: 16,
+              ),
+              Divider(),
+              CompassSlider(
+                value: sliderValue,
+                onChanged: (val) {
+                  setState(() {
+                    sliderValue = val;
+                  });
+                },
+              ),
+              const SizedBox.square(
+                dimension: 8,
+              ),
+              Row(children: [
+                Expanded(
+                  child: TextButton(
+                    style: ButtonStyle(
+                      padding: const WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
+                      ),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      backgroundColor: WidgetStatePropertyAll(
+                        Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context, {
+                        'hasKids': false,
+                        'date': '11/07/2025',
+                        'budget': '\$\$\$\$',
+                      });
+                    },
+                    child: Text(
+                      'Done',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
+            ],
+          ),
+        );
+      },
     );
   }
 }
