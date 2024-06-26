@@ -31,10 +31,13 @@ class _FormScreenState extends State<FormScreen> {
     }
 
     // Validate necessary info
+
+    var details = checkQueryDetails(query);
+
     var clarifyingAnswers = await showModalBottomSheet(
       context: context,
       builder: (context) {
-        return const MoreInfoSheet();
+        return MoreInfoSheet(details: details);
       },
     );
 
@@ -46,6 +49,16 @@ class _FormScreenState extends State<FormScreen> {
           .loadItineraries(query, selectedImages);
       context.go('/dreaming');
     }
+  }
+
+  Map<String, Object?> checkQueryDetails(String query) {
+    // make a network call to Nohe's endpoint
+
+    return {
+      'kids': null,
+      'date': null,
+      'budget': null,
+    };
   }
 
   _showAlert() {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:intl/intl.dart';
 
 class CompassSwitch extends StatelessWidget {
   CompassSwitch({this.value = false, required this.onChanged, super.key});
@@ -20,29 +23,51 @@ class CompassSwitch extends StatelessWidget {
   }
 }
 
-class CompassDateInput extends StatelessWidget {
+class CompassDateInput extends StatefulWidget {
   const CompassDateInput({super.key});
+
+  @override
+  State<CompassDateInput> createState() => _CompassDateInputState();
+}
+
+class _CompassDateInputState extends State<CompassDateInput> {
+  TextEditingController userInputedDate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      const Icon(Icons.calendar_month),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+        child: Icon(
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          Icons.calendar_month,
+        ),
+      ),
       const SizedBox.square(dimension: 8),
       Expanded(
-          child: InputDatePickerFormField(
-        fieldLabelText: 'When would you like to travel?',
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now(),
-      ))
+        child: TextField(
+          controller: userInputedDate,
+          onChanged: (date) {},
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            label: const Text('When would you like to travel?'),
+            hintText: formatter.format(DateTime.now()),
+          ),
+        ),
+      ),
+      const SizedBox.square(dimension: 16),
     ]);
   }
 }
 
-class CompassSlider extends StatelessWidget {
-  CompassSlider({required this.value, required this.onChanged, super.key});
+final DateFormat formatter = DateFormat('MM/dd/yyyy');
 
-  double value;
-  Function(double) onChanged;
+class CompassSlider extends StatelessWidget {
+  const CompassSlider(
+      {required this.value, required this.onChanged, super.key});
+
+  final double value;
+  final Function(double) onChanged;
 
   String getLabel(double value) {
     return "\$" * value.toInt();
@@ -52,15 +77,15 @@ class CompassSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 0,
+        vertical: 8,
+        horizontal: 16,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
               child: Icon(
                 Icons.wallet,
               ),
@@ -85,7 +110,7 @@ class CompassSlider extends StatelessWidget {
                 divisions: 4,
               ),
             ),
-            const Text('\$\$\$\$'),
+            const Text('\$\$\$\$\$'),
           ]),
         ],
       ),
@@ -94,15 +119,23 @@ class CompassSlider extends StatelessWidget {
 }
 
 class MoreInfoSheet extends StatefulWidget {
-  const MoreInfoSheet({super.key});
+  const MoreInfoSheet({required this.details, super.key});
+
+  final Map<String, Object?> details;
 
   @override
   State<MoreInfoSheet> createState() => _MoreInfoSheetState();
 }
 
 class _MoreInfoSheetState extends State<MoreInfoSheet> {
-  bool switchEnabled = false;
-  double sliderValue = 1;
+  bool hasKids = false;
+  double budget = 5;
+  String date = '11/07/1996';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,31 +153,34 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
               const SizedBox.square(
                 dimension: 8,
               ),
-              CompassSwitch(
-                value: switchEnabled,
-                onChanged: (val) {
-                  setState(() {
-                    switchEnabled = !switchEnabled;
-                  });
-                },
+              if (widget.details['kids'] == null)
+                CompassSwitch(
+                  value: hasKids,
+                  onChanged: (val) {
+                    setState(() {
+                      hasKids = !hasKids;
+                    });
+                  },
+                ).animate().fadeIn(),
+              const Divider(),
+              const SizedBox.square(
+                dimension: 8,
               ),
-              Divider(),
+              if (widget.details['date'] == null)
+                const CompassDateInput().animate().fadeIn(),
               const SizedBox.square(
                 dimension: 16,
               ),
-              const CompassDateInput(),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              Divider(),
-              CompassSlider(
-                value: sliderValue,
-                onChanged: (val) {
-                  setState(() {
-                    sliderValue = val;
-                  });
-                },
-              ),
+              const Divider(),
+              if (widget.details['budget'] == null)
+                CompassSlider(
+                  value: budget,
+                  onChanged: (val) {
+                    setState(() {
+                      budget = val;
+                    });
+                  },
+                ).animate().fadeIn(),
               const SizedBox.square(
                 dimension: 8,
               ),
