@@ -34,14 +34,16 @@ class _FormScreenState extends State<FormScreen> {
 
     var details = checkQueryDetails(query);
 
-    var clarifyingAnswers = await showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return MoreInfoSheet(details: details);
-      },
-    );
+    if (details.containsValue(null)) {
+      var clarifyingAnswers = await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return MoreInfoSheet(details: details);
+        },
+      );
 
-    print(clarifyingAnswers);
+      print(clarifyingAnswers);
+    }
 
     if (mounted) {
       context

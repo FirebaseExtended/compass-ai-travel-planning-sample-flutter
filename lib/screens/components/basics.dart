@@ -168,28 +168,32 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                 dimension: 16,
               ),
               if (widget.details['kids'] == null)
-                CompassSwitch(
-                  value: hasKids,
-                  onChanged: (val) {
-                    setState(() {
-                      hasKids = !hasKids;
-                    });
-                  },
-                ).animate().fadeIn(),
-              const Divider(),
+                Column(children: [
+                  CompassSwitch(
+                    value: hasKids,
+                    onChanged: (val) {
+                      setState(() {
+                        hasKids = !hasKids;
+                      });
+                    },
+                  ).animate().fadeIn(),
+                  const Divider(),
+                ]),
               const SizedBox.square(
                 dimension: 8,
               ),
               if (widget.details['date'] == null)
-                CompassDateInput(onChanged: (userInputtedDate) {
-                  setState(() {
-                    date = userInputtedDate;
-                  });
-                }).animate().fadeIn(),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              const Divider(),
+                Column(children: [
+                  CompassDateInput(onChanged: (userInputtedDate) {
+                    setState(() {
+                      date = userInputtedDate;
+                    });
+                  }).animate().fadeIn(),
+                  const SizedBox.square(
+                    dimension: 16,
+                  ),
+                  const Divider(),
+                ]),
               if (widget.details['budget'] == null)
                 CompassSlider(
                   value: budget,
