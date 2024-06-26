@@ -12,7 +12,10 @@ class CompassSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Icon(Icons.child_friendly),
+      leading: Icon(
+        Icons.child_friendly,
+        color: Theme.of(context).colorScheme.secondary,
+      ),
       title: const Text('Are the kids coming?'),
       trailing: Switch(
         activeTrackColor: Theme.of(context).colorScheme.primary,
@@ -41,7 +44,7 @@ class _CompassDateInputState extends State<CompassDateInput> {
       Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
         child: Icon(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
+          color: Theme.of(context).colorScheme.secondary,
           Icons.calendar_month,
         ),
       ),
@@ -85,14 +88,13 @@ class CompassSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(children: [
+          Row(children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-              child: Icon(
-                Icons.wallet,
-              ),
+              child: Icon(Icons.wallet,
+                  color: Theme.of(context).colorScheme.secondary),
             ),
-            Text(
+            const Text(
               'What\'s your budget?',
               textAlign: TextAlign.left,
               style: TextStyle(
