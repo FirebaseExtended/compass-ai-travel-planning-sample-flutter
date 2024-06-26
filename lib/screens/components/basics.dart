@@ -151,7 +151,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox.square(
-                dimension: 8,
+                dimension: 16,
               ),
               if (widget.details['kids'] == null)
                 CompassSwitch(
