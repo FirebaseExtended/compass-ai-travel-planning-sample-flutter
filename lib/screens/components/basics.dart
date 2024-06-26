@@ -24,14 +24,16 @@ class CompassSwitch extends StatelessWidget {
 }
 
 class CompassDateInput extends StatefulWidget {
-  const CompassDateInput({super.key});
+  const CompassDateInput({required this.onChanged, super.key});
+
+  final Function(String) onChanged;
 
   @override
   State<CompassDateInput> createState() => _CompassDateInputState();
 }
 
 class _CompassDateInputState extends State<CompassDateInput> {
-  TextEditingController userInputedDate = TextEditingController();
+  TextEditingController userInputtedDate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +48,8 @@ class _CompassDateInputState extends State<CompassDateInput> {
       const SizedBox.square(dimension: 8),
       Expanded(
         child: TextField(
-          controller: userInputedDate,
-          onChanged: (date) {},
+          controller: userInputtedDate,
+          onChanged: widget.onChanged,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             label: const Text('When would you like to travel?'),
@@ -129,11 +131,21 @@ class MoreInfoSheet extends StatefulWidget {
 
 class _MoreInfoSheetState extends State<MoreInfoSheet> {
   bool hasKids = false;
-  double budget = 5;
-  String date = '11/07/1996';
+  double budget = 1;
+  String date = formatter.format(DateTime.now());
 
   @override
   void initState() {
+    if (widget.details['kids'] != null) {
+      hasKids = widget.details['kids'] as bool;
+    }
+    if (widget.details['budget'] != null) {
+      budget = widget.details['budget'] as double;
+    }
+    if (widget.details['date'] != null) {
+      date = widget.details['date'] as String;
+    }
+
     super.initState();
   }
 
@@ -167,7 +179,11 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                 dimension: 8,
               ),
               if (widget.details['date'] == null)
-                const CompassDateInput().animate().fadeIn(),
+                CompassDateInput(onChanged: (userInputtedDate) {
+                  setState(() {
+                    date = userInputtedDate;
+                  });
+                }).animate().fadeIn(),
               const SizedBox.square(
                 dimension: 16,
               ),
@@ -205,9 +221,9 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                     ),
                     onPressed: () {
                       Navigator.pop(context, {
-                        'hasKids': false,
-                        'date': '11/07/2025',
-                        'budget': '\$\$\$\$',
+                        'hasKids': hasKids,
+                        'date': date,
+                        'budget': budget,
                       });
                     },
                     child: Text(
