@@ -758,9 +758,9 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
             ),
             child: Row(children: [
               Padding(
-                padding: const EdgeInsets.only(left: 24),
+                padding: const EdgeInsets.only(left: 16),
                 child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 200),
+                    constraints: const BoxConstraints(maxWidth: 240),
                     child: widget.steps[index].content),
               )
             ]),
