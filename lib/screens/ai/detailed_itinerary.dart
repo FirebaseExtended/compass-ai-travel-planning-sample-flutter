@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tripedia/utilties.dart';
 
 import '../components/custom_stepper.dart' as custom_stepper;
@@ -118,7 +119,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.grey[300]),
                       ),
-                      onPressed: () => {},
+                      onPressed: () => context.go('/'),
                       icon: const Icon(
                         Icons.home_outlined,
                       ),
