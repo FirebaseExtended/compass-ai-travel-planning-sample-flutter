@@ -230,6 +230,7 @@ class _TalkToMeState extends State<TalkToMe> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
+  bool isListening = false;
 
   @override
   void initState() {
@@ -242,6 +243,9 @@ class _TalkToMeState extends State<TalkToMe> {
   }
 
   void _startListening() async {
+    setState(() {
+      isListening = true;
+    });
     await _speechToText.listen(onResult: _onSpeechResult);
   }
 
@@ -254,6 +258,9 @@ class _TalkToMeState extends State<TalkToMe> {
   }
 
   void _stopListening() async {
+    setState(() {
+      isListening = false;
+    });
     await _speechToText.stop();
   }
 
@@ -262,18 +269,14 @@ class _TalkToMeState extends State<TalkToMe> {
     return IconButton(
       style: ButtonStyle(
         backgroundColor: WidgetStatePropertyAll(
-          _speechToText.isListening
-              ? Colors.red
-              : Theme.of(context).primaryColor,
+          isListening ? Colors.redAccent : Theme.of(context).primaryColor,
         ),
         iconColor: const WidgetStatePropertyAll(Colors.white),
       ),
       onPressed: () {
-        _speechToText.isNotListening ? _startListening() : _stopListening();
+        isListening ? _stopListening() : _startListening();
       },
-      icon: _speechToText.isListening
-          ? const Icon(Icons.mic)
-          : const Icon(Icons.mic_off),
+      icon: isListening ? const Icon(Icons.mic) : const Icon(Icons.mic_off),
     );
   }
 }
