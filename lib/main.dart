@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         scrollBehavior: AppScrollBehavior(),
         routerConfig: _router,
-        title: 'Tripedia',
+        title: 'Compass',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xff7B4E7F),
