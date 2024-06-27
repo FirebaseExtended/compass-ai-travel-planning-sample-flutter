@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/image_handling.dart';
@@ -338,7 +339,9 @@ class _ImageSelectorState extends State<ImageSelector> {
                 (idx) => Thumbnail(
                   imageBytes: images[idx].bytes,
                 ),
-              ),
+              )
+                  .animate(interval: 200.ms)
+                  .scaleXY(begin: 1.1, end: 1, duration: 200.ms),
             ),
           ),
         )
