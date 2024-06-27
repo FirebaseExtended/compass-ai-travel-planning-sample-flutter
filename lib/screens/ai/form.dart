@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -120,37 +121,46 @@ class _FormScreenState extends State<FormScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BrandGradient(
-              child: Text(
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 32,
-                    height: 0),
-                'Dream Your\nVacation',
-              ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          BrandGradient(
+            child: Text(
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                  height: 0),
+              'Dream Your\nVacation',
             ),
-            const SizedBox.square(dimension: 8),
-            ..._buildInputBox(context)
-        ),
+          ),
+          const SizedBox.square(dimension: 8),
+          ..._buildInputBox(context)
+        ]),
       ),
     );
   }
 
   Widget _buildLargeForm(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final displayXLTextTheme = GoogleFonts.rubikTextTheme()
+    final colorScheme = Theme
+        .of(context)
+        .colorScheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
+    final displayXLTextTheme = GoogleFonts
+        .rubikTextTheme()
         .displayLarge
         ?.copyWith(
-            fontSize: 90, fontWeight: FontWeight.w900, fontFamily: "Rubik");
+        fontSize: 90, fontWeight: FontWeight.w900, fontFamily: "Rubik");
 
     const assetURI = 'assets/images/compass-icon.svg';
-    final iconColor = Theme.of(context).colorScheme.primary;
+    final iconColor = Theme
+        .of(context)
+        .colorScheme
+        .primary;
     Widget compassIcon = SvgPicture.asset(
       assetURI,
       colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
@@ -158,144 +168,182 @@ class _FormScreenState extends State<FormScreen> {
     return Scaffold(
       body: SafeArea(
           child: Row(
-        children: [
-          NavigationRail(
-              useIndicator: false,
-              destinations: <NavigationRailDestination>[
-                NavigationRailDestination(
-                    icon: compassIcon, label: const Text('Home')),
-                // NavRail requires minimum two destinations, so this is a phantom one
-                const NavigationRailDestination(
-                    icon: Icon(null), label: Text(''), disabled: true)
-              ],
-              selectedIndex: 0),
-          Expanded(
-              flex: 5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  const AppLogo(dimension: 72),
-                  BrandGradient(
-                      child: Text(
-                          textAlign: TextAlign.left,
-                          "Dream Your Vacation",
-                          style: displayXLTextTheme))
-                ],
-              )),
-          const SizedBox(
-            width: 32,
-          ),
-          Expanded(
-              flex: 5,
-              child: Padding(
-                  padding:
+            children: [
+              NavigationRail(
+                  useIndicator: false,
+                  destinations: <NavigationRailDestination>[
+                    NavigationRailDestination(
+                        icon: compassIcon, label: const Text('Home')),
+                    // NavRail requires minimum two destinations, so this is a phantom one
+                    const NavigationRailDestination(
+                        icon: Icon(null), label: Text(''), disabled: true)
+                  ],
+                  selectedIndex: 0),
+              Expanded(
+                  flex: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const AppLogo(dimension: 72),
+                      BrandGradient(
+                          child: Text(
+                              textAlign: TextAlign.left,
+                              "Dream Your Vacation",
+                              style: displayXLTextTheme))
+                    ],
+                  )),
+              const SizedBox(
+                width: 32,
+              ),
+              Expanded(
+                  flex: 5,
+                  child: Padding(
+                      padding:
                       const EdgeInsets.only(top: 48, bottom: 48, right: 32),
-                  child: Card(
-                      elevation: 0,
-                      color: colorScheme.surfaceContainerLowest,
-                      child: Padding(padding: const EdgeInsets.all(16), child:Column(
-                        children: _buildInputBox(context, showTalkIcon: false))),
+                      child: Card(
+                        elevation: 0,
+                        color: colorScheme.surfaceContainerLowest,
+                        child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                                children:
+                                _buildInputBox(context, showTalkIcon: false))),
                       ))),
-        ],
-      )),
+            ],
+          )),
     );
   }
 
-  List<Widget> _buildInputBox(BuildContext context, { showTalkIcon = true}) {
-    return <Widget>[
-      Expanded(
-              child: PageView(children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TalkToMe(onVoiceInput: (String input) {
-                      setState(() {
-                        _queryController.text = input;
-                      });
-                    }),
-                    const SizedBox.square(
-                      dimension: 24,
-                    ),
-                    const Text('Swipe to type instead →').animate().shimmer()
-                  ],
+  // Conditionally builds the pageview on small screens the textfield is in an
+  // elevated card, in large, it's on surfaceContainerLow
+  Widget _buildPageView(BuildContext context, {paginate = true}) {
+    if (paginate) {
+      return PageView(
+          scrollBehavior: const ScrollBehavior().copyWith(dragDevices: {
+            PointerDeviceKind.touch,
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.stylus,
+          }),
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TalkToMe(onVoiceInput: (String input) {
+                  setState(() {
+                    _queryController.text = input;
+                  });
+                }),
+                const SizedBox.square(
+                  dimension: 24,
                 ),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * .4,
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: TextField(
-                        controller: _queryController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          hintText: 'Write anything',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ]),
+                const Text('Swipe to type instead →').animate().shimmer()
+              ],
             ),
-            const SizedBox.square(dimension: 8),
-            ImageSelector(
-              onSelect: setImages,
-            ),
-            const SizedBox.square(dimension: 16),
-            Row(children: [
-              Expanded(
-                child: TextButton(
-                  style: ButtonStyle(
-                    padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 8,
-                      ),
-                    ),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                    backgroundColor: WidgetStatePropertyAll(
-                      Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  onPressed: generateItineraries,
-                  child: Text(
-                    'Plan my dream trip',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 18,
+            SizedBox(
+              width: MediaQuery
+                  .sizeOf(context)
+                  .width * .4,
+              child: Card(
+                child: Padding(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: TextField(
+                    controller: _queryController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      hintText: 'Write anything',
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
               ),
-            ]),
-            SizedBox.square(dimension: 32),
-          ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var w = MediaQuery.sizeOf(context).width;
-    var h = MediaQuery.sizeOf(context).height;
-    print(w);
-    print(h);
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth < 1024) {
-        return _buildSmallForm(context);
-      } else {
-        return _buildLargeForm(context);
-      }
-    });
+            )
+          ]);
+    } else {
+      return TextField(
+        controller: _queryController,
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        decoration: const InputDecoration(
+          hintText: 'Write anything',
+          border: InputBorder.none,
+        ),
+      );
   }
 }
+
+List<Widget> _buildInputBox(BuildContext context, {showTalkIcon = true}) {
+  return <Widget>[
+    Expanded(
+      child: _buildPageView(context, paginate: showTalkIcon),
+    ),
+    const SizedBox.square(dimension: 8),
+    ImageSelector(
+      onSelect: setImages,
+    ),
+    const SizedBox.square(dimension: 16),
+    Row(children: [
+      Expanded(
+        child: TextButton(
+          style: ButtonStyle(
+            padding: const WidgetStatePropertyAll(
+              EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 8,
+              ),
+            ),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+            backgroundColor: WidgetStatePropertyAll(
+              Theme
+                  .of(context)
+                  .colorScheme
+                  .primary,
+            ),
+          ),
+          onPressed: generateItineraries,
+          child: Text(
+            'Plan my dream trip',
+            style: TextStyle(
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .onPrimary,
+              fontSize: 18,
+            ),
+          ),
+        ),
+      ),
+    ]),
+    SizedBox.square(dimension: 32),
+  ];
+}
+
+@override
+Widget build(BuildContext context) {
+  var w = MediaQuery
+      .sizeOf(context)
+      .width;
+  var h = MediaQuery
+      .sizeOf(context)
+      .height;
+  print(w);
+  print(h);
+  return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth < 1024) {
+          return _buildSmallForm(context);
+        } else {
+          return _buildLargeForm(context);
+        }
+      });
+}}
 
 class BrandGradient extends StatelessWidget {
   BrandGradient({required this.child, super.key});
@@ -306,17 +354,18 @@ class BrandGradient extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(
       blendMode: BlendMode.srcIn,
-      shaderCallback: (bounds) => const LinearGradient(colors: [
-        Color(0xff59B7EC),
-        Color(0xff9A62E1),
-        Color(0xffE66CF9),
-      ], stops: [
-        0.0,
-        0.05,
-        0.9,
-      ]).createShader(
-        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-      ),
+      shaderCallback: (bounds) =>
+          const LinearGradient(colors: [
+            Color(0xff59B7EC),
+            Color(0xff9A62E1),
+            Color(0xffE66CF9),
+          ], stops: [
+            0.0,
+            0.05,
+            0.9,
+          ]).createShader(
+            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+          ),
       child: child,
     );
   }
@@ -382,7 +431,9 @@ class _TalkToMeState extends State<TalkToMe> {
               ),
             ),
             backgroundColor: WidgetStatePropertyAll(
-              isListening ? Colors.redAccent : Theme.of(context).primaryColor,
+              isListening ? Colors.redAccent : Theme
+                  .of(context)
+                  .primaryColor,
             ),
             iconColor: const WidgetStatePropertyAll(Colors.white),
           ),
@@ -391,13 +442,13 @@ class _TalkToMeState extends State<TalkToMe> {
           },
           icon: isListening
               ? const Icon(
-                  Icons.mic,
-                  size: 48,
-                )
+            Icons.mic,
+            size: 48,
+          )
               : const Icon(
-                  Icons.mic_off,
-                  size: 48,
-                ),
+            Icons.mic_off,
+            size: 48,
+          ),
         ));
   }
 }
@@ -460,9 +511,10 @@ class _ImageSelectorState extends State<ImageSelector> {
               scrollDirection: Axis.horizontal,
               children: List.generate(
                 images.length,
-                (idx) => Thumbnail(
-                  imageBytes: images[idx].bytes,
-                ),
+                    (idx) =>
+                    Thumbnail(
+                      imageBytes: images[idx].bytes,
+                    ),
               )
                   .animate(interval: 200.ms)
                   .scaleXY(begin: 1.1, end: 1, duration: 200.ms),
@@ -508,7 +560,10 @@ class ImageSelectorEmpty extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).colorScheme.surfaceContainer,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .surfaceContainer,
           ),
           height: 120,
           child: Column(
@@ -516,9 +571,9 @@ class ImageSelectorEmpty extends StatelessWidget {
             children: [
               BrandGradient(
                   child: const Icon(
-                Icons.image_outlined,
-                size: 32,
-              )),
+                    Icons.image_outlined,
+                    size: 32,
+                  )),
               const SizedBox.square(dimension: 16),
               const Text('Add images for inspiration'),
             ],
