@@ -2,9 +2,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/image_handling.dart';
+import 'package:tripedia/screens/components/basics.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -21,17 +24,46 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
-  Map<String, Uint8List>? selectedImages;
+  List<UserSelectedImage>? selectedImages;
 
-  void generateItineraries() {
+  void generateItineraries() async {
     var query = _queryController.text.trim();
     if (query.isEmpty) {
       _showAlert();
       return;
     }
 
-    context.read<ItinerariesViewModel>().loadItineraries(query, selectedImages);
-    context.go('/dreaming');
+    // Validate necessary info
+
+    var details = checkQueryDetails(query);
+
+    if (details.containsValue(null)) {
+      var clarifyingAnswers = await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return MoreInfoSheet(details: details);
+        },
+      );
+
+      print(clarifyingAnswers);
+    }
+
+    if (mounted) {
+      context
+          .read<ItinerariesViewModel>()
+          .loadItineraries(query, selectedImages);
+      context.go('/dreaming');
+    }
+  }
+
+  Map<String, Object?> checkQueryDetails(String query) {
+    // make a network call to Nohe's endpoint
+
+    return {
+      'kids': null,
+      'date': null,
+      'budget': null,
+    };
   }
 
   _showAlert() {
@@ -56,9 +88,9 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 
-  void setImages(Map<String, Uint8List> selectedImagesMap) {
+  void setImages(List<UserSelectedImage> selectedImagesList) {
     setState(() {
-      selectedImages = selectedImagesMap;
+      selectedImages = selectedImagesList;
     });
   }
 
@@ -68,21 +100,22 @@ class _FormScreenState extends State<FormScreen> {
         leading: const AppLogo(dimension: 38),
         actions: [
           Padding(
-              padding: const EdgeInsets.all(8),
-              child: IconButton(
-                style: ButtonStyle(
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+            padding: const EdgeInsets.all(8),
+            child: IconButton(
+              style: ButtonStyle(
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
-                  backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
                 ),
-                onPressed: () => {},
-                icon: const Icon(
-                  Icons.home,
-                ),
-              )),
+                backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
+              ),
+              onPressed: () => {},
+              icon: const Icon(
+                Icons.home_outlined,
+              ),
+            ),
+          ),
         ],
       ),
       body: Padding(
@@ -103,7 +136,6 @@ class _FormScreenState extends State<FormScreen> {
             ),
             const SizedBox.square(dimension: 8),
             ..._buildInputBox(context)
-          ],
         ),
       ),
     );
@@ -174,56 +206,78 @@ class _FormScreenState extends State<FormScreen> {
   List<Widget> _buildInputBox(BuildContext context, { showTalkIcon = true}) {
     return <Widget>[
       Expanded(
-        child: TextField(
-          controller: _queryController,
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          decoration: const InputDecoration(
-            hintText: 'Write anything',
-            border: InputBorder.none,
-          ),
-        ),
-      ),
-      if (showTalkIcon == true)TalkToMe(onVoiceInput: (String input) {
-        setState(() {
-          _queryController.text = input;
-        });
-      }),
-      ImageSelector(
-        onSelect: setImages,
-      ),
-      const SizedBox.square(dimension: 16),
-      Row(children: [
-        Expanded(
-          child: TextButton(
-            style: ButtonStyle(
-              padding: const WidgetStatePropertyAll(
-                EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 8,
+              child: PageView(children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TalkToMe(onVoiceInput: (String input) {
+                      setState(() {
+                        _queryController.text = input;
+                      });
+                    }),
+                    const SizedBox.square(
+                      dimension: 24,
+                    ),
+                    const Text('Swipe to type instead →').animate().shimmer()
+                  ],
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * .4,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: TextField(
+                        controller: _queryController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          hintText: 'Write anything',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ]),
+            ),
+            const SizedBox.square(dimension: 8),
+            ImageSelector(
+              onSelect: setImages,
+            ),
+            const SizedBox.square(dimension: 16),
+            Row(children: [
+              Expanded(
+                child: TextButton(
+                  style: ButtonStyle(
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 8,
+                      ),
+                    ),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    backgroundColor: WidgetStatePropertyAll(
+                      Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  onPressed: generateItineraries,
+                  child: Text(
+                    'Plan my dream trip',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              backgroundColor: WidgetStatePropertyAll(
-                Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            onPressed: generateItineraries,
-            child: Text(
-              'Plan my dream trip',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 18,
-              ),
-            ),
-          ),
-        )
-      ])
-    ];
+            ]),
+            SizedBox.square(dimension: 32),
+          ];
   }
 
   @override
@@ -281,6 +335,7 @@ class _TalkToMeState extends State<TalkToMe> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
+  bool isListening = false;
 
   @override
   void initState() {
@@ -293,6 +348,9 @@ class _TalkToMeState extends State<TalkToMe> {
   }
 
   void _startListening() async {
+    setState(() {
+      isListening = true;
+    });
     await _speechToText.listen(onResult: _onSpeechResult);
   }
 
@@ -305,34 +363,49 @@ class _TalkToMeState extends State<TalkToMe> {
   }
 
   void _stopListening() async {
+    setState(() {
+      isListening = false;
+    });
     await _speechToText.stop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          _speechToText.isListening
-              ? Colors.red
-              : Theme.of(context).primaryColor,
-        ),
-        iconColor: const WidgetStatePropertyAll(Colors.white),
-      ),
-      onPressed: () {
-        _speechToText.isNotListening ? _startListening() : _stopListening();
-      },
-      icon: _speechToText.isListening
-          ? const Icon(Icons.mic)
-          : const Icon(Icons.mic_off),
-    );
+    return SizedBox(
+        width: 300,
+        height: 150,
+        child: IconButton(
+          style: ButtonStyle(
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+            backgroundColor: WidgetStatePropertyAll(
+              isListening ? Colors.redAccent : Theme.of(context).primaryColor,
+            ),
+            iconColor: const WidgetStatePropertyAll(Colors.white),
+          ),
+          onPressed: () {
+            isListening ? _stopListening() : _startListening();
+          },
+          icon: isListening
+              ? const Icon(
+                  Icons.mic,
+                  size: 48,
+                )
+              : const Icon(
+                  Icons.mic_off,
+                  size: 48,
+                ),
+        ));
   }
 }
 
 class ImageSelector extends StatefulWidget {
   const ImageSelector({required this.onSelect, super.key});
 
-  final Function(Map<String, Uint8List>) onSelect;
+  final Function(List<UserSelectedImage>) onSelect;
 
   @override
   State<ImageSelector> createState() => _ImageSelectorState();
@@ -341,37 +414,42 @@ class ImageSelector extends StatefulWidget {
 class _ImageSelectorState extends State<ImageSelector> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _selectedImages;
-  Map<String, Uint8List>? imagesList;
+  List<UserSelectedImage>? imagesList;
 
   void selectImages() async {
     // TODO: Only allow JPEG and PNG images.
     var picked = await _picker.pickMultiImage();
 
-    Map<String, Uint8List> listAsBytes = {};
+    List<UserSelectedImage> userSelectedImages = [];
 
     for (var image in picked) {
-      listAsBytes[image.path] = await image.readAsBytes();
+      userSelectedImages.add(
+        UserSelectedImage(
+          image.path,
+          await image.readAsBytes(),
+        ),
+      );
     }
 
     setState(() {
       _selectedImages = picked;
-      imagesList = listAsBytes;
+      imagesList = userSelectedImages;
       if (imagesList != null) {
-        widget.onSelect(listAsBytes);
+        widget.onSelect(userSelectedImages);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedImages == null || imagesList == null) {
+    var images = imagesList;
+
+    if (_selectedImages == null || images == null) {
       return GestureDetector(
         onTap: selectImages,
         child: const ImageSelectorEmpty(),
       );
     }
-
-    var images = imagesList!.values.toList();
 
     return Row(
       children: [
@@ -383,9 +461,11 @@ class _ImageSelectorState extends State<ImageSelector> {
               children: List.generate(
                 images.length,
                 (idx) => Thumbnail(
-                  imageBytes: images[idx],
+                  imageBytes: images[idx].bytes,
                 ),
-              ),
+              )
+                  .animate(interval: 200.ms)
+                  .scaleXY(begin: 1.1, end: 1, duration: 200.ms),
             ),
           ),
         )
