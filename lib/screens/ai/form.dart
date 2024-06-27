@@ -134,22 +134,42 @@ class _FormScreenState extends State<FormScreen> {
               ),
             ),
             Expanded(
-              child: TextField(
-                controller: _queryController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  hintText: 'Write anything',
-                  border: InputBorder.none,
+              child: PageView(children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TalkToMe(onVoiceInput: (String input) {
+                      setState(() {
+                        _queryController.text = input;
+                      });
+                    }),
+                    const SizedBox.square(
+                      dimension: 24,
+                    ),
+                    const Text('Swipe to type instead →'),
+                  ],
                 ),
-              ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * .4,
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: TextField(
+                        controller: _queryController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          hintText: 'Write anything',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ]),
             ),
             const SizedBox.square(dimension: 8),
-            TalkToMe(onVoiceInput: (String input) {
-              setState(() {
-                _queryController.text = input;
-              });
-            }),
             ImageSelector(
               onSelect: setImages,
             ),
@@ -266,18 +286,34 @@ class _TalkToMeState extends State<TalkToMe> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(
-          isListening ? Colors.redAccent : Theme.of(context).primaryColor,
-        ),
-        iconColor: const WidgetStatePropertyAll(Colors.white),
-      ),
-      onPressed: () {
-        isListening ? _stopListening() : _startListening();
-      },
-      icon: isListening ? const Icon(Icons.mic) : const Icon(Icons.mic_off),
-    );
+    return SizedBox(
+        width: 300,
+        height: 150,
+        child: IconButton(
+          style: ButtonStyle(
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ),
+            backgroundColor: WidgetStatePropertyAll(
+              isListening ? Colors.redAccent : Theme.of(context).primaryColor,
+            ),
+            iconColor: const WidgetStatePropertyAll(Colors.white),
+          ),
+          onPressed: () {
+            isListening ? _stopListening() : _startListening();
+          },
+          icon: isListening
+              ? const Icon(
+                  Icons.mic,
+                  size: 48,
+                )
+              : const Icon(
+                  Icons.mic_off,
+                  size: 48,
+                ),
+        ));
   }
 }
 
