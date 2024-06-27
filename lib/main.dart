@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ItinerariesViewModel(ItineraryClient()),
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         scrollBehavior: AppScrollBehavior(),
         routerConfig: _router,
         title: 'Compass',
