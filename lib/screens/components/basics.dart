@@ -154,6 +154,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
   @override
   Widget build(BuildContext context) {
     return BottomSheet(
+      enableDrag: false,
       onClosing: () {},
       builder: (context) {
         return Padding(
