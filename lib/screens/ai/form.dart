@@ -146,7 +146,7 @@ class _FormScreenState extends State<FormScreen> {
                     const SizedBox.square(
                       dimension: 24,
                     ),
-                    const Text('Swipe to type instead →').animate().shimmer()
+                    const Text('← Swipe to type instead.').animate().shimmer()
                   ],
                 ),
                 SizedBox(

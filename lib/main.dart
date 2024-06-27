@@ -6,6 +6,7 @@ import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tripedia/screens/ai/detailed_itinerary.dart';
 import 'package:tripedia/screens/ai/load_itineraries.dart';
+import 'package:tripedia/utilties.dart';
 
 import 'screens/ai/form.dart';
 import 'screens/ai/itineraries.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ItinerariesViewModel(ItineraryClient()),
       child: MaterialApp.router(
+        scrollBehavior: AppScrollBehavior(),
         routerConfig: _router,
         title: 'Tripedia',
         theme: ThemeData(
