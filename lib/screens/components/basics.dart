@@ -56,7 +56,8 @@ class _CompassDateInputState extends State<CompassDateInput> {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             label: const Text('When would you like to travel?'),
-            hintText: formatter.format(DateTime.now()),
+            hintText:
+                '${formatter.format(DateTime.now())}, July 2025, next year...',
           ),
         ),
       ),
@@ -138,15 +139,15 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
 
   @override
   void initState() {
-    if (widget.details['kids'] != null) {
+    /*if (widget.details['kids'] != null) {
       hasKids = widget.details['kids'] as bool;
     }
-    if (widget.details['budget'] != null) {
+    if (widget.details['cost'] != null) {
       budget = widget.details['budget'] as double;
     }
     if (widget.details['date'] != null) {
       date = widget.details['date'] as String;
-    }
+    }*/
 
     super.initState();
   }
@@ -168,7 +169,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
               const SizedBox.square(
                 dimension: 16,
               ),
-              if (widget.details['kids'] == null)
+              if (widget.details['kids'] == false)
                 Column(children: [
                   CompassSwitch(
                     value: hasKids,
@@ -183,7 +184,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
               const SizedBox.square(
                 dimension: 8,
               ),
-              if (widget.details['date'] == null)
+              if (widget.details['date'] == false)
                 Column(children: [
                   CompassDateInput(onChanged: (userInputtedDate) {
                     setState(() {
@@ -195,7 +196,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                   ),
                   const Divider(),
                 ]),
-              if (widget.details['budget'] == null)
+              if (widget.details['cost'] == false)
                 CompassSlider(
                   value: budget,
                   onChanged: (val) {
@@ -228,9 +229,9 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                     ),
                     onPressed: () {
                       Navigator.pop(context, {
-                        'hasKids': hasKids,
-                        'date': date,
-                        'budget': budget,
+                        if (widget.details['kids'] == false) 'kids': hasKids,
+                        if (widget.details['date'] == false) 'date': date,
+                        if (widget.details['cost'] == false) 'cost': budget,
                       });
                     },
                     child: Text(

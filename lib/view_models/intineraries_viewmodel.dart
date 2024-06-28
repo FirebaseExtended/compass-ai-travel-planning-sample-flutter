@@ -23,7 +23,7 @@ class ItinerariesViewModel extends ChangeNotifier {
       var imageUrls =
           (images != null) ? await ImageClient.uploadImagesBytes(images) : null;
 
-      print('Loading Itineraries from server');
+      print('Loading Itineraries from server: $query');
       itineraries = await client.loadItinerariesFromServer(
         query,
         imageUrls: imageUrls,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:tripedia/view_models/intineraries_viewmodel.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 import '../branding.dart';
 
@@ -33,17 +35,20 @@ class _FormScreenState extends State<FormScreen> {
 
     // Validate necessary info
 
-    var details = checkQueryDetails(query);
+    var details = await checkQueryDetails(query);
+    print('details: $details');
 
-    if (details.containsValue(null)) {
-      var clarifyingAnswers = await showModalBottomSheet(
+    if (mounted && details.containsValue(false)) {
+      Map<String, dynamic> clarifyingAnswers = await showModalBottomSheet(
         context: context,
         builder: (context) {
           return MoreInfoSheet(details: details);
         },
       );
 
-      print(clarifyingAnswers);
+      print('Clarifying Answers: $clarifyingAnswers');
+
+      query += QueryClient.generateRefinements(clarifyingAnswers);
     }
 
     if (mounted) {
@@ -54,14 +59,10 @@ class _FormScreenState extends State<FormScreen> {
     }
   }
 
-  Map<String, Object?> checkQueryDetails(String query) {
-    // make a network call to Nohe's endpoint
+  Future<Map<String, Object?>> checkQueryDetails(String query) async {
+    var hasNeededInfo = await QueryClient.hasRequiredInfo(query);
 
-    return {
-      'kids': null,
-      'date': null,
-      'budget': null,
-    };
+    return hasNeededInfo;
   }
 
   _showAlert() {
@@ -209,6 +210,63 @@ class _FormScreenState extends State<FormScreen> {
         ),
       ),
     );
+  }
+}
+
+class QueryClient {
+  static Future<Map<String, bool>> hasRequiredInfo(String query) async {
+    var endpoint = Uri.https(
+      'tripedia-genkit-exp-hovwuqnpzq-uc.a.run.app',
+      '/textRefinement',
+    );
+
+    var jsonBody = jsonEncode(
+      {
+        'data': query,
+      },
+    );
+
+    try {
+      var response = await http.post(
+        endpoint,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonBody,
+      );
+
+      Map<String, dynamic> hasRequiredData = jsonDecode(response.body);
+
+      print('data: $hasRequiredData');
+      Map<String, dynamic> result =
+          hasRequiredData['result'] as Map<String, dynamic>;
+      print('result: $result');
+      bool cost, kids, date;
+
+      {
+        'cost': cost as bool,
+        'kids': kids as bool,
+        'date': date as bool,
+      } = result;
+
+      return {'cost': cost, 'kids': kids, 'date': date};
+    } catch (e) {
+      debugPrint(e.toString());
+      throw ("Error validating required info.");
+    }
+  }
+
+  static String generateRefinements(Map<String, dynamic> refinedDetails) {
+    Map<String, String> refinementPrompts = {
+      'kids': 'Is it family friendly?',
+      'cost': 'How much are you willing to spend (1 is low 5 is high):',
+      'date': 'Start date:',
+    };
+    String refinementSpec = '\nRefinements:\n';
+
+    for (var key in refinedDetails.keys) {
+      refinementSpec += '${refinementPrompts[key]} ${refinedDetails[key]}\n';
+    }
+
+    return refinementSpec;
   }
 }
 
