@@ -56,7 +56,7 @@ class _FormScreenState extends State<FormScreen> {
       context
           .read<ItinerariesViewModel>()
           .loadItineraries(query, selectedImages);
-      context.go('/dreaming');
+      context.go('/ai/dreaming');
     }
   }
 

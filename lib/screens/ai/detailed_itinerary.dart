@@ -119,7 +119,7 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.grey[300]),
                       ),
-                      onPressed: () => context.go('/'),
+                      onPressed: () => context.go('/ai'),
                       icon: const Icon(
                         Icons.home_outlined,
                       ),
