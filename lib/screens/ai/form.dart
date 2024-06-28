@@ -321,10 +321,10 @@ class _TalkToMeState extends State<TalkToMe> {
   }
 
   void _startListening() async {
+    _speechToText.listen(onResult: _onSpeechResult);
     setState(() {
       isListening = true;
     });
-    await _speechToText.listen(onResult: _onSpeechResult);
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
@@ -336,10 +336,10 @@ class _TalkToMeState extends State<TalkToMe> {
   }
 
   void _stopListening() async {
+    _speechToText.stop();
     setState(() {
       isListening = false;
     });
-    await _speechToText.stop();
   }
 
   @override
