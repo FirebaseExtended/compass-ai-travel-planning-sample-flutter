@@ -25,6 +25,7 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
   List<UserSelectedImage>? selectedImages;
+  bool useVoice = true;
 
   void generateItineraries() async {
     var query = _queryController.text.trim();
@@ -134,43 +135,63 @@ class _FormScreenState extends State<FormScreen> {
                 'Dream Your\nVacation',
               ),
             ),
-            Expanded(
-              child: PageView(children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TalkToMe(onVoiceInput: (String input) {
-                      setState(() {
-                        _queryController.text = input;
-                      });
-                    }),
-                    const SizedBox.square(
-                      dimension: 24,
-                    ),
-                    const Text('← Swipe to type instead.').animate().shimmer()
-                  ],
-                ),
-                SizedBox(
-                  width: MediaQuery.sizeOf(context).width * .4,
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: TextField(
-                        controller: _queryController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          hintText: 'Write anything',
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ]),
+            const SizedBox.square(
+              dimension: 16,
             ),
-            const SizedBox.square(dimension: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  useVoice
+                      ? Center(
+                          child: TalkToMe(
+                            onVoiceInput: (String input) {
+                              setState(() {
+                                _queryController.text = input;
+                              });
+                            },
+                          ),
+                        ).animate().scale()
+                      : Expanded(
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              child: TextField(
+                                controller: _queryController,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                decoration: const InputDecoration(
+                                  hintText: 'Write anything',
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ).animate().scale(),
+                        ),
+                  const SizedBox.square(
+                    dimension: 4,
+                  ),
+                  TextButton.icon(
+                    label: useVoice
+                        ? const Text(
+                            'Type instead',
+                          )
+                        : const Text('Talk'),
+                    onPressed: () {
+                      setState(() {
+                        useVoice = !useVoice;
+                      });
+                    },
+                    icon: useVoice
+                        ? const Icon(Icons.keyboard)
+                        : const Icon(Icons.mic),
+                  ).animate().shimmer()
+                ],
+              ),
+            ),
+            const SizedBox.square(dimension: 16),
             ImageSelector(
               onSelect: setImages,
             ),
