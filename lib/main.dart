@@ -4,8 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tripedia/screens/ai/detailed_itinerary.dart';
-import 'package:tripedia/screens/ai/load_itineraries.dart';
 import 'package:tripedia/screens/splash.dart';
 import 'package:tripedia/utilties.dart';
 
