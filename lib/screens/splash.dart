@@ -95,7 +95,7 @@ class Splash extends StatelessWidget {
                                   );
                                 },
                               ),
-                              onPressed: () => context.go('/ai'),
+                              onPressed: () => context.push('/ai'),
                               child: const Text(
                                 'Plan my dream trip with AI',
                                 style: TextStyle(

@@ -111,7 +111,7 @@ class _FormScreenState extends State<FormScreen> {
                 ),
                 backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
               ),
-              onPressed: () => context.go('/'),
+              onPressed: () => context.pop(),
               icon: const Icon(
                 Icons.home_outlined,
               ),
