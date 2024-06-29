@@ -55,10 +55,10 @@ class _DreamingScreenState extends State<DreamingScreen> {
       _showError(errorMessage, () {
         vm.clearError();
         Navigator.of(context).pop();
-        context.go('/');
+        context.go('/ai');
       });
     } else if (itineraries != null) {
-      context.go('/itineraries');
+      context.go('/ai/itineraries');
     }
   }
 

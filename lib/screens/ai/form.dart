@@ -56,7 +56,7 @@ class _FormScreenState extends State<FormScreen> {
       context
           .read<ItinerariesViewModel>()
           .loadItineraries(query, selectedImages);
-      context.go('/dreaming');
+      context.go('/ai/dreaming');
     }
   }
 
@@ -111,7 +111,7 @@ class _FormScreenState extends State<FormScreen> {
                 ),
                 backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
               ),
-              onPressed: () => {},
+              onPressed: () => context.pop(),
               icon: const Icon(
                 Icons.home_outlined,
               ),

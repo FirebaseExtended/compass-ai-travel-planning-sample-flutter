@@ -4,8 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tripedia/screens/ai/detailed_itinerary.dart';
-import 'package:tripedia/screens/ai/load_itineraries.dart';
+import 'package:tripedia/screens/splash.dart';
 import 'package:tripedia/utilties.dart';
 
 import 'screens/ai/form.dart';
@@ -21,8 +20,22 @@ void main() {
 // GoRouter configuration
 final _router = GoRouter(
   routes: [
+    GoRoute(path: '/', builder: (context, state) => const Splash()),
     GoRoute(
-      path: '/',
+      path: '/legacy',
+      builder: (context, state) => const Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text('Oops. There\'s nothing here yet!'),
+            )
+          ],
+        ),
+      ),
+    ),
+    GoRoute(
+      path: '/ai',
       builder: (context, state) => const FormScreen(),
       routes: [
         GoRoute(
