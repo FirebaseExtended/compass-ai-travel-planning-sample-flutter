@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../components/thumbnail.dart';
+
 class LegacyFormScreen extends StatefulWidget {
   const LegacyFormScreen({super.key});
 
@@ -52,6 +54,10 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
           child: Column(
             children: [
+              const SizedBox(height: 120, child: LocationPicker()),
+              const SizedBox.square(
+                dimension: 24,
+              ),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -106,6 +112,61 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
             ],
           ),
         ));
+  }
+}
+
+class LocationPicker extends StatelessWidget {
+  const LocationPicker({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: const [
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/coronado-island.jpeg',
+          ),
+          title: 'Europe',
+        ),
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/la-jolla.jpeg',
+          ),
+          title: 'Asia',
+        ),
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/louvre.png',
+          ),
+          title: 'South America',
+        ),
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/san-diego.jpeg',
+          ),
+          title: 'Africa',
+        ),
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/seine.png',
+          ),
+          title: 'North America',
+        ),
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/paris.png',
+          ),
+          title: 'Oceania',
+        ),
+        Thumbnail(
+          image: AssetImage(
+            'assets/images/marine-life.jpeg',
+          ),
+          title: 'Australia',
+        )
+      ],
+    );
   }
 }
 

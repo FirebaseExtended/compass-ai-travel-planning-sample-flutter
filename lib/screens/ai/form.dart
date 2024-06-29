@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -14,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 import '../branding.dart';
+import '../components/thumbnail.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -455,7 +455,7 @@ class _ImageSelectorState extends State<ImageSelector> {
               children: List.generate(
                 images.length,
                 (idx) => Thumbnail(
-                  imageBytes: images[idx].bytes,
+                  image: MemoryImage(images[idx].bytes),
                 ),
               )
                   .animate(interval: 200.ms)
@@ -464,30 +464,6 @@ class _ImageSelectorState extends State<ImageSelector> {
           ),
         )
       ],
-    );
-  }
-}
-
-class Thumbnail extends StatelessWidget {
-  const Thumbnail({required this.imageBytes, super.key});
-
-  final Uint8List imageBytes;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: Container(
-        width: 120,
-        height: 120,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          image: DecorationImage(
-            image: MemoryImage(imageBytes),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
     );
   }
 }
