@@ -235,6 +235,7 @@ class _LocationPickerState extends State<LocationPicker> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       children: List.generate(destinations.length, (index) {
         var destination = destinations[index];
