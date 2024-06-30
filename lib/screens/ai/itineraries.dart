@@ -13,46 +13,89 @@ class Itineraries extends StatefulWidget {
   State<Itineraries> createState() => _ItinerariesState();
 }
 
+Widget buildSmallItineraries(ItinerariesViewModel model) {
+  var itineraries = model.itineraries;
+
+  if (itineraries == null) {
+    return const Placeholder();
+  }
+
+  return Scaffold(
+    appBar: brandedAppBar,
+    body: Column(
+      children: [
+        SizedBox(
+          height: 650,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: itineraries.length,
+              itemBuilder: (context, index) {
+                return ItineraryCard(
+                  itinerary: itineraries[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailedItinerary(itinerary: itineraries[index]),
+                      ),
+                    );
+                  },
+                );
+              }),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildLargesItineraries(ItinerariesViewModel model) {
+  var itineraries = model.itineraries;
+  print(itineraries);
+  if (itineraries == null) {
+    return const Placeholder();
+  }
+
+  return Scaffold(
+    appBar: brandedAppBar,
+    body: Column(
+      children: [
+        SizedBox(
+          height: 650,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: itineraries.length,
+              itemBuilder: (context, index) {
+                return ItineraryCard(
+                  itinerary: itineraries[index],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            Flexible(child:DetailedItinerary(itinerary: itineraries[index])),
+                      ),
+                    );
+                  },
+                );
+              }),
+        ),
+      ],
+    ),
+  );
+}
+
 class _ItinerariesState extends State<Itineraries> {
   @override
   Widget build(BuildContext context) {
-    var itineraries = context.watch<ItinerariesViewModel>().itineraries;
+    Size size = MediaQuery.sizeOf(context);
+    var itineraries = context.watch<ItinerariesViewModel>();
 
-    if (itineraries == null) {
-      return const Placeholder();
+    if (size.width < 1000) {
+      return buildSmallItineraries(itineraries);
+    } else {
+      return const Text("Placeholder");
     }
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        actionsIconTheme: const IconThemeData(color: Colors.black12),
-        actions: const [HomeButton()],
-      ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 650,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: itineraries.length,
-                itemBuilder: (context, index) {
-                  return ItineraryCard(
-                    itinerary: itineraries[index],
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailedItinerary(itinerary: itineraries[index]),
-                        ),
-                      );
-                    },
-                  );
-                }),
-          ),
-        ],
-      ),
-    );
   }
 }
 
@@ -68,6 +111,8 @@ class ItineraryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //const colorScheme = Theme.of(context).colorScheme;
+
     return GestureDetector(
         onTap: onTap,
         child: Card(
