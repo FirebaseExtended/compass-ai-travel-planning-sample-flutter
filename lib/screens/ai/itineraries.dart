@@ -13,7 +13,7 @@ class Itineraries extends StatefulWidget {
   State<Itineraries> createState() => _ItinerariesState();
 }
 
-Widget buildSmallItineraries(ItinerariesViewModel model) {
+Widget buildSmallItineraries(BuildContext context, ItinerariesViewModel model) {
   var itineraries = model.itineraries;
 
   if (itineraries == null) {
@@ -49,65 +49,18 @@ Widget buildSmallItineraries(ItinerariesViewModel model) {
   );
 }
 
-Widget buildLargesItineraries(ItinerariesViewModel model) {
-  var itineraries = model.itineraries;
-  print(itineraries);
-  if (itineraries == null) {
-    return const Placeholder();
-  }
-
-  return Scaffold(
-    appBar: brandedAppBar,
-    body: Column(
-      children: [
-        SizedBox(
-          height: 650,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: itineraries.length,
-              itemBuilder: (context, index) {
-                return ItineraryCard(
-                  itinerary: itineraries[index],
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            Flexible(child:DetailedItinerary(itinerary: itineraries[index])),
-                      ),
-                    );
-                  },
-                );
-              }),
-        ),
-      ],
-    ),
-  );
-}
-
 class _ItinerariesState extends State<Itineraries> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    var itineraries = context.watch<ItinerariesViewModel>();
+    var model = context.watch<ItinerariesViewModel>();
 
-    if (size.width < 1000) {
-      return buildSmallItineraries(itineraries);
+    if (model.itineraries != null) {
+      return buildSmallItineraries(context, model);
     } else {
-      return const Text("Placeholder");
+      return const Placeholder();
     }
-  }
-}
 
-class AdaptiveItineraryCard extends StatelessWidget {
-  const AdaptiveItineraryCard({required this.itinerary, required this.onTap, super.key});
-
-  final Itinerary itinerary;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text("");
   }
 }
 

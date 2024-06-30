@@ -4,6 +4,7 @@ import 'package:tripedia/utilties.dart';
 
 import '../components/custom_stepper.dart' as custom_stepper;
 import '../../data/models/itinerary.dart';
+import 'itineraries.dart';
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({required this.itinerary, super.key});
@@ -16,6 +17,21 @@ class DetailedItinerary extends StatefulWidget {
 
 class _DetailedItineraryState extends State<DetailedItinerary> {
   int activeStep = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    var width = MediaQuery.sizeOf(context).width;
+    return (width < 1024) ? SmallDetailedItinerary(widget: widget) : LargeDetailedItinerary(widget: widget);
+  }
+}
+
+class SmallDetailedItinerary extends StatelessWidget {
+  const SmallDetailedItinerary({
+    super.key,
+    required this.widget,
+  });
+
+  final DetailedItinerary widget;
 
   @override
   Widget build(BuildContext context) {
@@ -158,41 +174,109 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
             )
           ],
         ),
-        bottomNavigationBar: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(
-                        color: Theme.of(context).colorScheme.outlineVariant))),
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                padding: const WidgetStatePropertyAll(
-                  EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 8,
-                  ),
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                ),
-                backgroundColor: WidgetStatePropertyAll(
-                  Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              child: Text(
-                'Share Trip',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 18,
-                ),
+        bottomNavigationBar: const ShareTrip());
+  }
+}
+
+class ShareTrip extends StatelessWidget {
+  const ShareTrip({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(
+                top: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant))),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ButtonStyle(
+            padding: const WidgetStatePropertyAll(
+              EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 8,
               ),
             ),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            backgroundColor: WidgetStatePropertyAll(
+              Theme.of(context).colorScheme.primary,
+            ),
           ),
-        ));
+          child: Text(
+            'Share Trip',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: 18,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LargeDetailedItinerary extends StatelessWidget {
+  const LargeDetailedItinerary({
+    super.key,
+    required this.widget,
+  });
+
+  final DetailedItinerary widget;
+
+  @override
+  Widget build(BuildContext context) {
+    var colorScheme = Theme.of(context).colorScheme;
+    return Row(children: [
+      ItineraryCard(
+          itinerary: widget.itinerary, onTap: () {}),
+      const SizedBox(
+        width: 48,
+      ),
+      Expanded(
+          child: Card(
+              elevation: 0.0,
+              color: colorScheme.surfaceContainerLowest,
+              child: Scaffold(
+                  backgroundColor:
+                  colorScheme.surfaceContainerLowest,
+                  body: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 48, left: 24),
+                      child: ListView(
+                          children: List.generate(
+                            widget.itinerary.dayPlans.length,
+                                (day) {
+                              var dayPlan = widget.itinerary.dayPlans[day];
+
+                              return Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    DayTitle(
+                                        title:
+                                        'Day ${dayPlan.dayNum.toString()}'),
+                                    DayStepper(
+                                      key: Key('stepper$day'),
+                                      activities: dayPlan.planForDay,
+                                    )
+                                  ]);
+                            },
+                          ))),
+              bottomNavigationBar: const ShareTrip(),
+              ),
+          )
+
+        // ),
+      )
+    ]);
   }
 }
 

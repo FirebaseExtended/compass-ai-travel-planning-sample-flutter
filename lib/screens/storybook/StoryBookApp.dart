@@ -47,61 +47,12 @@ class StorybookApp extends StatelessWidget {
               return ChangeNotifierProvider(
                 create: (context) => model,
                 lazy: true,
-                child: (width < 1000)
-                    ? buildSmallItineraries(model)
-                    : buildLargesItineraries(model),
+                child:  buildSmallItineraries(context, model)
               );
-            }),
-        Story(
-            name: 'Detailed Itinerary',
-            builder: (context) {
-              var colorScheme = Theme.of(context).colorScheme;
-              return ChangeNotifierProvider(
-                  create: (context) => model,
-                  lazy: true,
-                  child: Row(children: [
-                    ItineraryCard(
-                        itinerary: model.itineraries!.first, onTap: () {}),
-                    const SizedBox(
-                      width: 48,
-                    ),
-                    Expanded(
-                        child: Card(
-                            elevation: 0.0,
-                            color: colorScheme.surfaceContainerLowest,
-                            child: Scaffold(
-                                backgroundColor:
-                                    colorScheme.surfaceContainerLowest,
-                                body: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 48, left: 24),
-                                    child: ListView(
-                                        children: List.generate(
-                                      model.itineraries!.first.dayPlans.length,
-                                      (day) {
-                                        var dayPlan = model
-                                            .itineraries!.first.dayPlans[day];
-
-                                        return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              DayTitle(
-                                                  title:
-                                                      'Day ${dayPlan.dayNum.toString()}'),
-                                              DayStepper(
-                                                key: Key('stepper$day'),
-                                                activities: dayPlan.planForDay,
-                                              )
-                                            ]);
-                                      },
-                                    )))))
-
-                        // ),
-                        )
-                  ]));
             }),
       ],
     );
   }
 }
+
+
