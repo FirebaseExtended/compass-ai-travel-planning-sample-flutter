@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -55,41 +54,49 @@ class StorybookApp extends StatelessWidget {
         Story(
             name: 'Detailed Itinerary',
             builder: (context) {
+              var colorScheme = Theme.of(context).colorScheme;
               return ChangeNotifierProvider(
                   create: (context) => model,
                   lazy: true,
-                  child:
-                      ConstrainedBox(constraints:BoxConstraints(maxWidth: 800, maxHeight: 500),child:
-                  Row(children: [
-                  ItineraryCard(
-                      itinerary: model.itineraries!.first, onTap: () {}),
-                  Expanded(child:
-                    Column(children: [
-                    DayTitle(title: 'Day 1'),
-                    Expanded(flex:2, child: SizedBox(width: MediaQuery.sizeOf(context).width, child:
-                    DayStepper(activities: model.itineraries!.first.dayPlans.first.planForDay)
-                    )) ]
-                  ))
-                  // ListView(shrinkWrap: true,
-                  //     children: List.generate(
-                  //   model.itineraries!.first.dayPlans.length,
-                  //       (day) {
-                  //     var dayPlan = model.itineraries!.first.dayPlans[day];
-                  //
-                  //     return Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           DayTitle(title: 'Day ${dayPlan.dayNum.toString()}'),
-                  //           DayStepper(
-                  //             key: Key('stepper$day'),
-                  //             activities: dayPlan.planForDay,
-                  //           )
-                  //         ]);
-                  //   },
-                  // )
-             // ),
-            ])
-            ));
+                  child: Row(children: [
+                    ItineraryCard(
+                        itinerary: model.itineraries!.first, onTap: () {}),
+                    const SizedBox(
+                      width: 48,
+                    ),
+                    Expanded(child:
+                    Card(
+                            elevation: 0.0,
+                            color: colorScheme.surfaceContainerLowest,
+                            child: Scaffold(
+                                backgroundColor: colorScheme.surfaceContainerLowest,
+                                body: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 48, left: 24, right: 68),
+                                child: ListView(
+                                    children: List.generate(
+                                  model.itineraries!.first.dayPlans.length,
+                                  (day) {
+                                    var dayPlan =
+                                        model.itineraries!.first.dayPlans[day];
+
+                                    return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          DayTitle(
+                                              title:
+                                                  'Day ${dayPlan.dayNum.toString()}'),
+                                          DayStepper(
+                                            key: Key('stepper$day'),
+                                            activities: dayPlan.planForDay,
+                                          )
+                                        ]);
+                                  },
+                                )))))
+
+                    // ),
+                    )]));
             }),
       ],
     );

@@ -99,6 +99,18 @@ class _ItinerariesState extends State<Itineraries> {
   }
 }
 
+class AdaptiveItineraryCard extends StatelessWidget {
+  const AdaptiveItineraryCard({required this.itinerary, required this.onTap, super.key});
+
+  final Itinerary itinerary;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text("");
+  }
+}
+
 class ItineraryCard extends StatelessWidget {
   const ItineraryCard({
     required this.itinerary,
