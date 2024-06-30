@@ -12,7 +12,7 @@ class LegacyFormScreen extends StatefulWidget {
 
 class _LegacyFormScreenState extends State<LegacyFormScreen> {
   int numPeople = 1;
-  String selectedLocation = '';
+  String? selectedLocation;
 
   void decreaseNumPeople() {
     setState(() {
@@ -163,7 +163,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
   }
 }
 
-class LocationPicker extends StatelessWidget {
+class LocationPicker extends StatefulWidget {
   const LocationPicker(
       {required this.selected, required this.onSelect, super.key});
 
@@ -171,69 +171,59 @@ class LocationPicker extends StatelessWidget {
   final void Function(String) onSelect;
 
   @override
+  State<LocationPicker> createState() => _LocationPickerState();
+}
+
+class _LocationPickerState extends State<LocationPicker> {
+  List<Map<String, String>> destinations = [
+    {
+      'image': 'https://rstr.in/google/tripedia/TmR12QdlVTT',
+      'title': 'Europe',
+    },
+    {
+      'image': 'https://rstr.in/google/tripedia/VJ8BXlQg8O1',
+      'title': 'Asia',
+    },
+    {
+      'image': 'https://rstr.in/google/tripedia/flm_-o1aI8e',
+      'title': 'South America',
+    },
+    {
+      'image': 'https://rstr.in/google/tripedia/-nzi8yFOBpF',
+      'title': 'Africa',
+    },
+    {
+      'image': 'https://rstr.in/google/tripedia/jlbgFDrSUVE',
+      'title': 'North America',
+    },
+    {
+      'image': 'https://rstr.in/google/tripedia/vxyrDE-fZVL',
+      'title': 'Oceania',
+    },
+    {
+      'image': 'https://rstr.in/google/tripedia/z6vy6HeRyvZ',
+      'title': 'Australia',
+    },
+  ];
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.horizontal,
-      children: [
-        LocationItem(
-          onTap: onSelect,
-          fade: (selected == 'Europe' || selected == null) ? false : true,
-          name: 'Europe',
-          image: const AssetImage(
-            'assets/images/coronado-island.jpeg',
+      children: List.generate(destinations.length, (index) {
+        var destination = destinations[index];
+        return LocationItem(
+          onTap: widget.onSelect,
+          fade: (widget.selected == null ||
+                  widget.selected == destination['title'])
+              ? false
+              : true,
+          name: destination['title']!,
+          image: NetworkImage(
+            destination['image']!,
           ),
-        ),
-        LocationItem(
-          onTap: onSelect,
-          fade: (selected == 'Asia' || selected == null) ? false : true,
-          name: 'Asia',
-          image: const AssetImage(
-            'assets/images/la-jolla.jpeg',
-          ),
-        ),
-        LocationItem(
-          onTap: onSelect,
-          fade:
-              (selected == 'South America' || selected == null) ? false : true,
-          image: const AssetImage(
-            'assets/images/louvre.png',
-          ),
-          name: 'South America',
-        ),
-        LocationItem(
-          onTap: onSelect,
-          fade: (selected == 'Africa' || selected == null) ? false : true,
-          image: const AssetImage(
-            'assets/images/san-diego.jpeg',
-          ),
-          name: 'Africa',
-        ),
-        LocationItem(
-          onTap: onSelect,
-          fade:
-              (selected == 'North America' || selected == null) ? false : true,
-          image: const AssetImage(
-            'assets/images/seine.png',
-          ),
-          name: 'North America',
-        ),
-        LocationItem(
-          onTap: onSelect,
-          fade: (selected == 'Oceania' || selected == null) ? false : true,
-          image: const AssetImage(
-            'assets/images/paris.png',
-          ),
-          name: 'Oceania',
-        ),
-        LocationItem(
-          onTap: onSelect,
-          fade: (selected == 'Australia' || selected == null) ? false : true,
-          image: const AssetImage(
-            'assets/images/marine-life.jpeg',
-          ),
-          name: 'Australia',
-        )
-      ],
+        );
+      }),
     );
   }
 }
@@ -248,7 +238,7 @@ class LocationItem extends StatelessWidget {
   });
 
   final String name;
-  final AssetImage image;
+  final ImageProvider image;
   final Function(String) onTap;
   final bool fade;
 
