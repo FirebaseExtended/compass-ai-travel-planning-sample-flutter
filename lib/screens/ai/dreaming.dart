@@ -15,22 +15,23 @@ class DreamingScreen extends StatefulWidget {
   State<DreamingScreen> createState() => _DreamingScreenState();
 }
 
-class Pair<S,T> {
+class Pair<S, T> {
   late S first;
   late T second;
 
   Pair(this.first, this.second);
 }
+
 final smallDeviceDimens = <Pair<EdgeInsets, double>>[
   Pair(const EdgeInsets.only(top: -100, right: -100), 400),
   Pair(const EdgeInsets.only(top: 300, left: -100), 200),
-  Pair(const EdgeInsets.only(right:40, bottom: 250), 100),
+  Pair(const EdgeInsets.only(right: 40, bottom: 250), 100),
   Pair(const EdgeInsets.only(right: -100, bottom: -100), 400)
 ];
 final largeDeviceDimens = <Pair<EdgeInsets, double>>[
   Pair(const EdgeInsets.only(top: -85, right: 100), 400),
   Pair(const EdgeInsets.only(top: 300, left: 150), 250),
-  Pair(const EdgeInsets.only(right:370, bottom: 370), 100),
+  Pair(const EdgeInsets.only(right: 370, bottom: 370), 100),
   Pair(const EdgeInsets.only(right: 100, bottom: -50), 400)
 ];
 
@@ -113,7 +114,8 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
       child: RotatingWidget(
         width: dimens[0].second,
         child: Image.network(
-            width: dimens[0].second, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+            width: dimens[0].second,
+            'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
       ),
     ),
     Positioned(
@@ -122,7 +124,8 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
       child: RotatingWidget(
         width: dimens[1].second,
         child: Image.network(
-            width: dimens[1].second, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+            width: dimens[1].second,
+            'https://rstr.in/google/tripedia/llRpA9RuvTy'),
       ),
     ),
     Positioned(
@@ -131,7 +134,8 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
       child: RotatingWidget(
         width: dimens[2].second,
         child: Image.network(
-            width: dimens[2].second, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+            width: dimens[2].second,
+            'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
       ),
     ),
     Positioned(
@@ -142,7 +146,8 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
         child: ImageFiltered(
           imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
           child: Image.network(
-              width: dimens[3].second, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+              width: dimens[3].second,
+              'https://rstr.in/google/tripedia/Y292jg7Wr69'),
         ),
       ),
     ),

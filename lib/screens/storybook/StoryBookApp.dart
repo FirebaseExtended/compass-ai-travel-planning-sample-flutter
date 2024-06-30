@@ -10,6 +10,7 @@ import '../../data/models/itinerary.dart';
 import '../../main.dart';
 import '../../view_models/intineraries_viewmodel.dart';
 import '../ai/detailed_itinerary.dart';
+import '../splash.dart';
 
 void main() => runApp(StorybookApp());
 
@@ -22,8 +23,9 @@ class StorybookApp extends StatelessWidget {
     model.loadItineraries("pizza", null);
 
     return Storybook(
-      initialStory: 'Dreaming',
+      initialStory: 'Splash',
       stories: [
+        Story(name: 'Splash', builder: (context) => const Splash()),
         Story(
             name: "FormScreen",
             description: "FormScreen",
@@ -48,7 +50,6 @@ class StorybookApp extends StatelessWidget {
                 child: (width < 1000)
                     ? buildSmallItineraries(model)
                     : buildLargesItineraries(model),
-                //home: const MyHomePage(title: 'Flutter Demo Home Page'),
               );
             }),
         Story(
@@ -64,39 +65,41 @@ class StorybookApp extends StatelessWidget {
                     const SizedBox(
                       width: 48,
                     ),
-                    Expanded(child:
-                    Card(
+                    Expanded(
+                        child: Card(
                             elevation: 0.0,
                             color: colorScheme.surfaceContainerLowest,
                             child: Scaffold(
-                                backgroundColor: colorScheme.surfaceContainerLowest,
+                                backgroundColor:
+                                    colorScheme.surfaceContainerLowest,
                                 body: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 48, left: 24, right: 68),
-                                child: ListView(
-                                    children: List.generate(
-                                  model.itineraries!.first.dayPlans.length,
-                                  (day) {
-                                    var dayPlan =
-                                        model.itineraries!.first.dayPlans[day];
+                                    padding: const EdgeInsets.only(
+                                        top: 48, left: 24),
+                                    child: ListView(
+                                        children: List.generate(
+                                      model.itineraries!.first.dayPlans.length,
+                                      (day) {
+                                        var dayPlan = model
+                                            .itineraries!.first.dayPlans[day];
 
-                                    return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          DayTitle(
-                                              title:
-                                                  'Day ${dayPlan.dayNum.toString()}'),
-                                          DayStepper(
-                                            key: Key('stepper$day'),
-                                            activities: dayPlan.planForDay,
-                                          )
-                                        ]);
-                                  },
-                                )))))
+                                        return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              DayTitle(
+                                                  title:
+                                                      'Day ${dayPlan.dayNum.toString()}'),
+                                              DayStepper(
+                                                key: Key('stepper$day'),
+                                                activities: dayPlan.planForDay,
+                                              )
+                                            ]);
+                                      },
+                                    )))))
 
-                    // ),
-                    )]));
+                        // ),
+                        )
+                  ]));
             }),
       ],
     );

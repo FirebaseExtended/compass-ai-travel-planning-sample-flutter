@@ -194,8 +194,6 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
           ),
         ));
   }
-
-
 }
 
 class DayTitle extends StatelessWidget {
