@@ -36,7 +36,14 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Theme(
+      data: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.black,
+          dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+        ),
+      ),
+      child: Scaffold(
         appBar: AppBar(
           actions: [
             Padding(
@@ -98,13 +105,23 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                           ),
                           onPressed: () async {
                             DateTimeRange? tripDates = await showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return DateRangePickerDialog(
+                              context: context,
+                              builder: (context) {
+                                return Theme(
+                                  data: ThemeData(
+                                    colorScheme: ColorScheme.fromSeed(
+                                      seedColor: Colors.black,
+                                      dynamicSchemeVariant:
+                                          DynamicSchemeVariant.monochrome,
+                                    ),
+                                  ),
+                                  child: DateRangePickerDialog(
                                     firstDate: DateTime.now(),
                                     lastDate: DateTime.parse('2028-01-01'),
-                                  );
-                                });
+                                  ),
+                                );
+                              },
+                            );
 
                             if (tripDates == null) return;
 
@@ -185,7 +202,9 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
               ]),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
