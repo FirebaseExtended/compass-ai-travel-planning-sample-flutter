@@ -35,6 +35,7 @@ class Thumbnail extends StatelessWidget {
                     textAlign: TextAlign.center,
                     imageTitle,
                     style: const TextStyle(
+                      height: 1.1,
                       color: Colors.white,
                       fontSize: 18,
                     ),
