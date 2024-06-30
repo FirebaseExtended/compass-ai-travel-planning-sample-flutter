@@ -194,6 +194,8 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
           ),
         ));
   }
+
+
 }
 
 class DayTitle extends StatelessWidget {
@@ -289,55 +291,6 @@ class _DayStepperState extends State<DayStepper> {
               content: Text(widget.activities[index].description),
             );
           }),
-          /*Step(
-            stepStyle: StepStyle(
-              connectorThickness: 0,
-              color: Colors.transparent,
-            ),
-            title: Text('Louvre Museum Guided Tour',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-            subtitle: Text('May 14, Morning'),
-            content: Padding(
-              padding: EdgeInsets.fromLTRB(24, 0, 8, 0),
-              child: Text(
-                  "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
-            ),
-          ),
-          Step(
-            stepStyle: StepStyle(
-              connectorThickness: 0,
-              color: Colors.transparent,
-            ),
-            title: Text('Seine River Cruise',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-            subtitle: Text('May 14, Afternoon'),
-            content: Padding(
-              padding: EdgeInsets.fromLTRB(24, 0, 8, 0),
-              child: Text(
-                "Parisian allure awaits on the Seine River aboard traditional, luxurious vessels.",
-              ),
-            ),
-          ),
-          Step(
-            stepStyle: StepStyle(
-              connectorThickness: 0,
-              color: Colors.transparent,
-            ),
-            title: Text('Louvre Museum Guided Tour',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-            subtitle: Text('May 14, Evening'),
-            content: Padding(
-              padding: EdgeInsets.fromLTRB(24, 0, 8, 0),
-              child: Text(
-                  "Explore the Louvre's treasures with a guided tour unveils art's rich history."),
-            ),
-          ),*/
         ],
       ),
     );

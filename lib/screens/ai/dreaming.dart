@@ -15,6 +15,25 @@ class DreamingScreen extends StatefulWidget {
   State<DreamingScreen> createState() => _DreamingScreenState();
 }
 
+class Pair<S,T> {
+  late S first;
+  late T second;
+
+  Pair(this.first, this.second);
+}
+final smallDeviceDimens = <Pair<EdgeInsets, double>>[
+  Pair(const EdgeInsets.only(top: -100, right: -100), 400),
+  Pair(const EdgeInsets.only(top: 300, left: -100), 200),
+  Pair(const EdgeInsets.only(right:40, bottom: 250), 100),
+  Pair(const EdgeInsets.only(right: -100, bottom: -100), 400)
+];
+final largeDeviceDimens = <Pair<EdgeInsets, double>>[
+  Pair(const EdgeInsets.only(top: -85, right: 100), 400),
+  Pair(const EdgeInsets.only(top: 300, left: 150), 250),
+  Pair(const EdgeInsets.only(right:370, bottom: 370), 100),
+  Pair(const EdgeInsets.only(right: 100, bottom: -50), 400)
+];
+
 class _DreamingScreenState extends State<DreamingScreen> {
   late final itinerariesVM = context.read<ItinerariesViewModel>();
 
@@ -82,81 +101,94 @@ class _DreamingScreenState extends State<DreamingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: const Color(0xff352F34),
-      appBar: brandedAppBar,
-      body: Stack(children: [
-        Positioned(
-          top: -100,
-          right: -100,
-          child: RotatingWidget(
-            width: 400,
-            child: Image.network(
-                width: 400, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
-          ),
-        ),
-        Positioned(
-          top: 300,
-          left: -100,
-          child: RotatingWidget(
-            width: 200,
-            child: Image.network(
-                width: 200, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
-          ),
-        ),
-        Positioned(
-          bottom: 250,
-          right: 40,
-          child: RotatingWidget(
-            width: 100,
-            child: Image.network(
-                width: 100, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
-          ),
-        ),
-        Positioned(
-          bottom: -100,
-          right: -100,
-          child: RotatingWidget(
-            width: 400,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Image.network(
-                  width: 400, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
-            ),
-          ),
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const AppLogo(dimension: 38),
-                Text(
-                  'Dreaming',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 32,
-                  ),
-                ),
-                const SizedBox.square(
-                  dimension: 8,
-                ),
-                const SizedBox(
-                  width: 150,
-                  child: LinearProgressIndicator(),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ]),
-    );
+    return buildDreamScreen(context);
   }
+}
+
+List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
+  return <Widget>[
+    Positioned(
+      top: dimens[0].first.top,
+      right: dimens[0].first.right,
+      child: RotatingWidget(
+        width: dimens[0].second,
+        child: Image.network(
+            width: dimens[0].second, 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+      ),
+    ),
+    Positioned(
+      top: dimens[1].first.top,
+      left: dimens[1].first.left,
+      child: RotatingWidget(
+        width: dimens[1].second,
+        child: Image.network(
+            width: dimens[1].second, 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+      ),
+    ),
+    Positioned(
+      bottom: dimens[2].first.bottom,
+      right: dimens[2].first.right,
+      child: RotatingWidget(
+        width: dimens[2].second,
+        child: Image.network(
+            width: dimens[2].second, 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+      ),
+    ),
+    Positioned(
+      bottom: dimens[3].first.bottom,
+      right: dimens[3].first.right,
+      child: RotatingWidget(
+        width: dimens[3].second,
+        child: ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+          child: Image.network(
+              width: dimens[3].second, 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+        ),
+      ),
+    ),
+  ];
+}
+
+Widget buildDreamScreen(BuildContext context) {
+  var isTablet = MediaQuery.sizeOf(context).shortestSide < 800;
+  var dimens = isTablet ? smallDeviceDimens : largeDeviceDimens;
+
+  return Scaffold(
+    extendBodyBehindAppBar: true,
+    backgroundColor: const Color(0xff352F34),
+    appBar: brandedAppBar,
+    body: Stack(children: [
+      ..._buildRotatedWidgets(dimens),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const AppLogo(dimension: 38),
+              Text(
+                'Dreaming',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 32,
+                ),
+              ),
+              const SizedBox.square(
+                dimension: 8,
+              ),
+              const SizedBox(
+                width: 150,
+                child: LinearProgressIndicator(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ]),
+  );
 }
 
 class RotatingWidget extends StatefulWidget {
