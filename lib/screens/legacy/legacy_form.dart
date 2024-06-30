@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tripedia/utilties.dart';
 
 import '../components/thumbnail.dart';
 
@@ -13,6 +14,7 @@ class LegacyFormScreen extends StatefulWidget {
 class _LegacyFormScreenState extends State<LegacyFormScreen> {
   int numPeople = 1;
   String? selectedLocation;
+  DateTimeRange? tripDateRange;
 
   void decreaseNumPeople() {
     setState(() {
@@ -78,18 +80,42 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                       border: Border.all(color: Colors.grey[300]!),
                       borderRadius: BorderRadius.circular(16.0),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'When',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
                         ),
-                        Text(
-                          'Add Dates',
+                        TextButton(
+                          style: const ButtonStyle(
+                            padding: WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+                            ),
+                          ),
+                          onPressed: () async {
+                            DateTimeRange? tripDates = await showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DateRangePickerDialog(
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime.parse('2028-01-01'),
+                                  );
+                                });
+
+                            if (tripDates == null) return;
+
+                            setState(() {
+                              tripDateRange = tripDates;
+                            });
+                          },
+                          child: tripDateRange != null
+                              ? Text(
+                                  '${shortenedDate(tripDateRange!.start.toString())} – ${shortenedDate(tripDateRange!.end.toString().toString())}')
+                              : const Text('Add Dates'),
                         ),
                       ],
                     ),
