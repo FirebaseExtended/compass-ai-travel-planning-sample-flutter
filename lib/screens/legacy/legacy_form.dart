@@ -12,6 +12,7 @@ class LegacyFormScreen extends StatefulWidget {
 
 class _LegacyFormScreenState extends State<LegacyFormScreen> {
   int numPeople = 1;
+  String selectedLocation = '';
 
   void decreaseNumPeople() {
     setState(() {
@@ -22,6 +23,12 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
   void increaseNumPeople() {
     setState(() {
       numPeople += 1;
+    });
+  }
+
+  void selectLocation(String location) {
+    setState(() {
+      selectedLocation = location;
     });
   }
 
@@ -51,64 +58,105 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 64),
           child: Column(
             children: [
-              const SizedBox(height: 120, child: LocationPicker()),
-              const SizedBox.square(
-                dimension: 24,
+              Expanded(
+                child: Column(children: [
+                  SizedBox(
+                      height: 120,
+                      child: LocationPicker(
+                        selected: selectedLocation,
+                        onSelect: selectLocation,
+                      )),
+                  const SizedBox.square(
+                    dimension: 24,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[300]!),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'When',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          'Add Dates',
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox.square(
+                    dimension: 16,
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey[300]!),
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Who',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        QuantityInput(
+                          value: numPeople,
+                          onDecrease: decreaseNumPeople,
+                          onIncrease: increaseNumPeople,
+                          min: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
               ),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'When',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+              Row(children: [
+                Expanded(
+                  child: TextButton(
+                    style: ButtonStyle(
+                      shadowColor: WidgetStatePropertyAll(
+                          Theme.of(context).colorScheme.primaryContainer),
+                      padding: const WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 8,
+                        ),
+                      ),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      backgroundColor: const WidgetStatePropertyAll(
+                        Colors.black,
                       ),
                     ),
-                    Text(
-                      'Add Dates',
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Who',
+                    onPressed: () {},
+                    child: const Text(
+                      'Search',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
-                    QuantityInput(
-                      value: numPeople,
-                      onDecrease: decreaseNumPeople,
-                      onIncrease: increaseNumPeople,
-                      min: 1,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ]),
             ],
           ),
         ));
@@ -116,56 +164,103 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
 }
 
 class LocationPicker extends StatelessWidget {
-  const LocationPicker({super.key});
+  const LocationPicker(
+      {required this.selected, required this.onSelect, super.key});
+
+  final String? selected;
+  final void Function(String) onSelect;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       scrollDirection: Axis.horizontal,
-      children: const [
-        Thumbnail(
-          image: AssetImage(
+      children: [
+        LocationItem(
+          onTap: onSelect,
+          fade: (selected == 'Europe' || selected == null) ? false : true,
+          name: 'Europe',
+          image: const AssetImage(
             'assets/images/coronado-island.jpeg',
           ),
-          title: 'Europe',
         ),
-        Thumbnail(
-          image: AssetImage(
+        LocationItem(
+          onTap: onSelect,
+          fade: (selected == 'Asia' || selected == null) ? false : true,
+          name: 'Asia',
+          image: const AssetImage(
             'assets/images/la-jolla.jpeg',
           ),
-          title: 'Asia',
         ),
-        Thumbnail(
-          image: AssetImage(
+        LocationItem(
+          onTap: onSelect,
+          fade:
+              (selected == 'South America' || selected == null) ? false : true,
+          image: const AssetImage(
             'assets/images/louvre.png',
           ),
-          title: 'South America',
+          name: 'South America',
         ),
-        Thumbnail(
-          image: AssetImage(
+        LocationItem(
+          onTap: onSelect,
+          fade: (selected == 'Africa' || selected == null) ? false : true,
+          image: const AssetImage(
             'assets/images/san-diego.jpeg',
           ),
-          title: 'Africa',
+          name: 'Africa',
         ),
-        Thumbnail(
-          image: AssetImage(
+        LocationItem(
+          onTap: onSelect,
+          fade:
+              (selected == 'North America' || selected == null) ? false : true,
+          image: const AssetImage(
             'assets/images/seine.png',
           ),
-          title: 'North America',
+          name: 'North America',
         ),
-        Thumbnail(
-          image: AssetImage(
+        LocationItem(
+          onTap: onSelect,
+          fade: (selected == 'Oceania' || selected == null) ? false : true,
+          image: const AssetImage(
             'assets/images/paris.png',
           ),
-          title: 'Oceania',
+          name: 'Oceania',
         ),
-        Thumbnail(
-          image: AssetImage(
+        LocationItem(
+          onTap: onSelect,
+          fade: (selected == 'Australia' || selected == null) ? false : true,
+          image: const AssetImage(
             'assets/images/marine-life.jpeg',
           ),
-          title: 'Australia',
+          name: 'Australia',
         )
       ],
+    );
+  }
+}
+
+class LocationItem extends StatelessWidget {
+  const LocationItem({
+    required this.name,
+    required this.image,
+    required this.onTap,
+    this.fade = false,
+    super.key,
+  });
+
+  final String name;
+  final AssetImage image;
+  final Function(String) onTap;
+  final bool fade;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onTap(name),
+      child: Thumbnail(
+        faded: fade,
+        image: image,
+        title: name,
+      ),
     );
   }
 }
@@ -195,7 +290,9 @@ class QuantityInput extends StatelessWidget {
 
             onDecrease();
           },
-          icon: const Icon(Icons.remove_circle_outline),
+          icon: const Icon(
+            Icons.remove_circle_outline,
+          ),
         ),
         Text(value.toString()),
         IconButton(

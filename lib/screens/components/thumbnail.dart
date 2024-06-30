@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 
 class Thumbnail extends StatelessWidget {
-  const Thumbnail({required this.image, this.title, super.key});
+  const Thumbnail(
+      {required this.image, this.title, this.faded = false, super.key});
 
   final ImageProvider image;
   final String? title;
+  final bool faded;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,8 @@ class Thumbnail extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(right: 8),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
         width: 120,
         height: 120,
         decoration: BoxDecoration(
@@ -21,6 +24,7 @@ class Thumbnail extends StatelessWidget {
           image: DecorationImage(
             image: image,
             fit: BoxFit.cover,
+            opacity: faded ? 0.5 : 1.0,
           ),
         ),
         child: Center(
