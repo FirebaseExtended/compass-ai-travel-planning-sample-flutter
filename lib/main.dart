@@ -22,10 +22,24 @@ void main() {
 final _router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => const Splash()),
-    GoRoute(
-      path: '/legacy',
-      builder: (context, state) => const LegacyFormScreen(),
-    ),
+    ShellRoute(
+        builder: (context, state, child) {
+          return Theme(
+            data: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.black,
+                dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+              ),
+            ),
+            child: child,
+          );
+        },
+        routes: [
+          GoRoute(
+            path: '/legacy',
+            builder: (context, state) => const LegacyFormScreen(),
+          ),
+        ]),
     GoRoute(
       path: '/ai',
       builder: (context, state) => const FormScreen(),
