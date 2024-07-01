@@ -182,7 +182,9 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                       Colors.black,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push('/legacy/results');
+                  },
                   child: const Text(
                     'Search',
                     style: TextStyle(
