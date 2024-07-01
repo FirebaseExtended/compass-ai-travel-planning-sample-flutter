@@ -13,7 +13,7 @@ class _ActivityTileState extends State<ActivityTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       child: Row(
         children: [
           Container(
