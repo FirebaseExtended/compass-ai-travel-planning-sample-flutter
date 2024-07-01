@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+
 import '../../common/themes/colors.dart';
 import '../../results/presentation/result_card.dart';
 import '../../results/presentation/results_viewmodel.dart';
@@ -71,32 +73,59 @@ class _Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 60, bottom: 24),
-        child: Container(
-          height: 64,
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.grey1),
-            borderRadius: BorderRadius.circular(16.0),
-          ),
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Text(
-                viewModel.filters,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  height: 0,
-                  leadingDistribution: TextLeadingDistribution.even,
+            padding: const EdgeInsets.only(top: 60, bottom: 24),
+            child: Container(
+              height: 64,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.grey1),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    '${viewModel.filters} • StartDate – EndDate • 2 People',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                      leadingDistribution: TextLeadingDistribution.even,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
+        Padding(
+          padding: const EdgeInsets.only(top: 60, bottom: 24),
+          child: IconButton(
+            style: ButtonStyle(
+              side: WidgetStatePropertyAll(
+                BorderSide(color: Colors.grey[300]!),
+              ),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+            onPressed: () => context.go('/'),
+            icon: const Icon(
+              Icons.home_outlined,
+            ),
+          ),
+        )
+      ],
+    ));
   }
 }

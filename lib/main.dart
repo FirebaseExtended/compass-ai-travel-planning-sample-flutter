@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tripedia/screens/legacy/activities/activities_screen.dart';
 import 'package:tripedia/screens/legacy/legacy_form.dart';
 import 'package:tripedia/screens/legacy/results/presentation/results_screen.dart';
 import 'package:tripedia/screens/legacy/results/presentation/results_viewmodel.dart';
@@ -29,19 +30,20 @@ final _router = GoRouter(
     ShellRoute(
         builder: (context, state, child) {
           return ChangeNotifierProvider(
-              create: (context) => ResultsViewModel(
-                    searchDestinationUsecase: SearchDestinationUsecase(
-                        repository: DestinationRepositoryLocal()),
-                  ),
-              child: Theme(
-                data: ThemeData(
-                  colorScheme: ColorScheme.fromSeed(
-                    seedColor: Colors.black,
-                    dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
-                  ),
+            create: (context) => ResultsViewModel(
+              searchDestinationUsecase: SearchDestinationUsecase(
+                  repository: DestinationRepositoryLocal()),
+            ),
+            child: Theme(
+              data: ThemeData(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.black,
+                  dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
                 ),
-                child: child,
-              ));
+              ),
+              child: child,
+            ),
+          );
         },
         routes: [
           GoRoute(
@@ -51,6 +53,10 @@ final _router = GoRouter(
               GoRoute(
                 path: 'results',
                 builder: (context, state) => const ResultsScreen(),
+              ),
+              GoRoute(
+                path: 'activities',
+                builder: (context, state) => const ActivitiesScreen(),
               ),
             ],
           ),
