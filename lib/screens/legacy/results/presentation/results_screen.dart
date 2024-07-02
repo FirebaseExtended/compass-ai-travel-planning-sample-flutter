@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../activities/activity.dart';
+import '../../../../utilties.dart';
 
 class ResultsScreen extends StatelessWidget {
   const ResultsScreen({
@@ -95,14 +96,17 @@ class _Search extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
-                  child: Text(
-                    '${viewModel.filters} • StartDate – EndDate • 2 People',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                      leadingDistribution: TextLeadingDistribution.even,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      '${viewModel.filters} • ${prettyDate(context.read<TravelPlan>().query!.dates.start.toString())} – ${prettyDate(context.read<TravelPlan>().query!.dates.end.toString())} • 2 People',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                        leadingDistribution: TextLeadingDistribution.even,
+                      ),
                     ),
                   ),
                 ),
