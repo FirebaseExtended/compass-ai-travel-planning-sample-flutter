@@ -1,4 +1,31 @@
-class Activity {
+import 'package:flutter/material.dart';
+
+import '../results/business/model/destination.dart';
+
+class TravelQuery {
+  String location;
+  DateTimeRange dates;
+  int numPeople;
+
+  TravelQuery({
+    required this.location,
+    required this.dates,
+    required this.numPeople,
+  });
+}
+
+class TravelPlan {
+  TravelQuery query;
+  Destination destination;
+  List<LegacyActivity> activities = [];
+
+  TravelPlan({
+    required this.query,
+    required this.destination,
+  });
+}
+
+class LegacyActivity {
   int duration;
   String ref;
   String locationName;
@@ -10,7 +37,7 @@ class Activity {
   bool familyFriendly;
   String timeOfDay;
 
-  Activity({
+  LegacyActivity({
     required this.duration,
     required this.ref,
     required this.locationName,
@@ -25,11 +52,11 @@ class Activity {
 
   @override
   String toString() {
-    return 'Activity(ref: $ref, name: $name, duration: $duration, locationName: $locationName, price: $price, destination: $destination, imageUrl: $imageUrl, description: $description, familyFriendly: $familyFriendly, timeOfDay: $timeOfDay)';
+    return 'LegacyActivity(ref: $ref, name: $name, duration: $duration, locationName: $locationName, price: $price, destination: $destination, imageUrl: $imageUrl, description: $description, familyFriendly: $familyFriendly, timeOfDay: $timeOfDay)';
   }
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    return Activity(
+  factory LegacyActivity.fromJson(Map<String, dynamic> json) {
+    return LegacyActivity(
       duration: json['duration'] as int,
       ref: json['ref'] as String,
       locationName: json['locationName'] as String,
