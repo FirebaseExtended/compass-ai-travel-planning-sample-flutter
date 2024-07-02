@@ -29,8 +29,7 @@ class _ActivityTileState extends State<ActivityTile> {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(widget.activity.imageUrl),
-              ),
-              color: Colors.green, // b
+              ), // b
             ),
           ),
           Expanded(

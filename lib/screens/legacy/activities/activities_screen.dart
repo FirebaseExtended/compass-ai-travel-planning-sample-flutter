@@ -20,6 +20,22 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
     //print(context.watch<TravelPlan>().query.toString());
     var activities = context.watch<ActivitiesViewModel>().activities;
 
+    var morningActivities = activities.where((activity) {
+      return activity.timeOfDay == 'morning';
+    }).toList();
+
+    var afternoonActivities = activities.where((activity) {
+      return activity.timeOfDay == 'afternoon';
+    }).toList();
+
+    var eveningActivities = activities.where((activity) {
+      return activity.timeOfDay == 'evening';
+    }).toList();
+
+    var anyTimeActivities = activities.where((activity) {
+      return activity.timeOfDay == 'any';
+    }).toList();
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Activities'),
@@ -55,15 +71,32 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
               Padding(
                 padding: EdgeInsets.only(bottom: 4),
                 child: Text(
-                  'Daytime',
+                  'Morning',
                   style: TextStyle(
                     fontSize: 18,
                   ),
                 ),
               ),
-              ...List.generate(activities.length, (index) {
+              ...List.generate(morningActivities.length, (index) {
                 return ActivityTile(
-                  activity: activities[index],
+                  activity: morningActivities[index],
+                );
+              }),
+              SizedBox.square(
+                dimension: 16,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 4),
+                child: Text(
+                  'Afternoon',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              ...List.generate(afternoonActivities.length, (index) {
+                return ActivityTile(
+                  activity: afternoonActivities[index],
                 );
               }),
               SizedBox.square(
@@ -78,6 +111,28 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                   ),
                 ),
               ),
+              ...List.generate(eveningActivities.length, (index) {
+                return ActivityTile(
+                  activity: eveningActivities[index],
+                );
+              }),
+              SizedBox.square(
+                dimension: 16,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 4),
+                child: Text(
+                  'Anytime',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              ...List.generate(anyTimeActivities.length, (index) {
+                return ActivityTile(
+                  activity: anyTimeActivities[index],
+                );
+              }),
             ],
           ),
         ),
