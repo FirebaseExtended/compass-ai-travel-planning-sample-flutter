@@ -12,17 +12,39 @@ class TravelQuery {
     required this.dates,
     required this.numPeople,
   });
+
+  @override
+  String toString() {
+    return 'TravelQuery(location: $location, dates: start: ${dates.start} end: ${dates.end}, numPeople: $numPeople)';
+  }
 }
 
-class TravelPlan {
-  TravelQuery query;
-  Destination destination;
-  List<LegacyActivity> activities = [];
+class TravelPlan extends ChangeNotifier {
+  TravelQuery? query;
+  Destination? destination;
+  Set<LegacyActivity> activities = {};
 
-  TravelPlan({
-    required this.query,
-    required this.destination,
-  });
+  TravelPlan();
+
+  void setQuery(TravelQuery userQuery) {
+    query = userQuery;
+    notifyListeners();
+  }
+
+  void setDestination(Destination selectedDestination) {
+    destination = selectedDestination;
+    notifyListeners();
+  }
+
+  void addActivity(LegacyActivity selectedActivity) {
+    activities.add(selectedActivity);
+    notifyListeners();
+  }
+
+  void removeActivity(LegacyActivity selectedActivity) {
+    activities.remove(selectedActivity);
+    notifyListeners();
+  }
 }
 
 class LegacyActivity {

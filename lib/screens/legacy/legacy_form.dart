@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:tripedia/utilties.dart';
 
 import '../components/thumbnail.dart';
+import 'activities/activity.dart';
+import './results/presentation/results_viewmodel.dart';
 
 class LegacyFormScreen extends StatefulWidget {
   const LegacyFormScreen({super.key});
@@ -32,6 +35,21 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
     setState(() {
       selectedLocation = location;
     });
+  }
+
+  void setQuery() {
+    var location = selectedLocation;
+    var date = tripDateRange;
+
+    if (location == null || date == null) return;
+
+    context.read<TravelPlan>().setQuery(
+          TravelQuery(location: location, dates: date, numPeople: numPeople),
+        );
+
+    context.read<ResultsViewModel>().search(continent: location);
+
+    context.push('/legacy/results');
   }
 
   @override
@@ -182,9 +200,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                       Colors.black,
                     ),
                   ),
-                  onPressed: () {
-                    context.push('/legacy/results');
-                  },
+                  onPressed: setQuery,
                   child: const Text(
                     'Search',
                     style: TextStyle(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:tripedia/screens/legacy/activities/activity_list_tile.dart';
+import 'package:tripedia/screens/legacy/detailed_itinerary/legacy_itinerary.dart';
+
+import '../activities/activity.dart';
 
 class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({super.key});
@@ -12,6 +16,8 @@ class ActivitiesScreen extends StatefulWidget {
 class _ActivitiesScreenState extends State<ActivitiesScreen> {
   @override
   Widget build(BuildContext context) {
+    print(context.read<TravelPlan>().query.toString());
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Activities'),
@@ -88,7 +94,23 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push(
+                      '/legacy/itinerary',
+                    );
+
+                    /*LegacyItinerary(
+                        travelPlan: TravelPlan(
+                          query: TravelQuery(
+                              location: 'Europe',
+                              dates: DateTimeRange(
+                                  start: DateTime.now(), end: DateTime.now()),
+                              numPeople: 2),
+                        ),
+                        destination: Destination(),
+          
+                      );*/
+                  },
                   style: ButtonStyle(
                     padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(

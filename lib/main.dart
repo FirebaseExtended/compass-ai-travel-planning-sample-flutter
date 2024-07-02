@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tripedia/screens/legacy/activities/activities_screen.dart';
+import 'package:tripedia/screens/legacy/activities/activity.dart';
+import 'package:tripedia/screens/legacy/detailed_itinerary/legacy_itinerary.dart';
 import 'package:tripedia/screens/legacy/legacy_form.dart';
 import 'package:tripedia/screens/legacy/results/presentation/results_screen.dart';
 import 'package:tripedia/screens/legacy/results/presentation/results_viewmodel.dart';
@@ -29,11 +31,18 @@ final _router = GoRouter(
     GoRoute(path: '/', builder: (context, state) => const Splash()),
     ShellRoute(
         builder: (context, state, child) {
-          return ChangeNotifierProvider(
-            create: (context) => ResultsViewModel(
-              searchDestinationUsecase: SearchDestinationUsecase(
-                  repository: DestinationRepositoryLocal()),
-            ),
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ResultsViewModel>(
+                create: (_) => ResultsViewModel(
+                  searchDestinationUsecase: SearchDestinationUsecase(
+                      repository: DestinationRepositoryLocal()),
+                ),
+              ),
+              ChangeNotifierProvider<TravelPlan>(
+                create: (_) => TravelPlan(),
+              ),
+            ],
             child: Theme(
               data: ThemeData(
                 colorScheme: ColorScheme.fromSeed(
@@ -57,6 +66,10 @@ final _router = GoRouter(
               GoRoute(
                 path: 'activities',
                 builder: (context, state) => const ActivitiesScreen(),
+              ),
+              GoRoute(
+                path: 'itinerary',
+                builder: (context, state) => const LegacyItinerary(),
               ),
             ],
           ),

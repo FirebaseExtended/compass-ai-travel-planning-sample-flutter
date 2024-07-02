@@ -6,6 +6,8 @@ import '../../results/presentation/results_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../activities/activity.dart';
+
 class ResultsScreen extends StatelessWidget {
   const ResultsScreen({
     super.key,
@@ -13,6 +15,8 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(context.read<TravelPlan>().query);
+
     return Scaffold(
       body: Consumer<ResultsViewModel>(
         builder: (context, viewModel, child) {
