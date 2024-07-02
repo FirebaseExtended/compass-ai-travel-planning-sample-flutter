@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tripedia/screens/legacy/activities/activity.dart';
 
 class ActivityTile extends StatefulWidget {
@@ -77,6 +78,7 @@ class _ActivityTileState extends State<ActivityTile> {
             side: BorderSide(color: Colors.grey[600]!, width: 1),
             value: checked,
             onChanged: (val) {
+              context.read<TravelPlan>().toggleActivity(widget.activity);
               setState(() {
                 checked = !checked;
               });

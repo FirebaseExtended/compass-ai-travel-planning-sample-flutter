@@ -143,7 +143,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '3 Selected',
+                  '${context.watch<TravelPlan>().activities.length} Selected',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[700],

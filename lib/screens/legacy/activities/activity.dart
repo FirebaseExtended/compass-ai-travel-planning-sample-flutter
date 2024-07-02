@@ -36,8 +36,10 @@ class TravelPlan extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addActivity(LegacyActivity selectedActivity) {
-    activities.add(selectedActivity);
+  void toggleActivity(LegacyActivity selectedActivity) {
+    activities.contains(selectedActivity)
+        ? activities.remove(selectedActivity)
+        : activities.add(selectedActivity);
     notifyListeners();
   }
 
