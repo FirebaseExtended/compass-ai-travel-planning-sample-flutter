@@ -89,3 +89,33 @@ class _ActivityTileState extends State<ActivityTile> {
     );
   }
 }
+
+class ActivityDetailTile extends StatelessWidget {
+  const ActivityDetailTile({required this.activity, super.key});
+
+  final LegacyActivity activity;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      minTileHeight: 100,
+      leading: Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
+          ),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(activity.imageUrl),
+          ), // b
+        ),
+      ),
+      title: Text(activity.name),
+      children: [
+        Text(activity.description),
+      ],
+    );
+  }
+}

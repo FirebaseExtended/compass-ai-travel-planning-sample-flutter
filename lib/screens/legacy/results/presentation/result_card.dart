@@ -21,6 +21,7 @@ class ResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
+          context.read<TravelPlan>().destination = destination;
           context
               .read<ActivitiesViewModel>()
               .search(location: destination.name);

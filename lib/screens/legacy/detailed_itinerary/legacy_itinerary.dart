@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/screens/legacy/activities/activity_list_tile.dart';
+import 'package:tripedia/screens/legacy/common/widgets/tag_chip.dart';
 import 'package:tripedia/utilties.dart';
 
 import '../activities/activity.dart';
@@ -56,6 +58,15 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                         style: TextStyle(
                           fontSize: 8,
                           color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: destination.tags.length,
+                          itemBuilder: (context, index) =>
+                              TagChip(tag: destination.tags[index]),
                         ),
                       ),
                     ],
@@ -136,11 +147,14 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
               padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
+                  Text(destination.knownFor),
                   const Text('Your Chosen Activities'),
                   ...List.generate(
                     activities.length,
                     (activityIndex) {
-                      return Text(activities.elementAt(activityIndex).name);
+                      return ActivityDetailTile(
+                        activity: activities.elementAt(activityIndex),
+                      );
                     },
                   )
                 ]
