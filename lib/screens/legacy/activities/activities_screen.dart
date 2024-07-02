@@ -71,6 +71,23 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
               Padding(
                 padding: EdgeInsets.only(bottom: 4),
                 child: Text(
+                  'Anytime',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              ...List.generate(anyTimeActivities.length, (index) {
+                return ActivityTile(
+                  activity: anyTimeActivities[index],
+                );
+              }),
+              SizedBox.square(
+                dimension: 16,
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 4),
+                child: Text(
                   'Morning',
                   style: TextStyle(
                     fontSize: 18,
@@ -119,20 +136,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
               SizedBox.square(
                 dimension: 16,
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: Text(
-                  'Anytime',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              ...List.generate(anyTimeActivities.length, (index) {
-                return ActivityTile(
-                  activity: anyTimeActivities[index],
-                );
-              }),
             ],
           ),
         ),
