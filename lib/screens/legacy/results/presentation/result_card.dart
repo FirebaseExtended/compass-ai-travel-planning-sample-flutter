@@ -1,9 +1,13 @@
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:tripedia/screens/legacy/activities/activity.dart';
 
 import '../../common/themes/text_styles.dart';
 import '../../common/widgets/tag_chip.dart';
 import '../../results/business/model/destination.dart';
 import 'package:flutter/material.dart';
+
+import '../../activities/activities_viewmodel.dart';
 
 class ResultCard extends StatelessWidget {
   const ResultCard({
@@ -16,7 +20,12 @@ class ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => context.push('/legacy/activities'),
+        onTap: () {
+          context
+              .read<ActivitiesViewModel>()
+              .search(location: destination.name);
+          context.push('/legacy/activities');
+        },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0),
           // TODO: Improve image loading and caching

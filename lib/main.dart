@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tripedia/screens/legacy/activities/activities_screen.dart';
+import 'package:tripedia/screens/legacy/activities/activities_viewmodel.dart';
 import 'package:tripedia/screens/legacy/activities/activity.dart';
 import 'package:tripedia/screens/legacy/detailed_itinerary/legacy_itinerary.dart';
 import 'package:tripedia/screens/legacy/legacy_form.dart';
@@ -19,6 +20,8 @@ import 'screens/ai/dreaming.dart';
 import 'view_models/intineraries_viewmodel.dart';
 import 'screens/legacy/results/business/usecases/search_destination_usecase.dart';
 import 'screens/legacy/results/data/destination_repository_local.dart';
+import './screens/legacy/activities/search_activity_usecase.dart';
+import './screens/legacy/activities/data/legacy_activity_repository_local.dart';
 
 void main() {
   Animate.restartOnHotReload = true;
@@ -37,6 +40,12 @@ final _router = GoRouter(
                 create: (_) => ResultsViewModel(
                   searchDestinationUsecase: SearchDestinationUsecase(
                       repository: DestinationRepositoryLocal()),
+                ),
+              ),
+              ChangeNotifierProvider<ActivitiesViewModel>(
+                create: (_) => ActivitiesViewModel(
+                  searchActivityUsecase: SearchActivityUsecase(
+                      repository: ActivityRepositoryLocal()),
                 ),
               ),
               ChangeNotifierProvider<TravelPlan>(

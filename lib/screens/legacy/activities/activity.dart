@@ -48,10 +48,10 @@ class TravelPlan extends ChangeNotifier {
 }
 
 class LegacyActivity {
-  int duration;
+  num duration;
   String ref;
   String locationName;
-  double price;
+  num price;
   String imageUrl;
   String destination;
   String name;
@@ -79,10 +79,10 @@ class LegacyActivity {
 
   factory LegacyActivity.fromJson(Map<String, dynamic> json) {
     return LegacyActivity(
-      duration: json['duration'] as int,
+      duration: json['duration'] as num,
       ref: json['ref'] as String,
       locationName: json['locationName'] as String,
-      price: json['price'] as double,
+      price: json['price'] as num,
       imageUrl: json['imageUrl'] as String,
       destination: json['destination'] as String,
       name: json['name'] as String,

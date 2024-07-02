@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/screens/legacy/activities/activity_list_tile.dart';
 import 'package:tripedia/screens/legacy/detailed_itinerary/legacy_itinerary.dart';
+import '../activities/activities_viewmodel.dart';
 
 import '../activities/activity.dart';
 
@@ -16,7 +17,9 @@ class ActivitiesScreen extends StatefulWidget {
 class _ActivitiesScreenState extends State<ActivitiesScreen> {
   @override
   Widget build(BuildContext context) {
-    print(context.read<TravelPlan>().query.toString());
+    print(context.watch<TravelPlan>().query.toString());
+    print(
+        'Activities Screen: ${context.watch<ActivitiesViewModel>().activities}');
 
     return Scaffold(
         appBar: AppBar(
