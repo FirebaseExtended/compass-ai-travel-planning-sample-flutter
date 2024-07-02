@@ -17,9 +17,8 @@ class ActivitiesScreen extends StatefulWidget {
 class _ActivitiesScreenState extends State<ActivitiesScreen> {
   @override
   Widget build(BuildContext context) {
-    print(context.watch<TravelPlan>().query.toString());
-    print(
-        'Activities Screen: ${context.watch<ActivitiesViewModel>().activities}');
+    //print(context.watch<TravelPlan>().query.toString());
+    var activities = context.watch<ActivitiesViewModel>().activities;
 
     return Scaffold(
         appBar: AppBar(
@@ -62,9 +61,11 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                   ),
                 ),
               ),
-              ActivityTile(),
-              ActivityTile(),
-              ActivityTile(),
+              ...List.generate(activities.length, (index) {
+                return ActivityTile(
+                  activity: activities[index],
+                );
+              }),
               SizedBox.square(
                 dimension: 16,
               ),
@@ -77,9 +78,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                   ),
                 ),
               ),
-              ActivityTile(),
-              ActivityTile(),
-              ActivityTile(),
             ],
           ),
         ),
