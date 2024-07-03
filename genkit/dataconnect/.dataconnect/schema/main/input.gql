@@ -1,0 +1,107 @@
+scalar Activity_Key
+scalar Place_Key
+input Activity_Data {
+  ref: String
+  ref_expr: String_Expr
+  destinationRef: String
+  destinationRef_expr: String_Expr
+  placeRef: String
+  placeRef_expr: String_Expr
+  place: Place_Key
+  description: String
+  description_expr: String_Expr
+  duration: Float
+  embedding: Vector
+  embedding_embed: Vector_Embed
+  familyFriendly: Boolean
+  imageUrl: String
+  imageUrl_expr: String_Expr
+  locationName: String
+  locationName_expr: String_Expr
+  name: String
+  name_expr: String_Expr
+  price: Float
+  timeOfDay: String
+  timeOfDay_expr: String_Expr
+}
+input Activity_Filter {
+  _and: [Activity_Filter!]
+  _not: Activity_Filter
+  _or: [Activity_Filter!]
+  ref: String_Filter
+  destinationRef: String_Filter
+  placeRef: String_Filter
+  place: Place_Filter
+  description: String_Filter
+  duration: Float_Filter
+  embedding: Vector_Filter
+  familyFriendly: Boolean_Filter
+  imageUrl: String_Filter
+  locationName: String_Filter
+  name: String_Filter
+  price: Float_Filter
+  timeOfDay: String_Filter
+}
+input Activity_ListFilter {
+  count: Int_Filter
+  exist: Activity_Filter
+}
+input Activity_Order {
+  ref: OrderDirection
+  destinationRef: OrderDirection
+  placeRef: OrderDirection
+  place: Place_Order
+  description: OrderDirection
+  duration: OrderDirection
+  embedding: OrderDirection
+  familyFriendly: OrderDirection
+  imageUrl: OrderDirection
+  locationName: OrderDirection
+  name: OrderDirection
+  price: OrderDirection
+  timeOfDay: OrderDirection
+}
+input Place_Data {
+  ref: String
+  ref_expr: String_Expr
+  continent: String
+  continent_expr: String_Expr
+  country: String
+  country_expr: String_Expr
+  embedding: Vector
+  embedding_embed: Vector_Embed
+  imageUrl: String
+  imageUrl_expr: String_Expr
+  knownFor: String
+  knownFor_expr: String_Expr
+  name: String
+  name_expr: String_Expr
+  tags: [String!]
+}
+input Place_Filter {
+  _and: [Place_Filter!]
+  _not: Place_Filter
+  _or: [Place_Filter!]
+  ref: String_Filter
+  continent: String_Filter
+  country: String_Filter
+  embedding: Vector_Filter
+  imageUrl: String_Filter
+  knownFor: String_Filter
+  name: String_Filter
+  tags: String_ListFilter
+  activities_on_place: Activity_ListFilter
+}
+input Place_ListFilter {
+  count: Int_Filter
+  exist: Place_Filter
+}
+input Place_Order {
+  ref: OrderDirection
+  continent: OrderDirection
+  country: OrderDirection
+  embedding: OrderDirection
+  imageUrl: OrderDirection
+  knownFor: OrderDirection
+  name: OrderDirection
+}

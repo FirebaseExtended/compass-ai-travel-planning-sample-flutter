@@ -1,0 +1,7 @@
+connectorId: "my-connector"
+authMode: "PUBLIC"
+generate:
+  javascriptSdk:
+    outputDir: "../../compass-generated"
+    package: "@compass/backend"
+    packageJsonDir: "../../"

@@ -1,0 +1,50 @@
+extend type Mutation {
+  """
+  Insert a single Activity into the table. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  activity_insert(data: Activity_Data!): Activity_Key!
+  """
+  Insert a single Place into the table. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  place_insert(data: Place_Data!): Place_Key!
+  """
+  Insert or update a single Activity into the table, based on the primary key. Returns the key of the newly inserted Activity.
+  """
+  activity_upsert(data: Activity_Data!): Activity_Key!
+  """
+  Insert or update a single Place into the table, based on the primary key. Returns the key of the newly inserted Place.
+  """
+  place_upsert(data: Place_Data!): Place_Key!
+  """
+  Update a single Activity based on `id` or `key`, setting columns specified in `data`. Returns `null` if not found.
+  """
+  activity_update(key: Activity_Key, data: Activity_Data!): Activity_Key
+  """
+  Update a single Place based on `id` or `key`, setting columns specified in `data`. Returns `null` if not found.
+  """
+  place_update(key: Place_Key, data: Place_Data!): Place_Key
+  """
+  Update Activity entries matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  activity_updateMany(where: Activity_Filter, all: Boolean = false, data: Activity_Data!): Int!
+  """
+  Update Place entries matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
+  """
+  place_updateMany(where: Place_Filter, all: Boolean = false, data: Place_Data!): Int!
+  """
+  Delete a single Activity based on `id` or `key` and return its key (or `null` if not found).
+  """
+  activity_delete(key: Activity_Key): Activity_Key
+  """
+  Delete a single Place based on `id` or `key` and return its key (or `null` if not found).
+  """
+  place_delete(key: Place_Key): Place_Key
+  """
+  Delete Activity entries matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  activity_deleteMany(where: Activity_Filter, all: Boolean = false): Int!
+  """
+  Delete Place entries matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
+  """
+  place_deleteMany(where: Place_Filter, all: Boolean = false): Int!
+}

@@ -1,0 +1,4 @@
+steps:
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args: ["run", "deploy", "tripedia-genkit-exp", "--region", "us-central1", "--project", "yt-rag",  "--source", ".", "--allow-unauthenticated"]
