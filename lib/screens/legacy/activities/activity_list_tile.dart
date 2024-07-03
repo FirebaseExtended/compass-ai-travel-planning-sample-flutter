@@ -99,7 +99,7 @@ class ActivityDetailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       tilePadding: const EdgeInsets.all(0),
-      childrenPadding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+      childrenPadding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
       maintainState: true,
       minTileHeight: 100,
       leading: Container(
