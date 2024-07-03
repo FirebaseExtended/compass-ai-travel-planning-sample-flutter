@@ -7,6 +7,7 @@ exports.restaurantFinder = void 0;
 const tool_1 = require("@genkit-ai/ai/tool");
 const axios_1 = __importDefault(require("axios"));
 const zod_1 = require("zod");
+const keys_1 = require("../config/keys");
 exports.restaurantFinder = (0, tool_1.defineTool)({
     name: 'restaurantFinder',
     description: `Used when needing to find a restaurant based on a users location.
@@ -25,7 +26,7 @@ exports.restaurantFinder = (0, tool_1.defineTool)({
     const response = await axios_1.default.post(geocodeEndpoint, JSON.stringify(textQuery), {
         headers: {
             "Content-Type": "application/json",
-            "X-Goog-Api-Key": "AIzaSyCJIrZkGH04TIXcP2t8hvo97yKwGmwD-1k",
+            "X-Goog-Api-Key": keys_1.MAPS_API_KEY,
             "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel,places.photos.name,places.editorialSummary,places.googleMapsUri"
         }
     });

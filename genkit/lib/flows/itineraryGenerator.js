@@ -8,7 +8,6 @@ const zod_1 = require("zod");
 const placeRetriever_1 = require("../retrievers/placeRetriever");
 const types_1 = require("../common/types");
 const tripPlan_1 = require("./shared/tripPlan");
-const translation_1 = require("./shared/translation");
 exports.itineraryGenerator2 = (0, flow_1.defineFlow)({
     name: 'itineraryGenerator2',
     inputSchema: types_1.ItineraryRequest,
@@ -25,11 +24,9 @@ exports.itineraryGenerator2 = (0, flow_1.defineFlow)({
         return result.text();
     });
     const location = await (0, flow_1.run)('determineLocation', async () => {
-        // We need the english version of the request for better embedding support.
-        const enRequest = await (0, translation_1.translatedRequest)(tripDetails.request);
         const docs = await (0, retriever_1.retrieve)({
             retriever: placeRetriever_1.placeRetriever,
-            query: `Given the following information about a location, determine which location matches this description : ${placeDescription} ${enRequest}`,
+            query: `Given the following information about a location, determine which location matches this description : ${placeDescription} ${tripDetails.request}`,
             options: {
                 k: 3,
             },
