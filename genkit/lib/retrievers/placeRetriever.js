@@ -1,0 +1,35 @@
+"use strict";
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.placeRetriever = exports.QueryOptions = void 0;
+const backend_1 = require("@compass/backend");
+const retriever_1 = require("@genkit-ai/ai/retriever");
+const zod_1 = require("zod");
+const firebase_1 = require("../config/firebase");
+exports.QueryOptions = zod_1.z.object({
+    k: zod_1.z.number().optional(),
+});
+exports.placeRetriever = (0, retriever_1.defineRetriever)({
+    name: 'postgres-placeRetriever',
+    configSchema: exports.QueryOptions,
+}, async (input, options) => {
+    const result = await (0, backend_1.getNearestPlace)(firebase_1.dataConnectInstance, { placeDescription: input.text() });
+    const resultData = result.data;
+    return {
+        documents: resultData.places_embedding_similarity.map((row) => {
+            const { knownFor } = row, metadata = __rest(row, ["knownFor"]);
+            return retriever_1.Document.fromText(knownFor, metadata);
+        }),
+    };
+});
+//# sourceMappingURL=placeRetriever.js.map

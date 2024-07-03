@@ -1,0 +1,28 @@
+extend type Query {
+  """
+  Look up a single Activity based on `id` or `key` and return selected fields (or `null` if not found).
+  """
+  activity(key: Activity_Key): Activity
+  """
+  Look up a single Place based on `id` or `key` and return selected fields (or `null` if not found).
+  """
+  place(key: Place_Key): Place
+  """
+  List Activity entries in the table, optionally filtered by `where` conditions.
+  """
+  activities(where: Activity_Filter, orderBy: [Activity_Order!], limit: Int = 100): [Activity!]!
+  """
+  List Place entries in the table, optionally filtered by `where` conditions.
+  """
+  places(where: Place_Filter, orderBy: [Place_Order!], limit: Int = 100): [Place!]!
+  """
+  List Activity entries ordered by vector similarity between the `embedding` field and `compare_embed`.
+  (Alternatively, `compare` can be used if the input is a raw Vector.)
+  """
+  activities_embedding_similarity(compare: Vector, compare_embed: Vector_Embed, method: VectorSimilarityMethod = INNER_PRODUCT, within: Float, where: Activity_Filter, limit: Int = 100): [Activity!]!
+  """
+  List Place entries ordered by vector similarity between the `embedding` field and `compare_embed`.
+  (Alternatively, `compare` can be used if the input is a raw Vector.)
+  """
+  places_embedding_similarity(compare: Vector, compare_embed: Vector_Embed, method: VectorSimilarityMethod = INNER_PRODUCT, within: Float, where: Place_Filter, limit: Int = 100): [Place!]!
+}

@@ -1,0 +1,15 @@
+---
+model: vertexai/gemini-1.5-flash-preview
+config:
+  temperature: 1.0
+  version: gemini-1.5-flash-001
+input:
+  schema:
+    properties:
+      images: {type: array}
+---
+
+Describe these image(s) in a detailed paragraph as though it was a tourist destination. Do not give the name of the location,
+only give a description of what you see in the image and what you think a toursit would like it described as in a dream vacation.
+
+{{#each images}}{{media url=this}}{{/each}}
