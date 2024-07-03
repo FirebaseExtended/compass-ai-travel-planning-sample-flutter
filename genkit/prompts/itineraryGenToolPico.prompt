@@ -18,7 +18,6 @@ input:
     placeDescription: string, A description of that place.
     activities(array, a stringify list of activities that can be found at the specified place): string
     restaurants?(array, a stringify list of all the restaurants found at that location): string
-    languageCode?: string, requested output language code.
 output:
   schema:
     place: string, The place the user is traveling to.
@@ -71,11 +70,8 @@ Each restaurant must also include  an activitiyRef, activityTitle, and activityD
 {{/if}}
 Output must be in JSON format.
 
-Output must be in the language of the REQUEST and in the desired LANGUAGE CODE: {{languageCode}}
-
 REQUEST : {{request}}
 PLACE : {{place}}
 PLACE DESCRIPTION : {{placeDescription}}
 AVAILABLE ACTIVITIES : {{activities}}
 RESTAURANTS : {{restaurants}}
-LANGUAGE CODE :	{{languageCode}}

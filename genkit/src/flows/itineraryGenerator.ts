@@ -5,7 +5,6 @@ import { z } from "zod";
 import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
 import { tripPlan2 } from './shared/tripPlan';
-import { translatedRequest } from './shared/translation';
 
 export const itineraryGenerator2 = defineFlow(
     {
@@ -25,11 +24,9 @@ export const itineraryGenerator2 = defineFlow(
         return result.text();
       });
       const location = await run('determineLocation', async () => {
-        // We need the english version of the request for better embedding support.
-        const enRequest = await translatedRequest(tripDetails.request);
         const docs = await retrieve({
           retriever: placeRetriever,
-          query: `Given the following information about a location, determine which location matches this description : ${placeDescription} ${enRequest}`,
+          query: `Given the following information about a location, determine which location matches this description : ${placeDescription} ${tripDetails.request}`,
           options: {
             k: 3,
           },

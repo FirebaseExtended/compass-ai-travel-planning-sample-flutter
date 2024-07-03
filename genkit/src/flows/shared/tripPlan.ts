@@ -3,7 +3,8 @@ import { dataConnectInstance, firebaseConfig } from "../../config/firebase";
 import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from "../../common/types";
 import { restaurantFinder } from "../../tools/restaurantFinder";
 import { prompt } from '@genkit-ai/dotprompt';
-import { determineRequestLanguage } from "./translation";
+import axios from "axios";
+import { MAPS_API_KEY } from "../../config/keys";
 
 
 const getPlaceActivities = async (placeID: string): Promise<string[]> => {
@@ -17,7 +18,6 @@ const getPlaceActivities = async (placeID: string): Promise<string[]> => {
   };
 
 const generateItineraryForPlace = async (request: string, location: Destination, activityDescs: string[], rFormatted: string[]):Promise<ItineraryGeneratorOutput> => {
-    const detectedLanguage = await determineRequestLanguage(request);
     const itineraryPrompt = await prompt('itineraryGenToolPico');
     const result = await itineraryPrompt.generate({
         input: {
@@ -26,15 +26,37 @@ const generateItineraryForPlace = async (request: string, location: Destination,
         placeDescription: location!.knownFor,
         activities: activityDescs,
         restaurants: rFormatted,
-        languageCode: detectedLanguage,
         }
     });
     return result.output() as ItineraryGeneratorOutput;
 }
 
-const formatPhoto = (activityRef: string, locationRef: string, photoUri?: string) => {
+/**
+ * Exchange Photo URI exchanges the resource URI with a resolved photo locaiton
+ * so we can help prevent accidental Google Maps API key leakage to the client
+ * and we return a default uri if non is resolved for cases that we get a
+* fictional uri endpoint.
+* @param photoUri - URI of the Google Maps photo
+* @returns a Promise to the string url
+*/
+const exchangePhotoUri = (photoUri: string): Promise<string> => {
+    const exchangeUrl = `https://places.googleapis.com/v1/${photoUri}/media?maxHeightPx=400&maxWidthPx=400&key=${MAPS_API_KEY}&skipHttpRedirect=true`;
+    let url = new Promise<string>((resolve, reject) => {
+    axios.get(exchangeUrl)
+        .then((result) => {
+            resolve(result.data.photoUri);
+        })
+        .catch((e) => {
+            console.log("Cannot find Photo URI, using default URI");
+            resolve("https://storage.googleapis.com/compass-imgs/default/dinerDefault.png");
+        })
+    });
+    return url;
+}
+
+const formatPhoto = async (activityRef: string, locationRef: string, photoUri?: string): Promise<string> => {
     if (photoUri != undefined && photoUri != "") {
-        return `https://places.googleapis.com/v1/${photoUri}/media?maxHeightPx=400&maxWidthPx=400&key=${firebaseConfig.apiKey}`;
+        return exchangePhotoUri(photoUri);
     }
     return `https://storage.googleapis.com/compass-imgs/activities/${locationRef}_${activityRef}.jpg`;
 }
@@ -76,7 +98,7 @@ const restaurantSearch = async (locationName: string, request: string): Promise<
  * @param locationRef The ref identifier for the location selected
  * @returns 
  */
-const cleanUpGeneratedItinerary = (
+const cleanUpGeneratedItinerary = async (
     output: ItineraryGeneratorOutput,
     locationImgUrl: string,
     locationRef: string,
@@ -86,7 +108,7 @@ const cleanUpGeneratedItinerary = (
     for (var i = 0; i < output.itinerary.length; i++) {
         const dayPlan = output.itinerary[i].planForDay;
         for (var j = 0; j < dayPlan.length; j++) {
-        dayPlan[j].imgUrl = formatPhoto(
+        dayPlan[j].imgUrl = await formatPhoto(
             dayPlan[j]['activityRef'],
             locationRef,
             dayPlan[j].photoUri,

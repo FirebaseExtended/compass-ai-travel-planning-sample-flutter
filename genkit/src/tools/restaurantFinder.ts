@@ -2,6 +2,7 @@ import { defineTool } from "@genkit-ai/ai/tool";
 import axios from "axios";
 import { z } from "zod";
 import { PlaceResponse } from "../common/types";
+import { MAPS_API_KEY } from "../config/keys";
 
 export const restaurantFinder = defineTool(
     {
@@ -27,7 +28,7 @@ export const restaurantFinder = defineTool(
           {
             headers: {
               "Content-Type": "application/json",
-              "X-Goog-Api-Key": "AIzaSyCJIrZkGH04TIXcP2t8hvo97yKwGmwD-1k",
+              "X-Goog-Api-Key": MAPS_API_KEY,
               "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel,places.photos.name,places.editorialSummary,places.googleMapsUri"
             }
           }
