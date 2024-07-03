@@ -4,7 +4,13 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/data/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tripedia/screens/legacy/activities/activities_screen.dart';
+import 'package:tripedia/screens/legacy/activities/activities_viewmodel.dart';
+import 'package:tripedia/screens/legacy/activities/activity.dart';
+import 'package:tripedia/screens/legacy/detailed_itinerary/legacy_itinerary.dart';
 import 'package:tripedia/screens/legacy/legacy_form.dart';
+import 'package:tripedia/screens/legacy/results/presentation/results_screen.dart';
+import 'package:tripedia/screens/legacy/results/presentation/results_viewmodel.dart';
 import 'package:tripedia/screens/splash.dart';
 import 'package:tripedia/utilties.dart';
 
@@ -12,6 +18,10 @@ import 'screens/ai/form.dart';
 import 'screens/ai/itineraries.dart';
 import 'screens/ai/dreaming.dart';
 import 'view_models/intineraries_viewmodel.dart';
+import 'screens/legacy/results/business/usecases/search_destination_usecase.dart';
+import 'screens/legacy/results/data/destination_repository_local.dart';
+import './screens/legacy/activities/search_activity_usecase.dart';
+import './screens/legacy/activities/data/legacy_activity_repository_local.dart';
 
 void main() {
   Animate.restartOnHotReload = true;
@@ -22,10 +32,57 @@ void main() {
 final _router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => const Splash()),
-    GoRoute(
-      path: '/legacy',
-      builder: (context, state) => const LegacyFormScreen(),
-    ),
+    ShellRoute(
+        builder: (context, state, child) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ResultsViewModel>(
+                create: (_) => ResultsViewModel(
+                  searchDestinationUsecase: SearchDestinationUsecase(
+                      repository: DestinationRepositoryLocal()),
+                ),
+              ),
+              ChangeNotifierProvider<ActivitiesViewModel>(
+                create: (_) => ActivitiesViewModel(
+                  searchActivityUsecase: SearchActivityUsecase(
+                      repository: ActivityRepositoryLocal()),
+                ),
+              ),
+              ChangeNotifierProvider<TravelPlan>(
+                create: (_) => TravelPlan(),
+              ),
+            ],
+            child: Theme(
+              data: ThemeData(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: Colors.black,
+                  dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+                ),
+              ),
+              child: child,
+            ),
+          );
+        },
+        routes: [
+          GoRoute(
+            path: '/legacy',
+            builder: (context, state) => const LegacyFormScreen(),
+            routes: [
+              GoRoute(
+                path: 'results',
+                builder: (context, state) => const ResultsScreen(),
+              ),
+              GoRoute(
+                path: 'activities',
+                builder: (context, state) => const ActivitiesScreen(),
+              ),
+              GoRoute(
+                path: 'itinerary',
+                builder: (context, state) => const LegacyItinerary(),
+              ),
+            ],
+          ),
+        ]),
     GoRoute(
       path: '/ai',
       builder: (context, state) => const FormScreen(),
