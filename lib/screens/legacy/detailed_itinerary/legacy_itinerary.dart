@@ -40,11 +40,9 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
           slivers: [
             SliverAppBar(
               expandedHeight: 240,
-              pinned: true,
-              floating: false,
               centerTitle: true,
               flexibleSpace: FlexibleSpaceBar(
-                titlePadding: EdgeInsets.fromLTRB(16, 0, 0, 16),
+                titlePadding: const EdgeInsets.fromLTRB(16, 0, 0, 16),
                 centerTitle: true,
                 expandedTitleScale: 2.25,
                 title: Align(
