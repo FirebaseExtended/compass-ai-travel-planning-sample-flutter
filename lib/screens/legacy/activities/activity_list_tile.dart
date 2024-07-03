@@ -98,10 +98,13 @@ class ActivityDetailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      tilePadding: const EdgeInsets.all(0),
+      childrenPadding: EdgeInsets.fromLTRB(8, 0, 8, 16),
+      maintainState: true,
       minTileHeight: 100,
       leading: Container(
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(8),
@@ -113,6 +116,7 @@ class ActivityDetailTile extends StatelessWidget {
         ),
       ),
       title: Text(activity.name),
+      subtitle: Text(activity.timeOfDay),
       children: [
         Text(activity.description),
       ],

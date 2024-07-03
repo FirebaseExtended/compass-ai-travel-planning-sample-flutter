@@ -40,29 +40,33 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
           slivers: [
             SliverAppBar(
               expandedHeight: 240,
-              pinned: false,
+              pinned: true,
               floating: false,
+              centerTitle: true,
               flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.fromLTRB(16, 0, 0, 16),
                 centerTitle: true,
                 expandedTitleScale: 2.25,
-                title: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 24, 8),
+                title: Align(
+                  alignment: Alignment.bottomLeft,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         destination.name,
+                        maxLines: 2,
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                       Text(
                         '${prettyDate(query.dates.start.toString())} - ${prettyDate(query.dates.end.toString())}',
+                        maxLines: 2,
                         style: TextStyle(
-                          fontSize: 8,
+                          fontSize: 10,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
@@ -142,12 +146,21 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
               ],
             ),
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  Text(destination.knownFor),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+                    child: Text(
+                      destination.knownFor,
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                   const SizedBox.square(
-                    dimension: 16,
+                    dimension: 24,
                   ),
                   SizedBox(
                     height: 20,
@@ -164,9 +177,12 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                     ),
                   ),
                   const SizedBox.square(
-                    dimension: 16,
+                    dimension: 24,
                   ),
-                  const Text('Your Chosen Activities'),
+                  const Text(
+                    'Your Chosen Activities',
+                    style: TextStyle(fontSize: 18),
+                  ),
                   ...List.generate(
                     activities.length,
                     (activityIndex) {
