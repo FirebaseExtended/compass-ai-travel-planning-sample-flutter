@@ -76,8 +76,8 @@ class _ActivityTileState extends State<ActivityTile> {
                                           widget.activity.imageUrl),
                                     ),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(16, 0, 16, 8),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 0, 16, 8),
                                       child: Column(
                                         children: [
                                           Padding(
