@@ -95,7 +95,7 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                               Colors.transparent
                             ],
                             stops: [
-                              0,
+                              0.2,
                               1
                             ]),
                       ),
@@ -160,15 +160,15 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                     ),
                   ),
                   const SizedBox.square(
-                    dimension: 24,
+                    dimension: 16,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 30,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: destination.tags.length,
                       itemBuilder: (context, index) =>
-                          TagChip(tag: destination.tags[index]),
+                          DetailTagChip(tag: destination.tags[index]),
                       separatorBuilder: (context, index) {
                         return const SizedBox.square(
                           dimension: 8,

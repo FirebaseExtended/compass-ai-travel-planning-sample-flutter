@@ -116,7 +116,7 @@ class ActivityDetailTile extends StatelessWidget {
         ),
       ),
       title: Text(activity.name),
-      subtitle: Text(activity.timeOfDay),
+      subtitle: Text('${activity.duration.toString()} hours'),
       children: [
         Text(activity.description),
       ],
