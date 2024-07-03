@@ -39,7 +39,6 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              collapsedHeight: kToolbarHeight + 20,
               expandedHeight: 240,
               pinned: false,
               floating: false,
@@ -67,15 +66,6 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: destination.tags.length,
-                          itemBuilder: (context, index) =>
-                              TagChip(tag: destination.tags[index]),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -91,7 +81,7 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: 240,
+                      height: 210,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             begin: FractionalOffset.bottomCenter,
@@ -144,8 +134,9 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                             WidgetStatePropertyAll(Colors.grey[300]),
                       ),
                       onPressed: () => context.go('/ai'),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.home_outlined,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     )),
               ],
@@ -155,6 +146,26 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   Text(destination.knownFor),
+                  const SizedBox.square(
+                    dimension: 16,
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: destination.tags.length,
+                      itemBuilder: (context, index) =>
+                          TagChip(tag: destination.tags[index]),
+                      separatorBuilder: (context, index) {
+                        return const SizedBox.square(
+                          dimension: 8,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox.square(
+                    dimension: 16,
+                  ),
                   const Text('Your Chosen Activities'),
                   ...List.generate(
                     activities.length,
