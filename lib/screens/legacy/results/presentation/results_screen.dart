@@ -77,6 +77,12 @@ class _Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var startDate =
+        prettyDate(context.read<TravelPlan>().query!.dates.start.toString());
+    var endDate =
+        prettyDate(context.read<TravelPlan>().query!.dates.end.toString());
+    var numPeople = context.read<TravelPlan>().query!.numPeople;
+
     return SliverToBoxAdapter(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +105,7 @@ class _Search extends StatelessWidget {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Text(
-                      '${viewModel.filters} • ${prettyDate(context.read<TravelPlan>().query!.dates.start.toString())} – ${prettyDate(context.read<TravelPlan>().query!.dates.end.toString())} • 2 People',
+                      '${viewModel.filters} • $startDate – $endDate • $numPeople ${numPeople == 1 ? 'person' : 'people'}',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 14,

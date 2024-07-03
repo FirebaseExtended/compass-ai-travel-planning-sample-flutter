@@ -97,6 +97,8 @@ class ActivityDetailTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var duration = activity.duration;
+
     return ExpansionTile(
       tilePadding: const EdgeInsets.all(0),
       childrenPadding: const EdgeInsets.fromLTRB(8, 0, 8, 16),
@@ -117,7 +119,7 @@ class ActivityDetailTile extends StatelessWidget {
       ),
       title: Text(activity.name),
       subtitle: Text(
-        '${activity.duration.toString()} hours',
+        '$duration ${duration <= 1 ? 'hour' : 'hours'}',
         style: TextStyle(
           color: Theme.of(context).colorScheme.secondary,
         ),
