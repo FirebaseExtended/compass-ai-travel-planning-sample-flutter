@@ -31,8 +31,18 @@ class TravelPlan extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearQuery() {
+    query = null;
+    notifyListeners();
+  }
+
   void setDestination(Destination selectedDestination) {
     destination = selectedDestination;
+    notifyListeners();
+  }
+
+  void clearDestination() {
+    destination = null;
     notifyListeners();
   }
 
@@ -43,8 +53,8 @@ class TravelPlan extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeActivity(LegacyActivity selectedActivity) {
-    activities.remove(selectedActivity);
+  void clearActivities() {
+    activities.clear();
     notifyListeners();
   }
 }

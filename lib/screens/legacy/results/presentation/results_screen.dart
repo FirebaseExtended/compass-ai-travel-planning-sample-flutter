@@ -88,6 +88,19 @@ class _Search extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 60, 0, 24),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).colorScheme.primaryFixedDim,
+            ),
+            onPressed: () {
+              context.read<TravelPlan>().clearQuery();
+              context.pop();
+            },
+          ),
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 60, bottom: 24),
