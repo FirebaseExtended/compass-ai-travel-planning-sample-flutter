@@ -116,9 +116,16 @@ class ActivityDetailTile extends StatelessWidget {
         ),
       ),
       title: Text(activity.name),
-      subtitle: Text('${activity.duration.toString()} hours'),
+      subtitle: Text(
+        '${activity.duration.toString()} hours',
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+      ),
       children: [
-        Text(activity.description),
+        Text(
+          activity.description,
+        ),
       ],
     );
   }

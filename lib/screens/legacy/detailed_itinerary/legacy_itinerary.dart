@@ -136,7 +136,7 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                         backgroundColor: const WidgetStatePropertyAll(
                             Color.fromARGB(170, 148, 136, 136)),
                       ),
-                      onPressed: () => context.go('/ai'),
+                      onPressed: () => context.go('/'),
                       icon: Icon(
                         Icons.home_outlined,
                         color: Theme.of(context).colorScheme.onPrimary,
