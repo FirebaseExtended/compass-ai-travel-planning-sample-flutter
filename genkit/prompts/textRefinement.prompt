@@ -1,0 +1,56 @@
+---
+model: vertexai/gemini-1.5-flash-preview
+config:
+  temperature: 1.0
+  safetySettings:
+  - category: HARM_CATEGORY_HATE_SPEECH
+    threshold: BLOCK_LOW_AND_ABOVE
+  - category: HARM_CATEGORY_DANGEROUS_CONTENT
+    threshold: BLOCK_ONLY_HIGH
+  - category: HARM_CATEGORY_HARASSMENT
+    threshold: BLOCK_LOW_AND_ABOVE
+  - category: HARM_CATEGORY_SEXUALLY_EXPLICIT
+    threshold: BLOCK_LOW_AND_ABOVE
+input:
+  schema:
+    request: string, a request from the user on where they want to travel to.
+output:
+  schema:
+    cost: boolean, Do we have information about the cost?
+    kids: boolean, Do we have information from the user about whether their children will be attending?
+    date: boolean, Do have information on when the user wants to start their trip?
+---
+
+Refine this request by asking the user for more information. If no extra information is needed,
+return a false for that value.
+
+Infer whether this information is avaiable and if it is, return true indicating that the question was answered.
+
+Example Input:
+
+I want take the family to a beach vacation.
+
+Exmaple Output:
+
+{cost: false, kids: true, date: false}
+
+Example Input:
+
+I want to go hiking in January for pizza with the entire family and spend less than 20 dollars
+
+Example Output:
+
+{cost: true, kids: true, date: true}
+
+Example Input:
+
+I want to go on a luxiourious vacation with the wife.
+
+Example Output:
+
+{cost: true, kids: true, date: false}
+
+Input:
+{{request}}
+
+Output:
