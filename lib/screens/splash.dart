@@ -80,55 +80,63 @@ class DreamTripButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: const Color(0xff9A62E1).withOpacity(0.3),
-            spreadRadius: 8,
-            blurRadius: 16,
-          )
-        ]),
-        child: TextButton(
-          style: ButtonStyle(
-            padding: const WidgetStatePropertyAll(
-              EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 8,
-              ),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: const Color(0xff9A62E1).withOpacity(0.3),
+          spreadRadius: 8,
+          blurRadius: 16,
+        )
+      ]),
+      child: TextButton(
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(
+            EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 8,
             ),
-            shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+          ),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            backgroundBuilder: (context, states, child) {
-              return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xff59B7EC),
-                      Color(0xff9A62E1),
-                      Color(0xffE66CF9),
-                    ],
-                    stops: [
-                      0.0,
-                      0.20,
-                      0.9,
-                    ],
-                  ),
+          ),
+          backgroundBuilder: (context, states, child) {
+            return Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xff59B7EC),
+                    Color(0xff9A62E1),
+                    Color(0xffE66CF9),
+                  ],
+                  stops: [
+                    0.0,
+                    0.20,
+                    0.9,
+                  ],
                 ),
-                child: child,
-              );
-            },
-          ),
-          onPressed: () => context.push('/ai'),
-          child: const Text(
-            'Plan my dream trip with AI',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
-        ));
+              ),
+              child: child,
+            );
+          },
+        ),
+        onPressed: () => context.push('/ai'),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                'Plan my dream trip with AI',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -145,7 +153,7 @@ class FindMyTripButton extends StatelessWidget {
             Theme.of(context).colorScheme.primaryContainer),
         padding: const WidgetStatePropertyAll(
           EdgeInsets.symmetric(
-            vertical: 16,
+            vertical: 8,
             horizontal: 8,
           ),
         ),
@@ -159,13 +167,18 @@ class FindMyTripButton extends StatelessWidget {
         ),
       ),
       onPressed: () => context.go('/legacy'),
-      child: const Text(
-        'Find my dream trip',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
+      child:
+          const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Center(
+          child: Text(
+            'Find my dream trip',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          ),
         ),
-      ),
+      ]),
     );
   }
 }

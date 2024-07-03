@@ -111,11 +111,12 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    backgroundColor: WidgetStatePropertyAll(Colors.grey[300]),
+                    backgroundColor: const WidgetStatePropertyAll(
+                        Color.fromARGB(170, 148, 136, 136)),
                   ),
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
@@ -132,13 +133,13 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        backgroundColor:
-                            WidgetStatePropertyAll(Colors.grey[300]),
+                        backgroundColor: const WidgetStatePropertyAll(
+                            Color.fromARGB(170, 148, 136, 136)),
                       ),
                       onPressed: () => context.go('/ai'),
                       icon: Icon(
                         Icons.home_outlined,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     )),
               ],
