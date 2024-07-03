@@ -16,6 +16,8 @@ class _ActivityTileState extends State<ActivityTile> {
 
   @override
   Widget build(BuildContext context) {
+    var duration = widget.activity.duration;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       child: Row(
@@ -40,33 +42,116 @@ class _ActivityTileState extends State<ActivityTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.activity.timeOfDay,
-                    style: TextStyle(fontSize: 10),
-                  ),
                   Text(widget.activity.name),
-                  TextButton(
-                    style: ButtonStyle(
-                      padding: const WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                  Row(children: [
+                    TextButton(
+                      style: ButtonStyle(
+                        padding: const WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                        ),
+                        side: WidgetStatePropertyAll(
+                          BorderSide(color: Colors.grey[300]!),
+                        ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
                       ),
-                      side: WidgetStatePropertyAll(
-                        BorderSide(color: Colors.grey[300]!),
-                      ),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(16),
+                                        topRight: Radius.circular(16),
+                                      ),
+                                      child: Image.network(
+                                          widget.activity.imageUrl),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(16, 0, 16, 8),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 16, 8, 0),
+                                            child: Text(
+                                              widget.activity.name,
+                                              textAlign: TextAlign.left,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 8, 8, 16),
+                                            child: Text(
+                                              widget.activity.description,
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton.icon(
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                icon: const Icon(Icons.close),
+                                                label: Text(
+                                                  'Close',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .outline,
+                                                  ),
+                                                ),
+                                                style: ButtonStyle(
+                                                  iconColor:
+                                                      WidgetStatePropertyAll(
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .outline,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
+                      },
+                      child: const Text(
+                        'Learn more',
+                        style: TextStyle(
+                          fontSize: 12,
                         ),
                       ),
                     ),
-                    onPressed: () {},
-                    child: const Text(
-                      'Learn more',
+                    const SizedBox.square(
+                      dimension: 24,
+                    ),
+                    Text(
+                      '$duration ${duration <= 1 ? 'hour' : 'hours'}',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                     ),
-                  )
+                  ]),
                 ],
               ),
             ),
