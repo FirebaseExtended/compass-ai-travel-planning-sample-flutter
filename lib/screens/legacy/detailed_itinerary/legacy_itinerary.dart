@@ -27,7 +27,15 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
       return const Placeholder();
     }
 
-    return Scaffold(
+    return Theme(
+      data: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+          seedColor: Colors.black,
+          brightness: Brightness.dark,
+        ),
+      ),
+      child: Scaffold(
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -44,7 +52,6 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //const AppLogo(dimension: 24),
                       Text(
                         destination.name,
                         style: TextStyle(
@@ -157,16 +164,7 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                       );
                     },
                   )
-                ]
-                    /*[
-                    const DayTitle(title: 'Day 1'),
-                    const DayStepper(key: Key('Stepper1')),
-                    const DayTitle(title: 'Day 2'),
-                    const DayStepper(key: Key('Stepper2')),
-                    const DayTitle(title: 'Day 3'),
-                    const DayStepper(key: Key('Stepper3')),
-                  ],*/
-                    ),
+                ]),
               ),
             )
           ],
@@ -174,9 +172,10 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
         bottomNavigationBar: SafeArea(
           child: Container(
             decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceTint,
                 border: Border(
                     top: BorderSide(
-                        color: Theme.of(context).colorScheme.outlineVariant))),
+                        color: Theme.of(context).colorScheme.outline))),
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
             child: ElevatedButton(
               onPressed: () {},
@@ -193,19 +192,21 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                   ),
                 ),
                 backgroundColor: WidgetStatePropertyAll(
-                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).colorScheme.surface,
                 ),
               ),
               child: Text(
                 'Share Trip',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).colorScheme.primary,
                   fontSize: 18,
                 ),
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
