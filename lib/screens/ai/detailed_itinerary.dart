@@ -21,7 +21,9 @@ class _DetailedItineraryState extends State<DetailedItinerary> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width;
-    return (width < 1024) ? SmallDetailedItinerary(widget: widget) : LargeDetailedItinerary(widget: widget);
+    return (width < 1024)
+        ? SmallDetailedItinerary(widget: widget)
+        : LargeDetailedItinerary(widget: widget);
   }
 }
 
@@ -185,9 +187,18 @@ class ShareTrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isLarge = MediaQuery.sizeOf(context).width >= 1024;
+
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
+            borderRadius: isLarge
+                ? const BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12))
+                : null,
+            color:
+                isLarge ? Theme.of(context).colorScheme.surfaceContainer : null,
             border: Border(
                 top: BorderSide(
                     color: Theme.of(context).colorScheme.outlineVariant))),
@@ -235,47 +246,44 @@ class LargeDetailedItinerary extends StatelessWidget {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     return Row(children: [
-      ItineraryCard(
-          itinerary: widget.itinerary, onTap: () {}),
+      const SizedBox.square(
+        dimension: 24,
+      ),
+      ItineraryCard(itinerary: widget.itinerary, onTap: () {}),
       const SizedBox(
         width: 48,
       ),
       Expanded(
           child: Card(
-              elevation: 0.0,
-              color: colorScheme.surfaceContainerLowest,
-              child: Scaffold(
-                  backgroundColor:
-                  colorScheme.surfaceContainerLowest,
-                  body: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 48, left: 24),
-                      child: ListView(
-                          children: List.generate(
-                            widget.itinerary.dayPlans.length,
-                                (day) {
-                              var dayPlan = widget.itinerary.dayPlans[day];
+        elevation: 1.0,
+        color: colorScheme.surfaceContainer,
+        child: Scaffold(
+          backgroundColor: colorScheme.surfaceContainerLowest,
+          body: Padding(
+              padding: const EdgeInsets.only(top: 48, left: 24),
+              child: ListView(
+                  children: List.generate(
+                widget.itinerary.dayPlans.length,
+                (day) {
+                  var dayPlan = widget.itinerary.dayPlans[day];
 
-                              return Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    DayTitle(
-                                        title:
-                                        'Day ${dayPlan.dayNum.toString()}'),
-                                    DayStepper(
-                                      key: Key('stepper$day'),
-                                      activities: dayPlan.planForDay,
-                                    )
-                                  ]);
-                            },
-                          ))),
-              bottomNavigationBar: const ShareTrip(),
-              ),
-          )
-
-        // ),
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DayTitle(title: 'Day ${dayPlan.dayNum.toString()}'),
+                        DayStepper(
+                          key: Key('stepper$day'),
+                          activities: dayPlan.planForDay,
+                        )
+                      ]);
+                },
+              ))),
+          bottomNavigationBar: const ShareTrip(),
+        ),
       )
+
+          // ),
+          )
     ]);
   }
 }

@@ -82,16 +82,19 @@ class ItineraryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mqWidth = MediaQuery.sizeOf(context).width;
+    var isLarge = mqWidth >= 1024;
 
     return GestureDetector(
         onTap: onTap,
         child: Card(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-                maxWidth: mqWidth * .5 > 800 ? 800 : mqWidth * .5),
+              maxWidth: isLarge ? mqWidth * .5 : 800,
+              minWidth: 350,
+            ),
             child: Container(
                 height: 650,
-                width: mqWidth * .85,
+                width: mqWidth * .8,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(12),
