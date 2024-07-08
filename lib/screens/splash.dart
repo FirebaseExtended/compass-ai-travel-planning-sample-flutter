@@ -16,7 +16,8 @@ class Splash extends StatelessWidget {
 
   Widget _buildSmallSplash() {
     return Scaffold(
-        body: Center(child:Padding(
+        body: Center(
+            child: Padding(
       padding: const EdgeInsets.fromLTRB(24, 48, 24, 72),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -24,6 +25,9 @@ class Splash extends StatelessWidget {
         children: [
           Expanded(
             child: Image.asset('assets/images/splash-image.png'),
+          ),
+          const SizedBox.square(
+            dimension: 16,
           ),
           ConstrainedBox(
               constraints: const BoxConstraints(
