@@ -272,29 +272,30 @@ class _FormScreenState extends State<FormScreen> {
                 children: [
                   const AppLogo(dimension: 72),
                   BrandGradient(
-                      child: Text(
-                          textAlign: TextAlign.left,
-                          "Dream Your Vacation",
-                          style: displayXLTextTheme))
+                    child: Text(
+                        textAlign: TextAlign.left,
+                        "Dream Your Vacation",
+                        style: displayXLTextTheme),
+                  )
                 ],
               )),
           const SizedBox(
             width: 32,
           ),
           Expanded(
-              flex: 5,
-              child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 48, bottom: 48, right: 32),
-                  child: Card(
-                    elevation: 0,
-                    color: colorScheme.surfaceContainerLowest,
-                    child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                            children:
-                                _buildInputBox(context, showTalkIcon: false))),
-                  ))),
+            flex: 5,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 48, bottom: 48, right: 32),
+              child: Card(
+                elevation: 0,
+                color: colorScheme.surfaceContainerLowest,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(children: _buildInputBox(context)),
+                ),
+              ),
+            ),
+          ),
         ],
       )),
     );
@@ -360,7 +361,55 @@ class _FormScreenState extends State<FormScreen> {
   List<Widget> _buildInputBox(BuildContext context, {showTalkIcon = true}) {
     return <Widget>[
       Expanded(
-        child: _buildPageView(context, paginate: showTalkIcon),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            useVoice
+                ? Center(
+                    child: TalkToMe(
+                      onVoiceInput: (String input) {
+                        setState(() {
+                          _queryController.text = input;
+                        });
+                      },
+                    ),
+                  ).animate().scale()
+                : Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        child: TextField(
+                          controller: _queryController,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          decoration: const InputDecoration(
+                            hintText: 'Write anything',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ).animate().scale(),
+                  ),
+            const SizedBox.square(
+              dimension: 4,
+            ),
+            TextButton.icon(
+              label: useVoice
+                  ? const Text(
+                      'Type instead',
+                    )
+                  : const Text('Talk'),
+              onPressed: () {
+                setState(() {
+                  useVoice = !useVoice;
+                });
+              },
+              icon:
+                  useVoice ? const Icon(Icons.keyboard) : const Icon(Icons.mic),
+            ).animate().shimmer(),
+          ],
+        ),
       ),
       const SizedBox.square(dimension: 8),
       ImageSelector(
