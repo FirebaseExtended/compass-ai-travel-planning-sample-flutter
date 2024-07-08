@@ -160,13 +160,6 @@ class ItineraryCard extends StatelessWidget {
                             }),
                           ),
                         ),
-                        /*const Text(
-                    'From the Eiffel Tower to Montmartre\'s streets, every corner invites exploration. Wander along the Seine, savor pastries, and uncover hidden courtyards steeped in history.',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),*/
                       ],
                     ),
                   ),
