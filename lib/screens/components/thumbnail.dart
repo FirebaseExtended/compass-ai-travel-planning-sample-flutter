@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 import 'dart:typed_data';
 
 class Thumbnail extends StatelessWidget {
-  const Thumbnail(
-      {required this.image, this.title, this.faded = false, super.key});
+   const Thumbnail(
+      {required this.image, this.title, this.faded = false, super.key, required this.width, required this.height});
 
   final ImageProvider image;
   final String? title;
   final bool faded;
+  final int width;
+  final int height;
 
   @override
   Widget build(BuildContext context) {
     String? imageTitle = title;
+    final smallText = Theme.of(context).textTheme.titleMedium;
+    final largeText = Theme.of(context).textTheme.titleLarge;
+    bool isLarge = width > 250;
+    TextStyle? textStyle = isLarge ? largeText : smallText;
 
     return Padding(
       padding: const EdgeInsets.only(right: 8),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
-        width: 120,
-        height: 120,
+        width: width.toDouble(),
+        height: height.toDouble(),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           image: DecorationImage(
@@ -34,10 +40,10 @@ class Thumbnail extends StatelessWidget {
                   child: Text(
                     textAlign: TextAlign.center,
                     imageTitle,
-                    style: const TextStyle(
-                      height: 1.1,
+                    style: TextStyle(
+                      height: textStyle?.height,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: textStyle?.fontSize,
                     ),
                   ),
                 )

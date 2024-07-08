@@ -52,8 +52,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
     context.push('/legacy/results');
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildMoreTallThanWideScreen(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -86,6 +85,8 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                 SizedBox(
                     height: 120,
                     child: LocationPicker(
+                      height: 120,
+                      width: 120,
                       selected: selectedLocation,
                       onSelect: selectLocation,
                     )),
@@ -98,84 +99,19 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     border: Border.all(color: Colors.grey[300]!),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'When',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextButton(
-                        style: const ButtonStyle(
-                          padding: WidgetStatePropertyAll(
-                            EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-                          ),
-                        ),
-                        onPressed: () async {
-                          DateTimeRange? tripDates = await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return Theme(
-                                data: ThemeData(
-                                  colorScheme: ColorScheme.fromSeed(
-                                    seedColor: Colors.black,
-                                    dynamicSchemeVariant:
-                                        DynamicSchemeVariant.monochrome,
-                                  ),
-                                ),
-                                child: DateRangePickerDialog(
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime.parse('2028-01-01'),
-                                ),
-                              );
-                            },
-                          );
-
-                          if (tripDates == null) return;
-
-                          setState(() {
-                            tripDateRange = tripDates;
-                          });
-                        },
-                        child: tripDateRange != null
-                            ? Text(
-                                '${shortenedDate(tripDateRange!.start.toString())} – ${shortenedDate(tripDateRange!.end.toString().toString())}')
-                            : const Text('Add Dates'),
-                      ),
-                    ],
-                  ),
+                  child: _buildWhenRow(context),
                 ),
                 const SizedBox.square(
                   dimension: 16,
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey[300]!),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Who',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      QuantityInput(
-                        value: numPeople,
-                        onDecrease: decreaseNumPeople,
-                        onIncrease: increaseNumPeople,
-                        min: 1,
-                      ),
-                    ],
-                  ),
+                  child: _buildWhoRow(context),
                 ),
               ]),
             ),
@@ -184,7 +120,10 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                 child: TextButton(
                   style: ButtonStyle(
                     shadowColor: WidgetStatePropertyAll(
-                        Theme.of(context).colorScheme.primaryContainer),
+                        Theme
+                            .of(context)
+                            .colorScheme
+                            .primaryContainer),
                     padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(
                         vertical: 16,
@@ -216,20 +155,259 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
       ),
     );
   }
+
+  Widget _buildWhenRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'When',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        TextButton(
+          style: const ButtonStyle(
+            padding: WidgetStatePropertyAll(
+              EdgeInsets.symmetric(
+                  vertical: 0, horizontal: 8),
+            ),
+          ),
+          onPressed: () async {
+            DateTimeRange? tripDates = await showDialog(
+              context: context,
+              builder: (context) {
+                return Theme(
+                  data: ThemeData(
+                    colorScheme: ColorScheme.fromSeed(
+                      seedColor: Colors.black,
+                      dynamicSchemeVariant:
+                      DynamicSchemeVariant.monochrome,
+                    ),
+                  ),
+                  child: DateRangePickerDialog(
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.parse('2028-01-01'),
+                  ),
+                );
+              },
+            );
+
+            if (tripDates == null) return;
+
+            setState(() {
+              tripDateRange = tripDates;
+            });
+          },
+          child: tripDateRange != null
+              ? Text(
+              '${shortenedDate(tripDateRange!.start
+                  .toString())} – ${shortenedDate(
+                  tripDateRange!.end.toString().toString())}')
+              : const Text('Add Dates'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWhoRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'Who',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+        QuantityInput(
+          value: numPeople,
+          onDecrease: decreaseNumPeople,
+          onIncrease: increaseNumPeople,
+          min: 1,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMoreWideThanTallScreen(BuildContext context, BoxConstraints constraints) {
+    final double halfWidth = constraints.maxWidth * 0.5;
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                style: ButtonStyle(
+                  side: WidgetStatePropertyAll(
+                    BorderSide(color: Colors.grey[300]!),
+                  ),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+                onPressed: () => context.go('/'),
+                icon: const Icon(
+                  Icons.home_outlined,
+                ),
+              )),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        child: Column(
+          children: [
+            Expanded(
+                child: Row(children: [
+                  SizedBox(
+                      width: halfWidth.toDouble(),
+                      child: LocationPickerGrid(
+                        width: 400,
+                        height: 200,
+                        selected: selectedLocation,
+                        onSelect: selectLocation,
+                      )),
+                  const SizedBox.square(
+                    dimension: 24,
+                  ),
+                  Column(children: [
+                    Container(
+                      width: constraints.maxWidth * 0.45,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[300]!),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: _buildWhenRow(context),
+                    ),
+                    const SizedBox.square(
+                      dimension: 16,
+                    ),
+                    Container(
+                      width: constraints.maxWidth * 0.45,
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[300]!),
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      child: _buildWhoRow(context),
+                    ),
+                  ]),],)
+            ),
+            Row(children: [
+              Expanded(
+                child: TextButton(
+                  style: ButtonStyle(
+                    shadowColor: WidgetStatePropertyAll(
+                        Theme
+                            .of(context)
+                            .colorScheme
+                            .primaryContainer),
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 8,
+                      ),
+                    ),
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    backgroundColor: const WidgetStatePropertyAll(
+                      Colors.black,
+                    ),
+                  ),
+                  onPressed: setQuery,
+                  child: const Text(
+                    'Search',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      print(constraints);
+      final isMoreTallThanWide = constraints.maxHeight > constraints.maxWidth;
+      if (isMoreTallThanWide) {
+        return _buildMoreTallThanWideScreen(context);
+      } else {
+        return _buildMoreWideThanTallScreen(context, constraints);
+      }
+    });
+
+  }
 }
 
 class LocationPicker extends StatefulWidget {
   const LocationPicker(
-      {required this.selected, required this.onSelect, super.key});
+      {required this.selected, required this.onSelect, super.key, required this.width, required this.height});
 
   final String? selected;
   final void Function(String) onSelect;
+  final width;
+  final height;
 
   @override
   State<LocationPicker> createState() => _LocationPickerState();
 }
 
-class _LocationPickerState extends State<LocationPicker> {
+class _LocationPickerState extends State<LocationPicker> with Destinations {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      children: List.generate(destinations.length, (index) {
+        var destination = destinations[index];
+        return LocationItem(
+          height: widget.height,
+          width: widget.width,
+          onTap: widget.onSelect,
+          fade: (widget.selected == null ||
+                  widget.selected == destination['title'])
+              ? false
+              : true,
+          name: destination['title']!,
+          image: AssetImage(
+            destination['image']!,
+          ),
+        );
+      }),
+    );
+  }
+}
+
+class LocationPickerGrid extends StatefulWidget {
+  const LocationPickerGrid(
+      {required this.selected, required this.onSelect, super.key, required this.width, required this.height});
+
+  final String? selected;
+  final void Function(String) onSelect;
+  final int width;
+  final int height;
+
+  @override
+  State<LocationPickerGrid> createState() => _LocationPickerGridState();
+}
+
+mixin Destinations {
   List<Map<String, String>> destinations = [
     {
       'image': 'assets/images/locations/europe.jpeg',
@@ -260,27 +438,33 @@ class _LocationPickerState extends State<LocationPicker> {
       'title': 'Australia',
     },
   ];
+}
+
+class _LocationPickerGridState extends State<LocationPickerGrid> with Destinations {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      children: List.generate(destinations.length, (index) {
-        var destination = destinations[index];
-        return LocationItem(
-          onTap: widget.onSelect,
-          fade: (widget.selected == null ||
-                  widget.selected == destination['title'])
-              ? false
-              : true,
-          name: destination['title']!,
-          image: AssetImage(
-            destination['image']!,
-          ),
-        );
-      }),
-    );
+    return GridView.builder(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            mainAxisSpacing: 8,
+            maxCrossAxisExtent: 300),
+        itemBuilder: (context, index) {
+          if (index < destinations.length) {
+          final destination = destinations[index];
+          return LocationItem(
+            height: widget.height,
+            width: widget.width,
+            onTap: widget.onSelect,
+            fade: (widget.selected == null ||
+                widget.selected == destination['title'])
+                ? false
+                : true,
+            name: destination['title']!,
+            image: AssetImage(
+              destination['image']!,
+            ),
+          );
+        }});
   }
 }
 
@@ -290,6 +474,8 @@ class LocationItem extends StatelessWidget {
     required this.image,
     required this.onTap,
     this.fade = false,
+    required this.width,
+    required this.height,
     super.key,
   });
 
@@ -297,12 +483,16 @@ class LocationItem extends StatelessWidget {
   final ImageProvider image;
   final Function(String) onTap;
   final bool fade;
+  final int height;
+  final int width;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onTap(name),
       child: Thumbnail(
+        width: width,
+        height: height,
         faded: fade,
         image: image,
         title: name,

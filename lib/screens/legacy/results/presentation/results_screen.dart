@@ -48,23 +48,44 @@ class _Grid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverGrid(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
-        childAspectRatio: 182 / 222,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return ResultCard(
-            key: ValueKey(viewModel.destinations[index].ref),
-            destination: viewModel.destinations[index],
-          );
-        },
-        childCount: viewModel.destinations.length,
-      ),
-    );
+    var isSmall = MediaQuery.sizeOf(context).width < 800;
+    var childAspectRatio = isSmall ? 182/222 : 1.0;
+    if (isSmall) {
+      return SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: childAspectRatio,
+        ),
+        delegate: SliverChildBuilderDelegate(
+              (context, index) {
+            return ResultCard(isSmall: isSmall,
+              key: ValueKey(viewModel.destinations[index].ref),
+              destination: viewModel.destinations[index],
+            );
+          },
+          childCount: viewModel.destinations.length,
+        ),
+      );
+    } else {
+      return SliverGrid(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: childAspectRatio, maxCrossAxisExtent: 600,
+        ),
+        delegate: SliverChildBuilderDelegate(
+              (context, index) {
+            return ResultCard(isSmall: isSmall,
+              key: ValueKey(viewModel.destinations[index].ref),
+              destination: viewModel.destinations[index],
+            );
+          },
+          childCount: viewModel.destinations.length,
+        ),
+      );
+    }
   }
 }
 
@@ -82,6 +103,9 @@ class _Search extends StatelessWidget {
     var endDate =
         prettyDate(context.read<TravelPlan>().query!.dates.end.toString());
     var numPeople = context.read<TravelPlan>().query!.numPeople;
+    print(MediaQuery.of(context).size.width);
+    var isLarge = MediaQuery.of(context).size.width > 1024;
+    var textStyle = isLarge ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.titleSmall;
 
     return SliverToBoxAdapter(
         child: Row(
@@ -112,7 +136,7 @@ class _Search extends StatelessWidget {
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+                    const EdgeInsets.symmetric(vertical: 18, horizontal: 8),
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: SingleChildScrollView(
@@ -120,8 +144,8 @@ class _Search extends StatelessWidget {
                     child: Text(
                       '${viewModel.filters} • $startDate – $endDate • $numPeople ${numPeople == 1 ? 'person' : 'people'}',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: TextStyle(
+                        fontSize:textStyle?.fontSize,
                         fontWeight: FontWeight.w400,
                         height: 0,
                         leadingDistribution: TextLeadingDistribution.even,

@@ -16,7 +16,7 @@ class Splash extends StatelessWidget {
 
   Widget _buildSmallSplash() {
     return Scaffold(
-        body: Padding(
+        body: Center(child:Padding(
       padding: const EdgeInsets.fromLTRB(24, 48, 24, 72),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -38,7 +38,7 @@ class Splash extends StatelessWidget {
               child: DreamTripButton()),
         ],
       ),
-    ));
+    )));
   }
 
   Widget _buildLargeSplash() {
