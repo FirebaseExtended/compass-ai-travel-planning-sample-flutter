@@ -187,6 +187,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     ),
                   ),
                   child: DateRangePickerDialog(
+                    initialDateRange: tripDateRange,
                     firstDate: DateTime.now(),
                     lastDate: DateTime.parse('2028-01-01'),
                   ),

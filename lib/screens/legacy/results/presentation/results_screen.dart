@@ -157,6 +157,7 @@ class _Search extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(width: 16),
         Padding(
           padding: const EdgeInsets.only(top: 60, bottom: 24),
           child: IconButton(
