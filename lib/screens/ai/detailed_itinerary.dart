@@ -306,7 +306,7 @@ class LargeDetailedItinerary extends StatelessWidget {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Card(
                 elevation: 4.0,
                 color: colorScheme.surfaceContainerLowest,
