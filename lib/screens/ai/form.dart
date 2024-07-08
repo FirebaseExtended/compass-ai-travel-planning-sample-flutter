@@ -100,6 +100,7 @@ class _FormScreenState extends State<FormScreen> {
 
   Widget _buildSmallForm(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: const AppLogo(dimension: 38),
         actions: [
@@ -131,10 +132,10 @@ class _FormScreenState extends State<FormScreen> {
                 child: Text(
               textAlign: TextAlign.left,
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 32,
-                  height: 0),
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold,
+                fontSize: 32,
+              ),
               'Dream Your\nVacation',
             )),
             const SizedBox.square(
@@ -163,6 +164,9 @@ class _FormScreenState extends State<FormScreen> {
                               child: TextField(
                                 controller: _queryController,
                                 keyboardType: TextInputType.multiline,
+                                onTapOutside: (event) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                },
                                 maxLines: null,
                                 decoration: const InputDecoration(
                                   hintText: 'Write anything',
@@ -686,7 +690,9 @@ class _ImageSelectorState extends State<ImageSelector> {
               children: List.generate(
                 images.length,
                 (idx) => Thumbnail(
-                  image: MemoryImage(images[idx].bytes), width: 120, height: 120,
+                  image: MemoryImage(images[idx].bytes),
+                  width: 120,
+                  height: 120,
                 ),
               )
                   .animate(interval: 200.ms)
