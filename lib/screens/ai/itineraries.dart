@@ -20,7 +20,10 @@ Widget buildSmallItineraries(BuildContext context, ItinerariesViewModel model) {
     return const Placeholder();
   }
 
-  var mqHeight = MediaQuery.sizeOf(context).height;
+  var mqHeight = MediaQuery.sizeOf(context).height -
+      brandedAppBar.preferredSize.height -
+      MediaQuery.paddingOf(context).top -
+      MediaQuery.paddingOf(context).bottom;
 
   return Scaffold(
     appBar: brandedAppBar,
