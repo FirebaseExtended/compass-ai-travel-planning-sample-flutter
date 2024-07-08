@@ -4,6 +4,10 @@ import { z } from "zod";
 import { PlaceResponse } from "../common/types";
 import { MAPS_API_KEY } from "../config/keys";
 
+// TODO: Have this tool be empty but supply the content of it.
+// The description should be something an LLM can understand as a prompt.
+// Then we call the places API.
+
 export const restaurantFinder = defineTool(
     {
       name: 'restaurantFinder',
