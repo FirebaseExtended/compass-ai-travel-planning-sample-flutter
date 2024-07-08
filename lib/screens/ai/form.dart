@@ -358,7 +358,7 @@ class _FormScreenState extends State<FormScreen> {
     }
   }
 
-  List<Widget> _buildInputBox(BuildContext context, {showTalkIcon = true}) {
+  List<Widget> _buildInputBox(BuildContext context) {
     return <Widget>[
       Expanded(
         child: Column(
