@@ -232,31 +232,31 @@ class LocationPicker extends StatefulWidget {
 class _LocationPickerState extends State<LocationPicker> {
   List<Map<String, String>> destinations = [
     {
-      'image': 'https://rstr.in/google/tripedia/TmR12QdlVTT',
+      'image': 'assets/images/locations/europe.jpeg',
       'title': 'Europe',
     },
     {
-      'image': 'https://rstr.in/google/tripedia/VJ8BXlQg8O1',
+      'image': 'assets/images/locations/asia.jpeg',
       'title': 'Asia',
     },
     {
-      'image': 'https://rstr.in/google/tripedia/flm_-o1aI8e',
+      'image': 'assets/images/locations/south-america.jpeg',
       'title': 'South America',
     },
     {
-      'image': 'https://rstr.in/google/tripedia/-nzi8yFOBpF',
+      'image': 'assets/images/locations/africa.jpeg',
       'title': 'Africa',
     },
     {
-      'image': 'https://rstr.in/google/tripedia/jlbgFDrSUVE',
+      'image': 'assets/images/locations/north-america.jpeg',
       'title': 'North America',
     },
     {
-      'image': 'https://rstr.in/google/tripedia/vxyrDE-fZVL',
+      'image': 'assets/images/locations/oceania.jpeg',
       'title': 'Oceania',
     },
     {
-      'image': 'https://rstr.in/google/tripedia/z6vy6HeRyvZ',
+      'image': 'assets/images/locations/australia.jpeg',
       'title': 'Australia',
     },
   ];
@@ -275,7 +275,7 @@ class _LocationPickerState extends State<LocationPicker> {
               ? false
               : true,
           name: destination['title']!,
-          image: NetworkImage(
+          image: AssetImage(
             destination['image']!,
           ),
         );
