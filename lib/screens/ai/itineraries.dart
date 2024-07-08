@@ -20,13 +20,15 @@ Widget buildSmallItineraries(BuildContext context, ItinerariesViewModel model) {
     return const Placeholder();
   }
 
+  var mqHeight = MediaQuery.sizeOf(context).height;
+
   return Scaffold(
     appBar: brandedAppBar,
     body: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          height: 650,
+          height: mqHeight * .90,
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
               child: ListView.builder(
@@ -91,9 +93,9 @@ class ItineraryCard extends StatelessWidget {
             constraints: BoxConstraints(
               maxWidth: isLarge ? mqWidth * .5 : 800,
               minWidth: 350,
+              maxHeight: 800,
             ),
             child: Container(
-                height: 650,
                 width: mqWidth * .8,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(

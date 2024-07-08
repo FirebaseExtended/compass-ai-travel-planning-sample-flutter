@@ -5,6 +5,7 @@ import 'package:tripedia/utilties.dart';
 import '../components/custom_stepper.dart' as custom_stepper;
 import '../../data/models/itinerary.dart';
 import 'itineraries.dart';
+import '../components/app_bar.dart';
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({required this.itinerary, super.key});
@@ -295,6 +296,7 @@ class LargeDetailedItinerary extends StatelessWidget {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      appBar: brandedAppBar,
       backgroundColor: colorScheme.surface,
       body: Row(children: [
         const SizedBox.square(
