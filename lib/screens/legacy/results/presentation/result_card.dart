@@ -68,13 +68,13 @@ class ResultCard extends StatelessWidget {
         fit: StackFit.expand,
         children: [
 
-          Image.network(
+        Image.network(
             destination.imageUrl,
-            //fit: BoxFit.fitHeight,
+            fit: BoxFit.fitHeight,
           ),
           Positioned(
-            bottom: 24.0,
-            left: 24.0,
+            bottom: 32.0,
+            left: 16.0,
             right: 24.0,
             child: Column(
               mainAxisSize: MainAxisSize.min,

@@ -50,23 +50,42 @@ class _Grid extends StatelessWidget {
   Widget build(BuildContext context) {
     var isSmall = MediaQuery.sizeOf(context).width < 800;
     var childAspectRatio = isSmall ? 182/222 : 1.0;
-    return SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
-        childAspectRatio: childAspectRatio,
-      ),
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          return ResultCard(isSmall: isSmall,
-            key: ValueKey(viewModel.destinations[index].ref),
-            destination: viewModel.destinations[index],
-          );
-        },
-        childCount: viewModel.destinations.length,
-      ),
-    );
+    if (isSmall) {
+      return SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: childAspectRatio,
+        ),
+        delegate: SliverChildBuilderDelegate(
+              (context, index) {
+            return ResultCard(isSmall: isSmall,
+              key: ValueKey(viewModel.destinations[index].ref),
+              destination: viewModel.destinations[index],
+            );
+          },
+          childCount: viewModel.destinations.length,
+        ),
+      );
+    } else {
+      return SliverGrid(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: childAspectRatio, maxCrossAxisExtent: 600,
+        ),
+        delegate: SliverChildBuilderDelegate(
+              (context, index) {
+            return ResultCard(isSmall: isSmall,
+              key: ValueKey(viewModel.destinations[index].ref),
+              destination: viewModel.destinations[index],
+            );
+          },
+          childCount: viewModel.destinations.length,
+        ),
+      );
+    }
   }
 }
 
