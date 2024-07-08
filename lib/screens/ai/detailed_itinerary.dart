@@ -162,16 +162,7 @@ class SmallDetailedItinerary extends StatelessWidget {
                           )
                         ]);
                   },
-                )
-                    /*[
-                    const DayTitle(title: 'Day 1'),
-                    const DayStepper(key: Key('Stepper1')),
-                    const DayTitle(title: 'Day 2'),
-                    const DayStepper(key: Key('Stepper2')),
-                    const DayTitle(title: 'Day 3'),
-                    const DayStepper(key: Key('Stepper3')),
-                  ],*/
-                    ),
+                )),
               ),
             )
           ],
@@ -189,46 +180,104 @@ class ShareTrip extends StatelessWidget {
   Widget build(BuildContext context) {
     var isLarge = MediaQuery.sizeOf(context).width >= 1024;
 
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: isLarge
-                ? const BorderRadius.only(
-                    bottomLeft: Radius.circular(12),
-                    bottomRight: Radius.circular(12))
-                : null,
-            color:
-                isLarge ? Theme.of(context).colorScheme.surfaceContainer : null,
-            border: Border(
-                top: BorderSide(
-                    color: Theme.of(context).colorScheme.outlineVariant))),
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ButtonStyle(
-            padding: const WidgetStatePropertyAll(
-              EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 8,
+    if (isLarge) {
+      return SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: isLarge
+                        ? const BorderRadius.only(
+                            bottomLeft: Radius.circular(12),
+                            bottomRight: Radius.circular(12))
+                        : null,
+                    color: isLarge
+                        ? Theme.of(context).colorScheme.surfaceContainerLow
+                        : null,
+                    border: Border(
+                        top: BorderSide(
+                            color:
+                                Theme.of(context).colorScheme.outlineVariant))),
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        padding: const WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 16,
+                          ),
+                        ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      child: Text(
+                        'Share Trip',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-            backgroundColor: WidgetStatePropertyAll(
-              Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          child: Text(
-            'Share Trip',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 18,
-            ),
-          ),
+          ],
         ),
+      );
+    }
+    return SafeArea(
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                      top: BorderSide(
+                          color:
+                              Theme.of(context).colorScheme.outlineVariant))),
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  padding: const WidgetStatePropertyAll(
+                    EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 16,
+                    ),
+                  ),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                  backgroundColor: WidgetStatePropertyAll(
+                    Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                child: Text(
+                  'Share Trip',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -245,46 +294,60 @@ class LargeDetailedItinerary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    return Row(children: [
-      const SizedBox.square(
-        dimension: 24,
-      ),
-      ItineraryCard(itinerary: widget.itinerary, onTap: () {}),
-      const SizedBox(
-        width: 48,
-      ),
-      Expanded(
-          child: Card(
-        elevation: 1.0,
-        color: colorScheme.surfaceContainer,
-        child: Scaffold(
-          backgroundColor: colorScheme.surfaceContainerLowest,
-          body: Padding(
-              padding: const EdgeInsets.only(top: 48, left: 24),
-              child: ListView(
-                  children: List.generate(
-                widget.itinerary.dayPlans.length,
-                (day) {
-                  var dayPlan = widget.itinerary.dayPlans[day];
-
-                  return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        DayTitle(title: 'Day ${dayPlan.dayNum.toString()}'),
-                        DayStepper(
-                          key: Key('stepper$day'),
-                          activities: dayPlan.planForDay,
-                        )
-                      ]);
-                },
-              ))),
-          bottomNavigationBar: const ShareTrip(),
+    return Scaffold(
+      backgroundColor: colorScheme.surface,
+      body: Row(children: [
+        const SizedBox.square(
+          dimension: 24,
         ),
-      )
+        ItineraryCard(itinerary: widget.itinerary, onTap: () {}),
+        const SizedBox(
+          width: 32,
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Card(
+                elevation: 4.0,
+                color: colorScheme.surfaceContainerLowest,
+                child: Stack(children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 48, horizontal: 24),
+                    child: ListView(children: [
+                      ...List.generate(
+                        widget.itinerary.dayPlans.length,
+                        (day) {
+                          var dayPlan = widget.itinerary.dayPlans[day];
 
-          // ),
-          )
-    ]);
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                DayTitle(
+                                    title: 'Day ${dayPlan.dayNum.toString()}'),
+                                DayStepper(
+                                  key: Key('stepper$day'),
+                                  activities: dayPlan.planForDay,
+                                )
+                              ]);
+                        },
+                      ),
+                      const SizedBox.square(
+                        dimension: 64,
+                      ),
+                    ]),
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ShareTrip(),
+                  ),
+                ])),
+          ),
+        )
+
+        // ),
+      ]),
+    );
   }
 }
 
