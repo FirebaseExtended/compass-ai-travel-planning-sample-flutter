@@ -405,8 +405,6 @@ class _FormScreenState extends State<FormScreen> {
   Widget build(BuildContext context) {
     var w = MediaQuery.sizeOf(context).width;
     var h = MediaQuery.sizeOf(context).height;
-    print(w);
-    print(h);
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       if (constraints.maxWidth < 1024) {
@@ -639,7 +637,7 @@ class _ImageSelectorState extends State<ImageSelector> {
               children: List.generate(
                 images.length,
                 (idx) => Thumbnail(
-                  image: MemoryImage(images[idx].bytes),
+                  image: MemoryImage(images[idx].bytes), width: 120, height: 120,
                 ),
               )
                   .animate(interval: 200.ms)
