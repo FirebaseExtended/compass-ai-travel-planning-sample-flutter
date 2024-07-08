@@ -8,9 +8,11 @@ class TagChip extends StatelessWidget {
   const TagChip({
     super.key,
     required this.tag,
+    this.isSmall = true
   });
 
   final String tag;
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class TagChip extends StatelessWidget {
             color: AppColors.whiteTransparent,
           ),
           child: SizedBox(
-            height: 20.0,
+            height: isSmall ? 20.0 : 32,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6.0),
               child: Row(
@@ -33,13 +35,13 @@ class TagChip extends StatelessWidget {
                   Icon(
                     _iconFrom(tag),
                     color: Colors.white,
-                    size: 10,
+                    size: isSmall ? 10 : 16,
                   ),
                   const SizedBox(width: 4),
                   Text(
                     tag,
                     textAlign: TextAlign.center,
-                    style: TextStyles.chipTagStyle,
+                    style: isSmall ? TextStyles.chipTagStyle : TextStyles.chipTagStyle.copyWith(fontSize: 18),
                   ),
                 ],
               ),
