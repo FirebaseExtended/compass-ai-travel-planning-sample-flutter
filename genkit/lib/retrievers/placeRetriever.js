@@ -19,6 +19,12 @@ const firebase_1 = require("../config/firebase");
 exports.QueryOptions = zod_1.z.object({
     k: zod_1.z.number().optional(),
 });
+/**
+ * placeRetriever is used to retrieve results from a storage system.
+ * In our case, the storage system is Firebase Data Connect.
+ * We are using the generated client SDKs for now, but once the admin
+ * SDKs are available, we would likely prefer to use those.
+ */
 exports.placeRetriever = (0, retriever_1.defineRetriever)({
     name: 'postgres-placeRetriever',
     configSchema: exports.QueryOptions,

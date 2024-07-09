@@ -49,7 +49,6 @@ const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
             flowStateStore: { collection: 'flowTraceStore' },
         }),
         (0, vertexai_1.vertexAI)({
-            modelGardenModels: [vertexai_1.claude3Opus, vertexai_1.claude3Sonnet],
             location: 'us-central1',
         }),
         (0, dotprompt_1.dotprompt)({ dir: 'prompts' }),
