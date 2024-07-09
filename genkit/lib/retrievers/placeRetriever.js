@@ -16,6 +16,8 @@ const backend_1 = require("@compass/backend");
 const retriever_1 = require("@genkit-ai/ai/retriever");
 const zod_1 = require("zod");
 const firebase_1 = require("../config/firebase");
+const googleai_1 = require("@genkit-ai/googleai");
+const embedder_1 = require("@genkit-ai/ai/embedder");
 exports.QueryOptions = zod_1.z.object({
     k: zod_1.z.number().optional(),
 });
@@ -29,7 +31,11 @@ exports.placeRetriever = (0, retriever_1.defineRetriever)({
     name: 'postgres-placeRetriever',
     configSchema: exports.QueryOptions,
 }, async (input, options) => {
-    const result = await (0, backend_1.getNearestPlace)(firebase_1.dataConnectInstance, { placeDescription: input.text() });
+    const requestEmbedding = await (0, embedder_1.embed)({
+        embedder: googleai_1.textEmbeddingGecko001,
+        content: input.text(),
+    });
+    const result = await (0, backend_1.getNearestPlace)(firebase_1.dataConnectInstance, { placeDescriptionVector: requestEmbedding });
     const resultData = result.data;
     return {
         documents: resultData.places_embedding_similarity.map((row) => {

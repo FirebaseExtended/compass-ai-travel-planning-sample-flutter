@@ -39,7 +39,6 @@ const flows = __importStar(require("./flows"));
 exports.flows = flows;
 const retrievers = __importStar(require("./retrievers"));
 exports.retrievers = retrievers;
-const firebase_2 = require("./config/firebase");
 const google_cloud_1 = __importDefault(require("@genkit-ai/google-cloud"));
 const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
 (0, core_1.configureGenkit)({
@@ -53,7 +52,6 @@ const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
         //   location: 'us-central1',
         // }),
         (0, dotprompt_1.dotprompt)({ dir: 'prompts' }),
-        (0, googleai_1.googleAI)({ apiKey: firebase_2.firebaseConfig.apiKey }),
         (0, google_cloud_1.default)({
             forceDevExport: true, // Set this to true to export telemetry for local runs
             telemetryConfig: {

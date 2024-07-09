@@ -1,5 +1,5 @@
-query getNearestPlace ($placeDescription: String!) @auth(level:PUBLIC) {
-  places_embedding_similarity(compare_embed: {model: "textembedding-gecko@003", text: $placeDescription}, method: L2, limit: 3)
+query getNearestPlace ($placeDescriptionVector: Vector!) @auth(level:PUBLIC) {
+  places_embedding_similarity(compare: $placeDescriptionVector, method: L2, limit: 3)
   {
     ref
     name

@@ -48,7 +48,8 @@ export interface GetNearestPlaceResponse {
 }
 
 export interface GetNearestPlaceVariables {
-  placeDescription: string;
+  placeDescriptionVector: {
+  };
 }
 
 export interface GetPlaceResponse {

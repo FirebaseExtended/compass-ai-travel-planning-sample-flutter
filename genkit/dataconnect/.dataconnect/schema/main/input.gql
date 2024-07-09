@@ -50,7 +50,6 @@ input Activity_Order {
   ref: OrderDirection
   destinationRef: OrderDirection
   placeRef: OrderDirection
-  place: Place_Order
   description: OrderDirection
   duration: OrderDirection
   embedding: OrderDirection

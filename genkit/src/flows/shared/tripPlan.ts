@@ -1,5 +1,5 @@
 import { getActivitiesForPlace } from "@compass/backend";
-import { dataConnectInstance, firebaseConfig } from "../../config/firebase";
+import { dataConnectInstance } from "../../config/firebase";
 import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from "../../common/types";
 import { restaurantFinder } from "../../tools/restaurantFinder";
 import { prompt } from '@genkit-ai/dotprompt';
