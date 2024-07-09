@@ -257,9 +257,12 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
           child: Text(
             'Anytime',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
             ),
           ),
+        ),
+        const SizedBox.square(
+          dimension: 8,
         ),
         _buildCardList(anyTimeActivities),
 
@@ -271,15 +274,14 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
           child: Text(
             'Morning',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
             ),
           ),
         ),
-        ...List.generate(morningActivities.length, (index) {
-          return ActivityTile(
-            activity: morningActivities[index],
-          );
-        }),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(morningActivities),
         const SizedBox.square(
           dimension: 16,
         ),
@@ -288,15 +290,14 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
           child: Text(
             'Afternoon',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
             ),
           ),
         ),
-        ...List.generate(afternoonActivities.length, (index) {
-          return ActivityTile(
-            activity: afternoonActivities[index],
-          );
-        }),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(afternoonActivities),
         const SizedBox.square(
           dimension: 16,
         ),
@@ -305,15 +306,14 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
           child: Text(
             'Evening',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
             ),
           ),
         ),
-        ...List.generate(eveningActivities.length, (index) {
-          return ActivityTile(
-            activity: eveningActivities[index],
-          );
-        }),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(eveningActivities),
         const SizedBox.square(
           dimension: 16,
         ),

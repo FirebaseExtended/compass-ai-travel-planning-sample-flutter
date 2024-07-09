@@ -14,9 +14,11 @@ class ActivityTile extends StatefulWidget {
   State<ActivityTile> createState() => _ActivityTileState();
 }
 
-Widget buildLearnMoreButton(BuildContext context, LegacyActivity activity) {
+Widget buildLearnMoreButton(
+    BuildContext context, Color color, LegacyActivity activity) {
   return TextButton(
     style: ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(color),
       padding: const WidgetStatePropertyAll(
         EdgeInsets.symmetric(vertical: 0, horizontal: 16),
       ),
@@ -43,17 +45,14 @@ Widget buildLearnMoreButton(BuildContext context, LegacyActivity activity) {
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
                     ),
-                    child: Image.network(
-                        activity.imageUrl),
+                    child: Image.network(activity.imageUrl),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        16, 0, 16, 8),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              8, 16, 8, 0),
+                          padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
                           child: Text(
                             activity.name,
                             textAlign: TextAlign.left,
@@ -63,35 +62,27 @@ Widget buildLearnMoreButton(BuildContext context, LegacyActivity activity) {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              8, 8, 8, 16),
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
                           child: Text(
                             activity.description,
                             textAlign: TextAlign.left,
                           ),
                         ),
                         Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton.icon(
-                              onPressed: () =>
-                                  Navigator.of(context).pop(),
+                              onPressed: () => Navigator.of(context).pop(),
                               icon: const Icon(Icons.close),
                               label: Text(
                                 'Close',
                                 style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .outline,
+                                  color: Theme.of(context).colorScheme.outline,
                                 ),
                               ),
                               style: ButtonStyle(
-                                iconColor:
-                                WidgetStatePropertyAll(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .outline,
+                                iconColor: WidgetStatePropertyAll(
+                                  Theme.of(context).colorScheme.outline,
                                 ),
                               ),
                             ),
@@ -116,7 +107,6 @@ Widget buildLearnMoreButton(BuildContext context, LegacyActivity activity) {
 
 class _ActivityTileState extends State<ActivityTile> {
   bool checked = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +138,8 @@ class _ActivityTileState extends State<ActivityTile> {
                 children: [
                   Text(widget.activity.name),
                   Row(children: [
-                    buildLearnMoreButton(context, widget.activity),
+                    buildLearnMoreButton(
+                        context, Colors.transparent, widget.activity),
                     const SizedBox.square(
                       dimension: 24,
                     ),
@@ -199,11 +190,16 @@ class _ActivityCardState extends State<ActivityCard> {
     checked = context.read<TravelPlan>().activities.contains(widget.activity);
     var colorScheme = Theme.of(context).colorScheme;
     if (checked) {
-      return Container(width: 36, height: 36, decoration:
-      BoxDecoration(color: colorScheme.surfaceContainer, borderRadius: BorderRadius.circular(24)),
-          child:
-           Icon(Icons.check, color: colorScheme.onSurface,)
-      );
+      return Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+              color: colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(24)),
+          child: Icon(
+            Icons.check,
+            color: colorScheme.onSurface,
+          ));
     } else {
       return const SizedBox.shrink();
     }
@@ -216,56 +212,56 @@ class _ActivityCardState extends State<ActivityCard> {
     var colorScheme = Theme.of(context).colorScheme;
 
     return GestureDetector(
-        onTap: (){
+        onTap: () {
           context.read<TravelPlan>().toggleActivity(widget.activity);
-        setState(() {
-          checked = !checked;
-        });
+          setState(() {
+            checked = !checked;
+          });
         },
-        child:
-      ClipRRect(
-      borderRadius: BorderRadius.circular(10.0),
-      // TODO: Improve image loading and caching
-      child:
-      SizedBox(width: 400, height: 400, child:
-      Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.network(
-              widget.activity.imageUrl,
-              fit: BoxFit.fitHeight,
-            ),
-            Positioned(
-          right: 24,
-          top:24,
-          child: _buildCheck(context)),
-        Positioned(
-            bottom: 32.0,
-            left: 16.0,
-            right: 24.0,
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.activity.name,
-                    style: TextStyles.cardTitleStyle.copyWith(fontSize: 24),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            // TODO: Improve image loading and caching
+            child: SizedBox(
+                width: 400,
+                height: 400,
+                child: Stack(fit: StackFit.expand, children: [
+                  Image.network(
+                    widget.activity.imageUrl,
+                    fit: BoxFit.fitHeight,
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                  Text(
-                    '$duration ${duration <= 1 ? 'hour' : 'hours'}',
-                    style: TextStyles.cardTitleStyle.copyWith(fontSize: 18),
-                  ),
-                  Container(color: Colors.transparent, child:
-                  const OutlinedButton(onPressed: null, child: Text("Learn More"))),
-                  ],)
-            ])),
-            ]))));
+                  Positioned(right: 24, top: 24, child: _buildCheck(context)),
+                  Positioned(
+                      bottom: 32.0,
+                      left: 16.0,
+                      right: 24.0,
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.activity.name,
+                              style: TextStyles.cardTitleStyle
+                                  .copyWith(fontSize: 24),
+                            ),
+                            const SizedBox(
+                              height: 6,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '$duration ${duration <= 1 ? 'hour' : 'hours'}',
+                                  style: TextStyles.cardTitleStyle
+                                      .copyWith(fontSize: 18),
+                                ),
+                                buildLearnMoreButton(
+                                    context,
+                                    colorScheme.surfaceContainer,
+                                    widget.activity)
+                              ],
+                            )
+                          ])),
+                ]))));
   }
 }
 
