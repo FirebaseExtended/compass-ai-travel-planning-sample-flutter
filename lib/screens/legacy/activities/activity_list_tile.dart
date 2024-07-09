@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/screens/legacy/activities/activity.dart';
@@ -31,7 +32,7 @@ class _ActivityTileState extends State<ActivityTile> {
               ),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(widget.activity.imageUrl),
+                image: CachedNetworkImageProvider(widget.activity.imageUrl),
               ), // b
             ),
           ),
@@ -198,7 +199,7 @@ class ActivityDetailTile extends StatelessWidget {
           ),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(activity.imageUrl),
+            image: CachedNetworkImageProvider(activity.imageUrl),
           ), // b
         ),
       ),

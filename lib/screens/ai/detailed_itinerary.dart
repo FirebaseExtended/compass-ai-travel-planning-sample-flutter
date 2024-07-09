@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:tripedia/utilties.dart';
 
 import '../components/custom_stepper.dart' as custom_stepper;
@@ -78,7 +81,7 @@ class SmallDetailedItinerary extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
+                      image: CachedNetworkImageProvider(
                         widget.itinerary.heroUrl,
                       ),
                     ),
@@ -406,18 +409,15 @@ class _DayStepperState extends State<DayStepper> {
         currentStep: activeStep,
         stepIconBuilder: (stepIndex, stepState) {
           if (stepIndex == activeStep) {
-            return Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(4),
-                ),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(widget.activities[activeStep].imageUrl),
-                ),
-                color: Colors.green, // b
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: FadeInImage(
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+                placeholder: MemoryImage(kTransparentImage),
+                image: CachedNetworkImageProvider(
+                    widget.activities[activeStep].imageUrl),
               ),
             );
           }

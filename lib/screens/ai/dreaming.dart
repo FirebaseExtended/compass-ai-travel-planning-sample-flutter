@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -50,15 +51,18 @@ class _DreamingScreenState extends State<DreamingScreen> {
     super.dispose();
   }
 
+  @override
   void didChangeDependencies() {
     var itineraries = context.read<ItinerariesViewModel>().itineraries;
 
     if (itineraries == null) return;
 
     for (var itinerary in itineraries) {
+      precacheImage(CachedNetworkImageProvider(itinerary.heroUrl), context);
       for (var day in itinerary.dayPlans) {
         for (var activity in day.planForDay) {
-          precacheImage(NetworkImage(activity.imageUrl), context);
+          print('cache-ing ${activity.imageUrl}');
+          precacheImage(CachedNetworkImageProvider(activity.imageUrl), context);
         }
       }
     }
@@ -102,6 +106,7 @@ class _DreamingScreenState extends State<DreamingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var itineraries = context.watch<ItinerariesViewModel>().itineraries;
     return buildDreamScreen(context);
   }
 }
