@@ -33,56 +33,57 @@ final _router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => const Splash()),
     ShellRoute(
-        builder: (context, state, child) {
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider<ResultsViewModel>(
-                create: (_) => ResultsViewModel(
-                  searchDestinationUsecase: SearchDestinationUsecase(
-                      repository: DestinationRepositoryLocal()),
-                ),
+      builder: (context, state, child) {
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ResultsViewModel>(
+              create: (_) => ResultsViewModel(
+                searchDestinationUsecase: SearchDestinationUsecase(
+                    repository: DestinationRepositoryLocal()),
               ),
-              ChangeNotifierProvider<ActivitiesViewModel>(
-                create: (_) => ActivitiesViewModel(
-                  searchActivityUsecase: SearchActivityUsecase(
-                      repository: ActivityRepositoryLocal()),
-                ),
-              ),
-              ChangeNotifierProvider<TravelPlan>(
-                create: (_) => TravelPlan(),
-              ),
-            ],
-            child: Theme(
-              data: ThemeData(
-                colorScheme: ColorScheme.fromSeed(
-                  seedColor: Colors.black,
-                  dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
-                ),
-              ),
-              child: child,
             ),
-          );
-        },
-        routes: [
-          GoRoute(
-            path: '/legacy',
-            builder: (context, state) => const LegacyFormScreen(),
-            routes: [
-              GoRoute(
-                path: 'results',
-                builder: (context, state) => const ResultsScreen(),
+            ChangeNotifierProvider<ActivitiesViewModel>(
+              create: (_) => ActivitiesViewModel(
+                searchActivityUsecase: SearchActivityUsecase(
+                    repository: ActivityRepositoryLocal()),
               ),
-              GoRoute(
-                path: 'activities',
-                builder: (context, state) => const ActivitiesScreen(),
+            ),
+            ChangeNotifierProvider<TravelPlan>(
+              create: (_) => TravelPlan(),
+            ),
+          ],
+          child: Theme(
+            data: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.black,
+                dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
               ),
-              GoRoute(
-                path: 'itinerary',
-                builder: (context, state) => const LegacyItinerary(),
-              ),
-            ],
+            ),
+            child: child,
           ),
-        ]),
+        );
+      },
+      routes: [
+        GoRoute(
+          path: '/legacy',
+          builder: (context, state) => const LegacyFormScreen(),
+          routes: [
+            GoRoute(
+              path: 'results',
+              builder: (context, state) => const ResultsScreen(),
+            ),
+            GoRoute(
+              path: 'activities',
+              builder: (context, state) => const ActivitiesScreen(),
+            ),
+            GoRoute(
+              path: 'itinerary',
+              builder: (context, state) => const LegacyItinerary(),
+            ),
+          ],
+        ),
+      ],
+    ),
     GoRoute(
       path: '/ai',
       builder: (context, state) => const FormScreen(),

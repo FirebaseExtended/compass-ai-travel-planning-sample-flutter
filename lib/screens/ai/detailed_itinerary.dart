@@ -138,7 +138,7 @@ class SmallDetailedItinerary extends StatelessWidget {
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.grey[300]),
                       ),
-                      onPressed: () => context.go('/ai'),
+                      onPressed: () => context.go('/'),
                       icon: const Icon(
                         Icons.home_outlined,
                       ),

@@ -49,7 +49,7 @@ class _Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isSmall = MediaQuery.sizeOf(context).width < 800;
-    var childAspectRatio = isSmall ? 182/222 : 1.0;
+    var childAspectRatio = isSmall ? 182 / 222 : 1.0;
     if (isSmall) {
       return SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -59,8 +59,9 @@ class _Grid extends StatelessWidget {
           childAspectRatio: childAspectRatio,
         ),
         delegate: SliverChildBuilderDelegate(
-              (context, index) {
-            return ResultCard(isSmall: isSmall,
+          (context, index) {
+            return ResultCard(
+              isSmall: isSmall,
               key: ValueKey(viewModel.destinations[index].ref),
               destination: viewModel.destinations[index],
             );
@@ -73,11 +74,13 @@ class _Grid extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
-          childAspectRatio: childAspectRatio, maxCrossAxisExtent: 600,
+          childAspectRatio: childAspectRatio,
+          maxCrossAxisExtent: 600,
         ),
         delegate: SliverChildBuilderDelegate(
-              (context, index) {
-            return ResultCard(isSmall: isSmall,
+          (context, index) {
+            return ResultCard(
+              isSmall: isSmall,
               key: ValueKey(viewModel.destinations[index].ref),
               destination: viewModel.destinations[index],
             );
@@ -105,7 +108,9 @@ class _Search extends StatelessWidget {
     var numPeople = context.read<TravelPlan>().query!.numPeople;
     print(MediaQuery.of(context).size.width);
     var isLarge = MediaQuery.of(context).size.width > 1024;
-    var textStyle = isLarge ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.titleSmall;
+    var textStyle = isLarge
+        ? Theme.of(context).textTheme.titleLarge
+        : Theme.of(context).textTheme.titleSmall;
 
     return SliverToBoxAdapter(
         child: Row(
@@ -145,7 +150,7 @@ class _Search extends StatelessWidget {
                       '${viewModel.filters} • $startDate – $endDate • $numPeople ${numPeople == 1 ? 'person' : 'people'}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize:textStyle?.fontSize,
+                        fontSize: textStyle?.fontSize,
                         fontWeight: FontWeight.w400,
                         height: 0,
                         leadingDistribution: TextLeadingDistribution.even,
