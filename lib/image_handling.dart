@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
@@ -94,17 +96,6 @@ class ImageClient {
     return downloadUrl;
   }
 
-  /*static Future<List<String>> uploadImages(List<File> images) async {
-    List<Future<String>> imagesFutures = List.generate(
-      images.length,
-      (idx) => uploadImage(images[idx]),
-    );
-
-    var imagesDownloadUrls = await Future.wait(imagesFutures);
-
-    return imagesDownloadUrls;
-  }*/
-
   static Future<List<String>> uploadImagesBytes(
       List<UserSelectedImage> images) async {
     try {
@@ -118,6 +109,23 @@ class ImageClient {
       print('Uploaded all images!\n$imagesDownloadUrls');
 
       return imagesDownloadUrls;
+    } catch (e) {
+      throw ('Unable to upload images');
+    }
+  }
+
+  static List<String> base64EncodeImages(List<UserSelectedImage> images) {
+    try {
+      List<String> base64Encodedimages = List.generate(
+        images.length,
+        (idx) => 'data:image/jpeg;base64,${base64Encode(images[idx].bytes)}',
+      );
+
+      for (var image in base64Encodedimages) {
+        debugPrint(image);
+      }
+
+      return base64Encodedimages;
     } catch (e) {
       throw ('Unable to upload images');
     }
