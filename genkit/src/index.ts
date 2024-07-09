@@ -9,7 +9,6 @@ import { dotprompt } from '@genkit-ai/dotprompt';
 import * as tools from './tools'
 import * as flows from './flows'
 import * as retrievers from './retrievers';
-import { firebaseConfig } from './config/firebase';
 import googleCloud from '@genkit-ai/google-cloud';
 import { AlwaysOnSampler } from '@opentelemetry/sdk-trace-base';
 
@@ -24,7 +23,6 @@ configureGenkit({
     //   location: 'us-central1',
     // }),
     dotprompt({ dir: 'prompts' }),
-    googleAI({apiKey: firebaseConfig.apiKey}),
     googleCloud({
       forceDevExport: true, // Set this to true to export telemetry for local runs
       telemetryConfig: {

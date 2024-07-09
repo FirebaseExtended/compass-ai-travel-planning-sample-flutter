@@ -8,3 +8,4 @@ schema:
       cloudSql:
         instanceId: "dc-compass"
 connectorDirs: ["./connector"]
+location: "us-central1"
