@@ -1,6 +1,6 @@
 import { configureGenkit } from '@genkit-ai/core';
 import { startFlowsServer } from '@genkit-ai/flow';
-import { vertexAI, claude3Opus, claude3Sonnet } from '@genkit-ai/vertexai';
+import { vertexAI } from '@genkit-ai/vertexai';
 import { firebase } from '@genkit-ai/firebase';
 import { dotprompt } from '@genkit-ai/dotprompt';
 
@@ -19,7 +19,6 @@ configureGenkit({
       flowStateStore: { collection: 'flowTraceStore' },
     }),
     vertexAI({
-      modelGardenModels: [claude3Opus, claude3Sonnet],
       location: 'us-central1',
     }),
     dotprompt({ dir: 'prompts' }),

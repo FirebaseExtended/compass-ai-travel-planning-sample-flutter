@@ -4,8 +4,13 @@ import { z } from "zod";
 import { PlaceResponse } from "../common/types";
 import { MAPS_API_KEY } from "../config/keys";
 
+// TODO: Have this tool be empty but supply the content of it.
+// The description should be something an LLM can understand as a prompt.
+// Then we call the places API.
+
 export const restaurantFinder = defineTool(
-    {
+  // [START restaurant_tool_desc]  
+    {  
       name: 'restaurantFinder',
       description: `Used when needing to find a restaurant based on a users location.
       The location should be used to find nearby restaurants to a place. You can also
@@ -15,6 +20,8 @@ export const restaurantFinder = defineTool(
       inputSchema: z.object({ place: z.string(), typeOfRestaurant: z.string().optional() }),
       outputSchema: z.unknown(),
     },
+    // [END restaurant_tool_desc]
+    // [START restaurant_tool_func]
     async (input) => {
         if (input.typeOfRestaurant == undefined) {
           input.typeOfRestaurant = "Local";
@@ -42,4 +49,5 @@ export const restaurantFinder = defineTool(
         }
         return data as PlaceResponse;
     }
+    // [END restaurant_tool_func]
   );

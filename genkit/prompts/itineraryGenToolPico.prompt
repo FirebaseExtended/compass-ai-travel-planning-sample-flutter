@@ -46,7 +46,9 @@ Pick three activities per day, minimum of three day trip unless otherwise specif
 
 Output schema should not include the properties type or object.
 
-Pick a date after May 14, 2024 but before December 31, 2024
+Pick a date after 2024-05-14 but before 2024-12-31.
+
+The output date must be in the format year-month-day.
 
 Give each activity a unique title and description.
 

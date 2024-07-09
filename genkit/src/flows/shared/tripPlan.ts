@@ -69,6 +69,7 @@ const formatPhoto = async (activityRef: string, locationRef: string, photoUri?: 
  * @returns Promise<string> a formatted array of any restaurants that match uesrs preference. Can sometimes be an empty array.
  */
 const restaurantSearch = async (locationName: string, request: string): Promise<string[]> => {
+    // TODO: Have the user fill this in.
     // Search for restaurants
     const finder = await prompt('formatRestaurantsQuery');
     const rresult = await finder.generate({
@@ -79,6 +80,7 @@ const restaurantSearch = async (locationName: string, request: string): Promise<
         returnToolRequests: true
     });
 
+    // TODO: We are using tool usage here in a contrived example.
     const rOut: PlaceResponse[] = await Promise.all(rresult.toolRequests().map(async (element) => await restaurantFinder(element.toolRequest.input as any) as PlaceResponse));
 
     let rFormatted: string[] = [];
@@ -130,6 +132,8 @@ const cleanUpGeneratedItinerary = async (
  */
 export const tripPlan2 = async (request: string, location: Destination): Promise<ItineraryGeneratorOutput> => {
     const activityDescs = await getPlaceActivities(location.ref);
+    // TODO: This needs to be commented out so when I want to do a restaurant search,
+    // I know how to format the request.
     const restaurants = await restaurantSearch(location.name, request);
 
     let result: ItineraryGeneratorOutput;
