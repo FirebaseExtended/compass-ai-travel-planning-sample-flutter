@@ -44,3 +44,6 @@ app.*.map.json
 
 # node_modules
 genkit/node_modules
+
+# Ignore postgres files that are unzipped to the repo.
+local/

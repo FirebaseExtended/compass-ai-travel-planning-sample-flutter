@@ -24,7 +24,8 @@
     FIRESQL_PORT = "9939";
     # Sets environment variables in the workspace
     # You can get a Gemini API key through the IDX Integrations panel to the left!
-    GOOGLE_API_KEY = "REPLACE_ME_WITH_API_KEY";
+    GOOGLE_API_KEY = "";
+    MAPS_API_KEY = "";
   };
   processes = {
     postgresRun = {
