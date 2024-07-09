@@ -416,7 +416,7 @@ class _DayStepperState extends State<DayStepper> {
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
-                placeholder: MemoryImage(kTransparentImage),
+                placeholder: const AssetImage('assets/images/stars.png'),
                 image: CachedNetworkImageProvider(
                     widget.activities[activeStep].imageUrl),
               ),
