@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -443,7 +444,9 @@ class _DayStepperState extends State<DayStepper> {
                     fontWeight: FontWeight.bold,
                   )),
               subtitle: Text(widget.activities[index].ref),
-              content: Text(widget.activities[index].description),
+              content: Text(widget.activities[index].description)
+                  .animate()
+                  .fadeIn(duration: 750.milliseconds),
             );
           }),
         ],
