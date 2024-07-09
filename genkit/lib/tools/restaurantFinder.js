@@ -7,8 +7,12 @@ exports.restaurantFinder = void 0;
 const tool_1 = require("@genkit-ai/ai/tool");
 const axios_1 = __importDefault(require("axios"));
 const zod_1 = require("zod");
-const keys_1 = require("../config/keys");
-exports.restaurantFinder = (0, tool_1.defineTool)({
+// TODO: Have this tool be empty but supply the content of it.
+// The description should be something an LLM can understand as a prompt.
+// Then we call the places API.
+exports.restaurantFinder = (0, tool_1.defineTool)(
+// [START restaurant_tool_desc]  
+{
     name: 'restaurantFinder',
     description: `Used when needing to find a restaurant based on a users location.
       The location should be used to find nearby restaurants to a place. You can also
@@ -17,7 +21,11 @@ exports.restaurantFinder = (0, tool_1.defineTool)({
       `,
     inputSchema: zod_1.z.object({ place: zod_1.z.string(), typeOfRestaurant: zod_1.z.string().optional() }),
     outputSchema: zod_1.z.unknown(),
-}, async (input) => {
+}, 
+// [END restaurant_tool_desc]
+// [START restaurant_tool_func]
+async (input) => {
+    const MAPS_API_KEY = process.env.MAPS_API_KEY;
     if (input.typeOfRestaurant == undefined) {
         input.typeOfRestaurant = "Local";
     }
@@ -26,7 +34,7 @@ exports.restaurantFinder = (0, tool_1.defineTool)({
     const response = await axios_1.default.post(geocodeEndpoint, JSON.stringify(textQuery), {
         headers: {
             "Content-Type": "application/json",
-            "X-Goog-Api-Key": keys_1.MAPS_API_KEY,
+            "X-Goog-Api-Key": MAPS_API_KEY,
             "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel,places.photos.name,places.editorialSummary,places.googleMapsUri"
         }
     });
@@ -38,5 +46,7 @@ exports.restaurantFinder = (0, tool_1.defineTool)({
         }
     }
     return data;
-});
+}
+// [END restaurant_tool_func]
+);
 //# sourceMappingURL=restaurantFinder.js.map

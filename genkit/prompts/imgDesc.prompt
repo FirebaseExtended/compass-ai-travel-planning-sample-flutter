@@ -1,5 +1,5 @@
 ---
-model: vertexai/gemini-1.5-flash-preview
+model: googleai/gemini-1.5-flash-latest
 config:
   temperature: 1.0
   version: gemini-1.5-flash-001

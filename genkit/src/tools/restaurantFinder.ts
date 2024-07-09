@@ -2,7 +2,6 @@ import { defineTool } from "@genkit-ai/ai/tool";
 import axios from "axios";
 import { z } from "zod";
 import { PlaceResponse } from "../common/types";
-import { MAPS_API_KEY } from "../config/keys";
 
 // TODO: Have this tool be empty but supply the content of it.
 // The description should be something an LLM can understand as a prompt.
@@ -23,6 +22,8 @@ export const restaurantFinder = defineTool(
     // [END restaurant_tool_desc]
     // [START restaurant_tool_func]
     async (input) => {
+      const MAPS_API_KEY = process.env.MAPS_API_KEY;
+      
         if (input.typeOfRestaurant == undefined) {
           input.typeOfRestaurant = "Local";
         }

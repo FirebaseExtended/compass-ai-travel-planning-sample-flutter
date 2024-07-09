@@ -2,13 +2,13 @@ import { configureGenkit } from '@genkit-ai/core';
 import { startFlowsServer } from '@genkit-ai/flow';
 import { vertexAI } from '@genkit-ai/vertexai';
 import { firebase } from '@genkit-ai/firebase';
+import { googleAI } from '@genkit-ai/googleai';
 import { dotprompt } from '@genkit-ai/dotprompt';
 
 // importing our own tooling.
 import * as tools from './tools'
 import * as flows from './flows'
 import * as retrievers from './retrievers';
-import { googleAI } from '@genkit-ai/googleai';
 import { firebaseConfig } from './config/firebase';
 import googleCloud from '@genkit-ai/google-cloud';
 import { AlwaysOnSampler } from '@opentelemetry/sdk-trace-base';
@@ -18,9 +18,11 @@ configureGenkit({
     firebase({
       flowStateStore: { collection: 'flowTraceStore' },
     }),
-    vertexAI({
-      location: 'us-central1',
-    }),
+    googleAI(),
+    // Uncomment to use Vertex AI instead.
+    // vertexAI({
+    //   location: 'us-central1',
+    // }),
     dotprompt({ dir: 'prompts' }),
     googleAI({apiKey: firebaseConfig.apiKey}),
     googleCloud({

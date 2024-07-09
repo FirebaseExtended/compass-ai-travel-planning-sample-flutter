@@ -9,7 +9,7 @@ const firebase_1 = require("../../config/firebase");
 const restaurantFinder_1 = require("../../tools/restaurantFinder");
 const dotprompt_1 = require("@genkit-ai/dotprompt");
 const axios_1 = __importDefault(require("axios"));
-const keys_1 = require("../../config/keys");
+const MAPS_API_KEY = process.env.MAPS_API_KEY;
 const getPlaceActivities = async (placeID) => {
     const result = await (0, backend_1.getActivitiesForPlace)(firebase_1.dataConnectInstance, { placeId: placeID });
     const locationActivies = result.data.activities;
@@ -40,7 +40,7 @@ const generateItineraryForPlace = async (request, location, activityDescs, rForm
 * @returns a Promise to the string url
 */
 const exchangePhotoUri = (photoUri) => {
-    const exchangeUrl = `https://places.googleapis.com/v1/${photoUri}/media?maxHeightPx=400&maxWidthPx=400&key=${keys_1.MAPS_API_KEY}&skipHttpRedirect=true`;
+    const exchangeUrl = `https://places.googleapis.com/v1/${photoUri}/media?maxHeightPx=400&maxWidthPx=400&key=${MAPS_API_KEY}&skipHttpRedirect=true`;
     let url = new Promise((resolve, reject) => {
         axios_1.default.get(exchangeUrl)
             .then((result) => {
@@ -67,6 +67,7 @@ const formatPhoto = async (activityRef, locationRef, photoUri) => {
  * @returns Promise<string> a formatted array of any restaurants that match uesrs preference. Can sometimes be an empty array.
  */
 const restaurantSearch = async (locationName, request) => {
+    // TODO: Have the user fill this in.
     // Search for restaurants
     const finder = await (0, dotprompt_1.prompt)('formatRestaurantsQuery');
     const rresult = await finder.generate({
@@ -76,6 +77,7 @@ const restaurantSearch = async (locationName, request) => {
         },
         returnToolRequests: true
     });
+    // TODO: We are using tool usage here in a contrived example.
     const rOut = await Promise.all(rresult.toolRequests().map(async (element) => await (0, restaurantFinder_1.restaurantFinder)(element.toolRequest.input)));
     let rFormatted = [];
     if (rOut.length > 0) {
@@ -116,7 +118,10 @@ const cleanUpGeneratedItinerary = async (output, locationImgUrl, locationRef) =>
  */
 const tripPlan2 = async (request, location) => {
     const activityDescs = await getPlaceActivities(location.ref);
-    const restaurants = await restaurantSearch(location.name, request);
+    let restaurants = [];
+    if (MAPS_API_KEY) {
+        restaurants = await restaurantSearch(location.name, request);
+    }
     let result;
     // retry request, otherwise, throw an error
     try {

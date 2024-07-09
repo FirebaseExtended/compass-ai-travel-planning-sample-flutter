@@ -4,8 +4,8 @@ import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse }
 import { restaurantFinder } from "../../tools/restaurantFinder";
 import { prompt } from '@genkit-ai/dotprompt';
 import axios from "axios";
-import { MAPS_API_KEY } from "../../config/keys";
 
+const MAPS_API_KEY = process.env.MAPS_API_KEY;
 
 const getPlaceActivities = async (placeID: string): Promise<string[]> => {
     const result = await getActivitiesForPlace(dataConnectInstance, {placeId: placeID});
@@ -132,9 +132,10 @@ const cleanUpGeneratedItinerary = async (
  */
 export const tripPlan2 = async (request: string, location: Destination): Promise<ItineraryGeneratorOutput> => {
     const activityDescs = await getPlaceActivities(location.ref);
-    // TODO: This needs to be commented out so when I want to do a restaurant search,
-    // I know how to format the request.
-    const restaurants = await restaurantSearch(location.name, request);
+    let restaurants: string[] = [];
+    if (MAPS_API_KEY) {
+        restaurants = await restaurantSearch(location.name, request);
+    }
 
     let result: ItineraryGeneratorOutput;
     // retry request, otherwise, throw an error

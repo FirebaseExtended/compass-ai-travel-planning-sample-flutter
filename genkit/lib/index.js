@@ -29,8 +29,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.retrievers = exports.flows = exports.tools = void 0;
 const core_1 = require("@genkit-ai/core");
 const flow_1 = require("@genkit-ai/flow");
-const vertexai_1 = require("@genkit-ai/vertexai");
 const firebase_1 = require("@genkit-ai/firebase");
+const googleai_1 = require("@genkit-ai/googleai");
 const dotprompt_1 = require("@genkit-ai/dotprompt");
 // importing our own tooling.
 const tools = __importStar(require("./tools"));
@@ -39,7 +39,6 @@ const flows = __importStar(require("./flows"));
 exports.flows = flows;
 const retrievers = __importStar(require("./retrievers"));
 exports.retrievers = retrievers;
-const googleai_1 = require("@genkit-ai/googleai");
 const firebase_2 = require("./config/firebase");
 const google_cloud_1 = __importDefault(require("@genkit-ai/google-cloud"));
 const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
@@ -48,10 +47,11 @@ const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
         (0, firebase_1.firebase)({
             flowStateStore: { collection: 'flowTraceStore' },
         }),
-        (0, vertexai_1.vertexAI)({
-            modelGardenModels: [vertexai_1.claude3Opus, vertexai_1.claude3Sonnet],
-            location: 'us-central1',
-        }),
+        (0, googleai_1.googleAI)(),
+        // Uncomment to use Vertex AI instead.
+        // vertexAI({
+        //   location: 'us-central1',
+        // }),
         (0, dotprompt_1.dotprompt)({ dir: 'prompts' }),
         (0, googleai_1.googleAI)({ apiKey: firebase_2.firebaseConfig.apiKey }),
         (0, google_cloud_1.default)({
