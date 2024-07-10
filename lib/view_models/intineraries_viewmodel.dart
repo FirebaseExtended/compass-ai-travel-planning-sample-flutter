@@ -20,8 +20,9 @@ class ItinerariesViewModel extends ChangeNotifier {
     List<UserSelectedImage>? images,
   ) async {
     try {
-      var base64EncodedImages =
-          (images != null) ? ImageClient.base64EncodeImages(images) : null;
+      var base64EncodedImages = (images != null)
+          ? await ImageClient.base64EncodeImages(images)
+          : null;
 
       print('Loading Itineraries from server: $query');
       itineraries = await client.loadItinerariesFromServer(

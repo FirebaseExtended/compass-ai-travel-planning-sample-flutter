@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:mime/mime.dart';
 import 'dart:developer';
+import 'package:image/image.dart' as imgPkg;
 
 import 'package:http/http.dart' as http;
 
@@ -15,6 +17,29 @@ class UserSelectedImage {
   Uint8List bytes;
 
   UserSelectedImage(this.path, this.bytes);
+
+  Future<Uint8List?> get smallBytes async {
+    imgPkg.Image? img = imgPkg.decodeImage(bytes);
+
+    if (img == null) {
+      return null;
+    }
+
+    imgPkg.Image smallImg = imgPkg.copyResize(img, width: 250);
+
+    var smallBytes = imgPkg.encodeNamedImage(path, smallImg);
+
+    if (smallBytes == null) {
+      return null;
+    }
+
+    var compressedBytes = await FlutterImageCompress.compressWithList(
+      smallBytes,
+      quality: 20,
+    );
+
+    return compressedBytes;
+  }
 }
 
 class ImageClient {
@@ -114,12 +139,20 @@ class ImageClient {
     }
   }
 
-  static List<String> base64EncodeImages(List<UserSelectedImage> images) {
+  static Future<List<String>> base64EncodeImages(
+      List<UserSelectedImage> images) async {
     try {
-      List<String> base64Encodedimages = List.generate(
-        images.length,
-        (idx) => 'data:image/jpeg;base64,${base64Encode(images[idx].bytes)}',
-      );
+      List<String> base64Encodedimages = [];
+
+      for (var image in images) {
+        var imgBytes = await image.smallBytes;
+
+        if (imgBytes != null) {
+          print(imgBytes.length);
+          base64Encodedimages
+              .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
+        }
+      }
 
       for (var image in base64Encodedimages) {
         debugPrint(image);
