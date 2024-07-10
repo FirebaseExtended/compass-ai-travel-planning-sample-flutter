@@ -300,7 +300,9 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     ),
                   ]),],)
             ),
-            Row(children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+              const SizedBox(height: 72,),
               Expanded(
                 child: TextButton(
                   style: ButtonStyle(

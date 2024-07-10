@@ -15,24 +15,30 @@ class ActivitiesScreen extends StatefulWidget {
 }
 
 class _ActivitiesScreenState extends State<ActivitiesScreen> {
+  late List<LegacyActivity> activities;
+  late List<LegacyActivity> morningActivities;
+  late List<LegacyActivity> afternoonActivities;
+  late List<LegacyActivity> eveningActivities;
+  late List<LegacyActivity> anyTimeActivities;
+
   @override
   Widget build(BuildContext context) {
-    //print(context.watch<TravelPlan>().query.toString());
-    var activities = context.watch<ActivitiesViewModel>().activities;
+    bool isSmall = MediaQuery.sizeOf(context).width < 800;;
+    activities = context.watch<ActivitiesViewModel>().activities;
 
-    var morningActivities = activities.where((activity) {
+    morningActivities = activities.where((activity) {
       return activity.timeOfDay == 'morning';
     }).toList();
 
-    var afternoonActivities = activities.where((activity) {
+    afternoonActivities = activities.where((activity) {
       return activity.timeOfDay == 'afternoon';
     }).toList();
 
-    var eveningActivities = activities.where((activity) {
+    eveningActivities = activities.where((activity) {
       return activity.timeOfDay == 'evening';
     }).toList();
 
-    var anyTimeActivities = activities.where((activity) {
+    anyTimeActivities = activities.where((activity) {
       return activity.timeOfDay == 'any';
     }).toList();
 
@@ -71,78 +77,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
             horizontal: 16,
             vertical: 8,
           ),
-          child: ListView(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: Text(
-                  'Anytime',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              ...List.generate(anyTimeActivities.length, (index) {
-                return ActivityTile(
-                  activity: anyTimeActivities[index],
-                );
-              }),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: Text(
-                  'Morning',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              ...List.generate(morningActivities.length, (index) {
-                return ActivityTile(
-                  activity: morningActivities[index],
-                );
-              }),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: Text(
-                  'Afternoon',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              ...List.generate(afternoonActivities.length, (index) {
-                return ActivityTile(
-                  activity: afternoonActivities[index],
-                );
-              }),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 4),
-                child: Text(
-                  'Evening',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              ...List.generate(eveningActivities.length, (index) {
-                return ActivityTile(
-                  activity: eveningActivities[index],
-                );
-              }),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-            ],
-          ),
+          child: isSmall ? _buildSmallUI(context) : _buildLargeUI(context),
         ),
         bottomNavigationBar: SafeArea(
           child: Container(
@@ -207,6 +142,181 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSmallUI(BuildContext context) {
+    return ListView(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Anytime',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        ...List.generate(anyTimeActivities.length, (index) {
+          return ActivityTile(
+            activity: anyTimeActivities[index],
+          );
+        }),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Morning',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        ...List.generate(morningActivities.length, (index) {
+          return ActivityTile(
+            activity: morningActivities[index],
+          );
+        }),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Afternoon',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        ...List.generate(afternoonActivities.length, (index) {
+          return ActivityTile(
+            activity: afternoonActivities[index],
+          );
+        }),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Evening',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        ...List.generate(eveningActivities.length, (index) {
+          return ActivityTile(
+            activity: eveningActivities[index],
+          );
+        }),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCardList(List<LegacyActivity>? list) {
+    if (list!.isNotEmpty) {
+      List<Object> objects = [];
+
+      for (var la in list) {
+        objects.add(la);
+        objects.add(const SizedBox(width: 16,));
+      }
+
+      return SizedBox(height: 400, width: 500, child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          ...List.generate(objects.length, (index) {
+            if (objects[index] is LegacyActivity) {
+            return ActivityCard(
+              activity: objects[index] as LegacyActivity,
+            );
+            } else {
+              return objects[index] as SizedBox;
+            }
+          }),
+        ],
+      ) );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildLargeUI(BuildContext context) {
+    return ListView(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Anytime',
+            style: TextStyle(
+              fontSize: 22,
+            ),
+          ),
+        ),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(anyTimeActivities),
+
+        const SizedBox.square(
+          dimension: 16,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Morning',
+            style: TextStyle(
+              fontSize: 22,
+            ),
+          ),
+        ),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(morningActivities),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Afternoon',
+            style: TextStyle(
+              fontSize: 22,
+            ),
+          ),
+        ),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(afternoonActivities),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 4),
+          child: Text(
+            'Evening',
+            style: TextStyle(
+              fontSize: 22,
+            ),
+          ),
+        ),
+        const SizedBox.square(
+          dimension: 8,
+        ),
+        _buildCardList(eveningActivities),
+        const SizedBox.square(
+          dimension: 16,
+        ),
+      ],
     );
   }
 }

@@ -3,6 +3,8 @@ import { defineRetriever, Document } from "@genkit-ai/ai/retriever";
 import { Destination } from "../common/types";
 import { z } from "zod";
 import { dataConnectInstance } from "../config/firebase";
+import { textEmbeddingGecko001 } from "@genkit-ai/googleai";
+import { embed } from "@genkit-ai/ai/embedder";
 
 export const QueryOptions = z.object({
     k: z.number().optional(),
@@ -20,7 +22,11 @@ export const placeRetriever = defineRetriever(
       configSchema: QueryOptions,
     },
     async (input, options) => {
-      const result = await getNearestPlace(dataConnectInstance, { placeDescription: input.text() });
+      const requestEmbedding = await embed({
+        embedder: textEmbeddingGecko001,
+        content: input.text(),
+      });
+      const result = await getNearestPlace(dataConnectInstance, { placeDescriptionVector: requestEmbedding });
   
       const resultData = result.data;
       return {
