@@ -65,3 +65,15 @@ query ListPlaces @auth(level: NO_ACCESS) {
     imageUrl
   }
 }
+
+query ListPlacesByContinent ($continent: String!) @auth(level: NO_ACCESS) {
+  places(where: {continent: {eq: $continent}}) {
+    ref
+    name
+    country
+    continent
+    knownFor
+    tags
+    imageUrl
+  }
+}

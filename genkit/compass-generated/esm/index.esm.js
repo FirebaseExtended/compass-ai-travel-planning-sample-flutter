@@ -41,6 +41,13 @@ export function listPlacesRef(dc) {
 export function listPlaces(dc) {
   return executeQuery(listPlacesRef(dc));
 }
+export function listPlacesByContinentRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(dcOrVars, vars, true);
+  return queryRef(dcInstance, 'ListPlacesByContinent', inputVars);
+}
+export function listPlacesByContinent(dcOrVars, vars) {
+  return executeQuery(listPlacesByContinentRef(dcOrVars, vars));
+}
 function validateArgs(dcOrVars, vars, validateVars) {
   let dcInstance;
   let realVars;

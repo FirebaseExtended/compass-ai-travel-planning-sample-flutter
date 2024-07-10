@@ -85,6 +85,22 @@ export interface ListActivitiesResponse {
   } & Activity_Key)[];
 }
 
+export interface ListPlacesByContinentResponse {
+  places: ({
+    ref: string;
+    name: string;
+    country: string;
+    continent: string;
+    knownFor: string;
+    tags: string[];
+    imageUrl: string;
+  } & Place_Key)[];
+}
+
+export interface ListPlacesByContinentVariables {
+  continent: string;
+}
+
 export interface ListPlacesResponse {
   places: ({
     ref: string;
@@ -145,5 +161,14 @@ export function listPlacesRef(dc: DataConnect): QueryRef<ListPlacesResponse,unde
 
 export function listPlaces(): QueryPromise<ListPlacesResponse, undefined>;
 export function listPlaces(dc: DataConnect): QueryPromise<ListPlacesResponse,undefined>;
+
+
+/* Allow users to create refs without passing in DataConnect */
+export function listPlacesByContinentRef(vars: ListPlacesByContinentVariables): QueryRef<ListPlacesByContinentResponse, ListPlacesByContinentVariables>;
+/* Allow users to pass in custom DataConnect instances */
+export function listPlacesByContinentRef(dc: DataConnect, vars: ListPlacesByContinentVariables): QueryRef<ListPlacesByContinentResponse,ListPlacesByContinentVariables>;
+
+export function listPlacesByContinent(vars: ListPlacesByContinentVariables): QueryPromise<ListPlacesByContinentResponse, ListPlacesByContinentVariables>;
+export function listPlacesByContinent(dc: DataConnect, vars: ListPlacesByContinentVariables): QueryPromise<ListPlacesByContinentResponse,ListPlacesByContinentVariables>;
 
 

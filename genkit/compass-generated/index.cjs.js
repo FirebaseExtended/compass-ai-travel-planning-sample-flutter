@@ -52,6 +52,15 @@ exports.listPlaces = function listPlaces(dc) {
   return executeQuery(listPlacesRef(dc));
 };
 
+function listPlacesByContinentRef(dcOrVars, vars) {
+  const { dc: dcInstance, vars: inputVars} = validateArgs(dcOrVars, vars, true);
+  return queryRef(dcInstance, 'ListPlacesByContinent', inputVars);
+}
+exports.listPlacesByContinentRef = listPlacesByContinentRef;
+exports.listPlacesByContinent = function listPlacesByContinent(dcOrVars, vars) {
+  return executeQuery(listPlacesByContinentRef(dcOrVars, vars));
+};
+
 function validateArgs(dcOrVars, vars, validateVars) {
   let dcInstance;
   let realVars;
