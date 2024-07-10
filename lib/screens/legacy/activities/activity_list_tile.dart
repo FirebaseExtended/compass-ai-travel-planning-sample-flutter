@@ -111,6 +111,7 @@ class _ActivityTileState extends State<ActivityTile> {
   @override
   Widget build(BuildContext context) {
     var duration = widget.activity.duration;
+    checked = context.read<TravelPlan>().activities.contains(widget.activity);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),

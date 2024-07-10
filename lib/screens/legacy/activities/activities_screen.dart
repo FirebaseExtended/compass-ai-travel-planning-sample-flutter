@@ -23,8 +23,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isSmall = false;
-    //print(context.watch<TravelPlan>().query.toString());
+    bool isSmall = MediaQuery.sizeOf(context).width < 800;;
     activities = context.watch<ActivitiesViewModel>().activities;
 
     morningActivities = activities.where((activity) {
