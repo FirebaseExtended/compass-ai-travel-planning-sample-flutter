@@ -104,26 +104,14 @@ class ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(isSmall) {
-      return GestureDetector(
-            onTap: () {
-              context.read<TravelPlan>().destination = destination;
-              context
-                  .read<ActivitiesViewModel>()
-                  .search(location: destination.name);
-              context.push('/legacy/activities');
-            },
-            child: _buildSmall(context));
-      } else {
-        return GestureDetector(
-            onTap: () {
-              context.read<TravelPlan>().destination = destination;
-              context
-                  .read<ActivitiesViewModel>()
-                  .search(location: destination.name);
-              context.push('/legacy/activities');
-            },
-            child: _buildLarge(context));
-      }
+    return GestureDetector(
+        onTap: () {
+          context.read<TravelPlan>().destination = destination;
+          context
+              .read<ActivitiesViewModel>()
+              .search(location: destination.name);
+          context.push('/legacy/activities');
+        },
+        child: isSmall ? _buildSmall(context) : _buildLarge(context));
   }
 }

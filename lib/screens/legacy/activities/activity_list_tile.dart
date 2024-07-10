@@ -14,8 +14,155 @@ class ActivityTile extends StatefulWidget {
   State<ActivityTile> createState() => _ActivityTileState();
 }
 
+Widget _buildLearnMoreDialogSmall(BuildContext context, LegacyActivity activity) {
+  return Dialog(child: Builder(builder: (context) {
+    var width = MediaQuery.sizeOf(context).width;
+    var height = MediaQuery.sizeOf(context).height;
+    print("in small");
+    var duration = activity.duration;
+
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight:  Radius.circular(16),
+            ),
+            child: SizedBox(width: width, height: 0.5* height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
+
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          Column(children: [
+            const SizedBox(height: 16),
+            Padding(padding:EdgeInsets.symmetric(horizontal: 16), child:
+            Text(
+              activity.name,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            )),
+            Text(
+              '$duration ${duration <= 1 ? 'hour' : 'hours'}',
+              style: TextStyle(
+                fontSize: 14,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right:16, bottom: 16),
+              child: SizedBox(
+                  //width: width *0.67,
+                  child: Text(activity.description)),
+            ),
+          ])
+        ]);
+  }));
+}
+
+Widget _buildLearnMoreDialogMid(BuildContext context, LegacyActivity activity) {
+  return Dialog(child: Builder(builder: (context) {
+    var width = MediaQuery.sizeOf(context).width;
+    var height = MediaQuery.sizeOf(context).height;
+    print("in mid");
+    var duration = activity.duration;
+
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight:  Radius.circular(16),
+            ),
+            child: SizedBox(width: width, height: 0.6* height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          Column(children: [
+            const SizedBox(height: 16),
+            Text(
+              activity.name,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              '$duration ${duration <= 1 ? 'hour' : 'hours'}',
+              style: TextStyle(
+                fontSize: 10,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 8, left: 16),
+              child: SizedBox(
+                  //height: 300,
+                  child: Text(activity.description)),
+            ),
+          ])
+        ]);
+  }));
+}
+
+// This is for tablet
+Widget _buildLearnMoreDialogLarge(BuildContext context, LegacyActivity activity) {
+  return Dialog(child: Builder(builder: (context) {
+    var width = MediaQuery.sizeOf(context).width;
+    var height = MediaQuery.sizeOf(context).height;
+    print("in large");
+    var duration = activity.duration;
+
+    return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+      ClipRRect(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(16),
+        ),
+        child: SizedBox(child:Image.network(activity.imageUrl)),
+      ),
+      const SizedBox(
+        width: 16,
+      ),
+      Column(children: [
+        const SizedBox(height: 16),
+        Text(
+          activity.name,
+          style: const TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        Text(
+          '$duration ${duration <= 1 ? 'hour' : 'hours'}',
+          style: TextStyle(
+            fontSize: 10,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 8),
+          child: SizedBox(
+              width: width * 0.4,
+              //height: 300,
+              child: Text(activity.description)),
+        ),
+      ])
+    ]);
+  }));
+}
+
 Widget buildLearnMoreButton(
     BuildContext context, Color color, LegacyActivity activity) {
+  var width = MediaQuery.sizeOf(context).width;
+  var height = MediaQuery.sizeOf(context).height;
+
+  print("width: "+ width.toString());
+  print("height: "+ height.toString());
+
   return TextButton(
     style: ButtonStyle(
       backgroundColor: WidgetStatePropertyAll(color),
@@ -35,65 +182,24 @@ Widget buildLearnMoreButton(
       showDialog(
           context: context,
           builder: (context) {
-            return Dialog(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                    child: Image.network(activity.imageUrl),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-                          child: Text(
-                            activity.name,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
-                          child: Text(
-                            activity.description,
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton.icon(
-                              onPressed: () => Navigator.of(context).pop(),
-                              icon: const Icon(Icons.close),
-                              label: Text(
-                                'Close',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.outline,
-                                ),
-                              ),
-                              style: ButtonStyle(
-                                iconColor: WidgetStatePropertyAll(
-                                  Theme.of(context).colorScheme.outline,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            );
+            return OrientationBuilder(builder: (context, orientation) {
+              print(orientation);
+              if (width < 600) {
+                if (orientation == Orientation.portrait) {
+                  return _buildLearnMoreDialogSmall(context, activity);
+                } else {
+                  return _buildLearnMoreDialogMid(context, activity);
+                }
+              } else if (width > 600 && width < 800) {
+                return _buildLearnMoreDialogMid(context, activity);
+              } else  {
+                if (orientation == Orientation.landscape) {
+                  return _buildLearnMoreDialogLarge(context, activity);
+                } else {
+                  return _buildLearnMoreDialogMid(context, activity);
+                }
+              }
+            });
           });
     },
     child: const Text(
