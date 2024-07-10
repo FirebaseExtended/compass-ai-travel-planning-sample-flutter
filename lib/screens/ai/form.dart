@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -31,6 +32,11 @@ class _FormScreenState extends State<FormScreen> {
   List<UserSelectedImage>? selectedImages;
   bool useVoice = true;
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void generateItineraries() async {
     var query = _queryController.text.trim();
     if (query.isEmpty) {
@@ -57,6 +63,22 @@ class _FormScreenState extends State<FormScreen> {
     }
 
     if (mounted) {
+      precacheImage(
+          const CachedNetworkImageProvider(
+              'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+          context);
+      precacheImage(
+          const CachedNetworkImageProvider(
+              'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+          context);
+      precacheImage(
+          const CachedNetworkImageProvider(
+              'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+          context);
+      precacheImage(
+          const CachedNetworkImageProvider(
+              'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+          context);
       context
           .read<ItinerariesViewModel>()
           .loadItineraries(query, selectedImages);

@@ -710,7 +710,7 @@ packages:
     source: hosted
     version: "1.11.1"
   storybook_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: storybook_flutter
       sha256: "68f07d2caf16bd34e9cfbc479d60298a6568abfac552ea1998ef724344c6cc13"

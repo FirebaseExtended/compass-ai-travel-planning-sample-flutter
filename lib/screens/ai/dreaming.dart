@@ -118,9 +118,9 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
       right: dimens[0].first.right,
       child: RotatingWidget(
         width: dimens[0].second,
-        child: Image.network(
+        child: CachedNetworkImage(
             width: dimens[0].second,
-            'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+            imageUrl: 'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
       ),
     ),
     Positioned(
@@ -128,9 +128,9 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
       left: dimens[1].first.left,
       child: RotatingWidget(
         width: dimens[1].second,
-        child: Image.network(
+        child: CachedNetworkImage(
             width: dimens[1].second,
-            'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+            imageUrl: 'https://rstr.in/google/tripedia/llRpA9RuvTy'),
       ),
     ),
     Positioned(
@@ -138,9 +138,9 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
       right: dimens[2].first.right,
       child: RotatingWidget(
         width: dimens[2].second,
-        child: Image.network(
+        child: CachedNetworkImage(
             width: dimens[2].second,
-            'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+            imageUrl: 'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
       ),
     ),
     Positioned(
@@ -150,9 +150,9 @@ List<Widget> _buildRotatedWidgets(List<Pair<EdgeInsets, double>> dimens) {
         width: dimens[3].second,
         child: ImageFiltered(
           imageFilter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-          child: Image.network(
+          child: CachedNetworkImage(
               width: dimens[3].second,
-              'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+              imageUrl: 'https://rstr.in/google/tripedia/Y292jg7Wr69'),
         ),
       ),
     ),
@@ -234,7 +234,7 @@ class _RotatingWidgetState extends State<RotatingWidget>
       ),
     )
         .animate(onPlay: (controller) => controller.repeat())
-        .fadeIn(duration: 1.seconds)
+        .fadeIn(duration: 2.seconds)
         .then()
         .scale(
             begin: const Offset(.5, .5),
@@ -245,6 +245,6 @@ class _RotatingWidgetState extends State<RotatingWidget>
             begin: const Offset(1, 1),
             end: const Offset(1.1, 1.1),
             duration: 1.seconds)
-        .fadeOut(duration: 1.seconds);
+        .fadeOut(duration: 3.seconds);
   }
 }
