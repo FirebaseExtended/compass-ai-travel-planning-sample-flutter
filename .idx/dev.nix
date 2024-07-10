@@ -25,7 +25,7 @@
     # Sets environment variables in the workspace
     # You can get a Gemini API key through the IDX Integrations panel to the left!
     GOOGLE_API_KEY = "AIzaSyA5f3V6eaJCtCNcObmhA4yW8BhjqIiyjlQ";
-    MAPS_API_KEY = "";
+    MAPS_API_KEY = "AIzaSyDpDSraD5ROWZUFT2YyKK-9-gQ6O-CG_pQ";
   };
   processes = {
     postgresRun = {
@@ -46,6 +46,10 @@
         git lfs install
         git lfs pull
         unzip local.zip -d .
+      '';
+      npm-install = ''
+        cd proxy
+        npm ci
       '';
     };
     onStart = {
