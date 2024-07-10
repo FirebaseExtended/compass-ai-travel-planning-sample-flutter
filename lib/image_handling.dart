@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:mime/mime.dart';
+import 'dart:developer';
+import 'package:image/image.dart' as imgPkg;
 
 import 'package:http/http.dart' as http;
 
@@ -13,6 +17,29 @@ class UserSelectedImage {
   Uint8List bytes;
 
   UserSelectedImage(this.path, this.bytes);
+
+  Future<Uint8List?> get smallBytes async {
+    imgPkg.Image? img = imgPkg.decodeImage(bytes);
+
+    if (img == null) {
+      return null;
+    }
+
+    imgPkg.Image smallImg = imgPkg.copyResize(img, width: 250);
+
+    var smallBytes = imgPkg.encodeNamedImage(path, smallImg);
+
+    if (smallBytes == null) {
+      return null;
+    }
+
+    var compressedBytes = await FlutterImageCompress.compressWithList(
+      smallBytes,
+      quality: 20,
+    );
+
+    return compressedBytes;
+  }
 }
 
 class ImageClient {
@@ -94,17 +121,6 @@ class ImageClient {
     return downloadUrl;
   }
 
-  /*static Future<List<String>> uploadImages(List<File> images) async {
-    List<Future<String>> imagesFutures = List.generate(
-      images.length,
-      (idx) => uploadImage(images[idx]),
-    );
-
-    var imagesDownloadUrls = await Future.wait(imagesFutures);
-
-    return imagesDownloadUrls;
-  }*/
-
   static Future<List<String>> uploadImagesBytes(
       List<UserSelectedImage> images) async {
     try {
@@ -118,6 +134,31 @@ class ImageClient {
       print('Uploaded all images!\n$imagesDownloadUrls');
 
       return imagesDownloadUrls;
+    } catch (e) {
+      throw ('Unable to upload images');
+    }
+  }
+
+  static Future<List<String>> base64EncodeImages(
+      List<UserSelectedImage> images) async {
+    try {
+      List<String> base64Encodedimages = [];
+
+      for (var image in images) {
+        var imgBytes = await image.smallBytes;
+
+        if (imgBytes != null) {
+          debugPrint(imgBytes.length.toString());
+          base64Encodedimages
+              .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
+        }
+      }
+
+      for (var image in base64Encodedimages) {
+        debugPrint(image);
+      }
+
+      return base64Encodedimages;
     } catch (e) {
       throw ('Unable to upload images');
     }

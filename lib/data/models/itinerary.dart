@@ -92,7 +92,7 @@ class Activity {
 
 class ItineraryClient {
   Future<List<Itinerary>> loadItinerariesFromServer(String query,
-      {List<String>? imageUrls}) async {
+      {List<String>? images}) async {
     var endpoint = Uri.https(
       'tripedia-genkit-exp-hovwuqnpzq-uc.a.run.app',
       '/itineraryGenerator2',
@@ -102,7 +102,7 @@ class ItineraryClient {
       {
         'data': {
           'request': query,
-          if (imageUrls != null) 'images': imageUrls,
+          if (images != null) 'images': images,
         },
       },
     );

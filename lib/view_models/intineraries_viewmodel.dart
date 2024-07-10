@@ -20,13 +20,14 @@ class ItinerariesViewModel extends ChangeNotifier {
     List<UserSelectedImage>? images,
   ) async {
     try {
-      var imageUrls =
-          (images != null) ? await ImageClient.uploadImagesBytes(images) : null;
+      var base64EncodedImages = (images != null)
+          ? await ImageClient.base64EncodeImages(images)
+          : null;
 
       print('Loading Itineraries from server: $query');
       itineraries = await client.loadItinerariesFromServer(
         query,
-        imageUrls: imageUrls,
+        images: base64EncodedImages,
       );
     } catch (e) {
       errorMessage = 'Oops we couldn\'t fetch itineraries';
