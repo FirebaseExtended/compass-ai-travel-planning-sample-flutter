@@ -28,7 +28,7 @@ exports.QueryOptions = zod_1.z.object({
  * SDKs are available, we would likely prefer to use those.
  */
 exports.placeRetriever = (0, retriever_1.defineRetriever)({
-    name: 'postgres-placeRetriever',
+    name: 'dataconnect-placeRetriever',
     configSchema: exports.QueryOptions,
 }, async (input, options) => {
     const requestEmbedding = await (0, embedder_1.embed)({

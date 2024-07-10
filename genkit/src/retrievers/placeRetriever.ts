@@ -18,7 +18,7 @@ export const QueryOptions = z.object({
  */
 export const placeRetriever = defineRetriever(
     {
-      name: 'postgres-placeRetriever',
+      name: 'dataconnect-placeRetriever',
       configSchema: QueryOptions,
     },
     async (input, options) => {
