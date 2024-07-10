@@ -18,7 +18,6 @@ Widget _buildLearnMoreDialogSmall(BuildContext context, LegacyActivity activity)
   return Dialog(child: Builder(builder: (context) {
     var width = MediaQuery.sizeOf(context).width;
     var height = MediaQuery.sizeOf(context).height;
-    print("in small");
     var duration = activity.duration;
 
     return Column(
@@ -66,7 +65,6 @@ Widget _buildLearnMoreDialogMid(BuildContext context, LegacyActivity activity) {
   return Dialog(child: Builder(builder: (context) {
     var width = MediaQuery.sizeOf(context).width;
     var height = MediaQuery.sizeOf(context).height;
-    print("in mid");
     var duration = activity.duration;
 
     return Column(
@@ -113,7 +111,6 @@ Widget _buildLearnMoreDialogLarge(BuildContext context, LegacyActivity activity)
   return Dialog(child: Builder(builder: (context) {
     var width = MediaQuery.sizeOf(context).width;
     var height = MediaQuery.sizeOf(context).height;
-    print("in large");
     var duration = activity.duration;
 
     return Row(
@@ -123,7 +120,7 @@ Widget _buildLearnMoreDialogLarge(BuildContext context, LegacyActivity activity)
         borderRadius: const BorderRadius.all(
           Radius.circular(16),
         ),
-        child: SizedBox(child:Image.network(activity.imageUrl)),
+        child: SizedBox(width: 0.5 * width, height: height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
       ),
       const SizedBox(
         width: 16,
@@ -159,9 +156,6 @@ Widget buildLearnMoreButton(
     BuildContext context, Color color, LegacyActivity activity) {
   var width = MediaQuery.sizeOf(context).width;
   var height = MediaQuery.sizeOf(context).height;
-
-  print("width: "+ width.toString());
-  print("height: "+ height.toString());
 
   return TextButton(
     style: ButtonStyle(
