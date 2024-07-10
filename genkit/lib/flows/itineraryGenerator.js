@@ -13,6 +13,7 @@ exports.itineraryGenerator2 = (0, flow_1.defineFlow)({
     inputSchema: types_1.ItineraryRequest,
     outputSchema: zod_1.z.unknown(),
 }, async (tripDetails) => {
+    console.log("RUNNING");
     const placeDescription = await (0, flow_1.run)('getPlaceDescription', async () => {
         if (!tripDetails.images || tripDetails.images.length === 0 || tripDetails.images[0] == "") {
             return '';

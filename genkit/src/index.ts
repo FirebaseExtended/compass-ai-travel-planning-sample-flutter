@@ -51,4 +51,6 @@ configureGenkit({
 // Making our tooling discoverable as endpoints to the flow server.
 export {tools, flows, retrievers};
 
-startFlowsServer();
+startFlowsServer({port: 2222, cors: {
+  origin: "*",
+}});

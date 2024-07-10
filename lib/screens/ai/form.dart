@@ -494,7 +494,8 @@ class _FormScreenState extends State<FormScreen> {
 class QueryClient {
   static Future<Map<String, bool>> hasRequiredInfo(String query) async {
     var endpoint = Uri.https(
-      'tripedia-genkit-exp-hovwuqnpzq-uc.a.run.app',
+      // TODO(@nohe427): Use env vars to set this.
+      '9000-idx-tripedia-flutter-1720557953594.cluster-t23zgfo255e32uuvburngnfnn4.cloudworkstations.dev',
       '/textRefinement',
     );
 

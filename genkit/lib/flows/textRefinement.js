@@ -14,6 +14,7 @@ exports.textRefinement = (0, flow_1.defineFlow)({
     inputSchema: zod_1.z.string(),
     outputSchema: zod_1.z.unknown(),
 }, async (userRequest) => {
+    console.log("RUNNING REFINMENT");
     const refinementPrompt = await (0, dotprompt_1.prompt)('textRefinement');
     const result = await refinementPrompt.generate({
         input: {

@@ -76,5 +76,7 @@ const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
         logger: 'googleCloud',
     },
 });
-(0, flow_1.startFlowsServer)();
+(0, flow_1.startFlowsServer)({ port: 2222, cors: {
+        origin: "*",
+    } });
 //# sourceMappingURL=index.js.map

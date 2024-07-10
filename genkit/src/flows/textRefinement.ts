@@ -15,6 +15,7 @@ export const textRefinement = defineFlow(
       outputSchema: z.unknown(),
     },
     async (userRequest) => {
+        console.log("RUNNING REFINMENT");
         const refinementPrompt = await prompt('textRefinement')
         const result = await refinementPrompt.generate({
             input: {
