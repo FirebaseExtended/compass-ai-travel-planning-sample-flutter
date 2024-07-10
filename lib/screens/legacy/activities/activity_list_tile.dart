@@ -117,10 +117,11 @@ Widget _buildLearnMoreDialogLarge(BuildContext context, LegacyActivity activity)
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
       ClipRRect(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(16),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          bottomLeft: Radius.circular(16),
         ),
-        child: SizedBox(width: 0.5 * width, height: height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
+        child: SizedBox(width: 0.48 * width, height: height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
       ),
       const SizedBox(
         width: 16,
