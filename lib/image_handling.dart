@@ -148,7 +148,7 @@ class ImageClient {
         var imgBytes = await image.smallBytes;
 
         if (imgBytes != null) {
-          print(imgBytes.length);
+          debugPrint(imgBytes.length.toString());
           base64Encodedimages
               .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
         }
