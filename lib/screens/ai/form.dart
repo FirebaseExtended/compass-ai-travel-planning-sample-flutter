@@ -31,58 +31,64 @@ class _FormScreenState extends State<FormScreen> {
   final TextEditingController _queryController = TextEditingController();
   List<UserSelectedImage>? selectedImages;
   bool useVoice = true;
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  bool _processing = false;
 
   void generateItineraries() async {
-    var query = _queryController.text.trim();
-    if (query.isEmpty) {
-      _showAlert();
-      return;
-    }
+    setState(() {
+      _processing = true;
+    });
 
-    // Validate necessary info
+    try {
+      var query = _queryController.text.trim();
+      if (query.isEmpty) {
+        _showAlert();
+        return;
+      }
 
-    var details = await checkQueryDetails(query);
-    print('details: $details');
+      // Validate necessary info
 
-    if (mounted && details.containsValue(false)) {
-      Map<String, dynamic> clarifyingAnswers = await showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return MoreInfoSheet(details: details);
-        },
-      );
+      var details = await checkQueryDetails(query);
+      print('details: $details');
 
-      print('Clarifying Answers: $clarifyingAnswers');
+      if (mounted && details.containsValue(false)) {
+        Map<String, dynamic> clarifyingAnswers = await showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return MoreInfoSheet(details: details);
+          },
+        );
 
-      query += QueryClient.generateRefinements(clarifyingAnswers);
-    }
+        print('Clarifying Answers: $clarifyingAnswers');
 
-    if (mounted) {
-      precacheImage(
-          const CachedNetworkImageProvider(
-              'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
-          context);
-      precacheImage(
-          const CachedNetworkImageProvider(
-              'https://rstr.in/google/tripedia/llRpA9RuvTy'),
-          context);
-      precacheImage(
-          const CachedNetworkImageProvider(
-              'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
-          context);
-      precacheImage(
-          const CachedNetworkImageProvider(
-              'https://rstr.in/google/tripedia/Y292jg7Wr69'),
-          context);
-      context
-          .read<ItinerariesViewModel>()
-          .loadItineraries(query, selectedImages);
-      context.go('/ai/dreaming');
+        query += QueryClient.generateRefinements(clarifyingAnswers);
+      }
+
+      if (mounted) {
+        precacheImage(
+            const CachedNetworkImageProvider(
+                'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+            context);
+        precacheImage(
+            const CachedNetworkImageProvider(
+                'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+            context);
+        precacheImage(
+            const CachedNetworkImageProvider(
+                'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+            context);
+        precacheImage(
+            const CachedNetworkImageProvider(
+                'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+            context);
+        context
+            .read<ItinerariesViewModel>()
+            .loadItineraries(query, selectedImages);
+        context.go('/ai/dreaming');
+      }
+    } finally {
+      setState(() {
+        _processing = false;
+      });
     }
   }
 
@@ -244,13 +250,17 @@ class _FormScreenState extends State<FormScreen> {
                     ),
                   ),
                   onPressed: generateItineraries,
-                  child: Text(
-                    'Plan my dream trip',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 18,
-                    ),
-                  ),
+                  child: _processing
+                      ? CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        )
+                      : Text(
+                          'Plan my dream trip',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            fontSize: 18,
+                          ),
+                        ),
                 ),
               ),
             ]),
@@ -462,13 +472,17 @@ class _FormScreenState extends State<FormScreen> {
               ),
             ),
             onPressed: generateItineraries,
-            child: Text(
-              'Plan my dream trip',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 18,
-              ),
-            ),
+            child: _processing
+                ? CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  )
+                : Text(
+                    'Plan my dream trip',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 18,
+                    ),
+                  ),
           ),
         ),
       ]),
@@ -584,19 +598,19 @@ class TalkToMe extends StatefulWidget {
 }
 
 class _TalkToMeState extends State<TalkToMe> {
-  SpeechToText _speechToText = SpeechToText();
-  bool _speechEnabled = false;
-  String _lastWords = '';
+  final SpeechToText _speechToText = SpeechToText();
+  String mostRecentWords = '';
   bool isListening = false;
 
   @override
   void initState() {
     super.initState();
+    mostRecentWords = '';
     _initSpeech();
   }
 
   void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
+    await _speechToText.initialize();
   }
 
   void _startListening() async {
@@ -610,7 +624,7 @@ class _TalkToMeState extends State<TalkToMe> {
     widget.onVoiceInput(result.recognizedWords);
 
     setState(() {
-      _lastWords = result.recognizedWords;
+      mostRecentWords = mostRecent6Words(result.recognizedWords);
     });
   }
 
@@ -621,36 +635,60 @@ class _TalkToMeState extends State<TalkToMe> {
     });
   }
 
+  String mostRecent6Words(String str) {
+    var words = str.split(' ');
+
+    print(words);
+
+    if (words.length < 6) {
+      return str;
+    } else {
+      return words.getRange(words.length - 6, words.length).join(' ');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: 300,
-        height: 150,
-        child: IconButton(
-          style: ButtonStyle(
-            shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
-              ),
-            ),
-            backgroundColor: WidgetStatePropertyAll(
-              isListening ? Colors.redAccent : Theme.of(context).primaryColor,
-            ),
-            iconColor: const WidgetStatePropertyAll(Colors.white),
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.only(bottom: 24),
+        child: Text(
+          mostRecentWords,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.tertiary,
           ),
-          onPressed: () {
-            isListening ? _stopListening() : _startListening();
-          },
-          icon: isListening
-              ? const Icon(
-                  Icons.mic,
-                  size: 48,
-                )
-              : const Icon(
-                  Icons.mic_off,
-                  size: 48,
+        ),
+      ),
+      SizedBox(
+          width: 300,
+          height: 150,
+          child: IconButton(
+            style: ButtonStyle(
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
                 ),
-        ));
+              ),
+              backgroundColor: WidgetStatePropertyAll(
+                isListening ? Colors.redAccent : Theme.of(context).primaryColor,
+              ),
+              iconColor: const WidgetStatePropertyAll(Colors.white),
+            ),
+            onPressed: () {
+              isListening ? _stopListening() : _startListening();
+            },
+            icon: isListening
+                ? const Icon(
+                    Icons.mic,
+                    size: 48,
+                  )
+                : const Icon(
+                    Icons.mic_off,
+                    size: 48,
+                  ),
+          ))
+    ]);
   }
 }
 
@@ -672,6 +710,7 @@ class _ImageSelectorState extends State<ImageSelector> {
     // TODO: Only allow JPEG and PNG images.
     var picked = await _picker.pickMultiImage(
       imageQuality: 1,
+      limit: 4,
     );
 
     List<UserSelectedImage> userSelectedImages = [];
@@ -721,7 +760,8 @@ class _ImageSelectorState extends State<ImageSelector> {
                 ),
               )
                   .animate(interval: 200.ms)
-                  .scaleXY(begin: 1.1, end: 1, duration: 200.ms),
+                  .fadeIn(duration: 1000.ms)
+                  .scaleXY(begin: 1.1, end: 1, duration: 1000.ms),
             ),
           ),
         )
