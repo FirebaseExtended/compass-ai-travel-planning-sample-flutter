@@ -59,7 +59,6 @@ class SmallDetailedItinerary extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //const AppLogo(dimension: 24),
                       Text(
                         widget.itinerary.name,
                         style: TextStyle(
@@ -350,8 +349,6 @@ class LargeDetailedItinerary extends StatelessWidget {
                 ])),
           ),
         )
-
-        // ),
       ]),
     );
   }
