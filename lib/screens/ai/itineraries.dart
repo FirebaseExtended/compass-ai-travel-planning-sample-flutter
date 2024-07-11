@@ -27,7 +27,15 @@ Widget buildSmallItineraries(BuildContext context, ItinerariesViewModel model) {
       MediaQuery.paddingOf(context).bottom;
 
   return Scaffold(
-    appBar: brandedAppBar,
+    appBar: AppBar(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => Navigator.pop(context),
+      ),
+      actionsIconTheme: const IconThemeData(color: Colors.black12),
+      actions: const [HomeButton()],
+    ),
     body: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -162,8 +170,10 @@ class ItineraryCard extends StatelessWidget {
                           height: 100,
                           child: Wrap(
                             alignment: WrapAlignment.start,
-                            children:
-                                List.generate(itinerary.tags.length, (index) {
+                            children: List.generate(
+                                itinerary.tags.length <= 5
+                                    ? itinerary.tags.length
+                                    : 5, (index) {
                               return BrandChip(
                                 title: itinerary.tags[index],
                               );
