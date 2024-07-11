@@ -161,6 +161,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Just a few more details, please!',
