@@ -94,7 +94,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                   dimension: 24,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding:  const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey[300]!),
                     borderRadius: BorderRadius.circular(16.0),
@@ -265,7 +265,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
             Expanded(
                 child: Row(children: [
                   SizedBox(
-                      width: halfWidth.toDouble(),
+                      width: constraints.maxWidth *0.48,
                       child: LocationPickerGrid(
                         width: 400,
                         height: 200,
