@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -46,10 +47,14 @@ class SmallDetailedItinerary extends StatelessWidget {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              collapsedHeight: kToolbarHeight + 20,
+              systemOverlayStyle: const SystemUiOverlayStyle(
+                systemStatusBarContrastEnforced: true,
+              ),
+              collapsedHeight: kToolbarHeight,
+              backgroundColor: Colors.transparent,
               expandedHeight: 240,
               pinned: false,
-              floating: true,
+              floating: false,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 expandedTitleScale: 2.25,
@@ -107,7 +112,6 @@ class SmallDetailedItinerary extends StatelessWidget {
                   ),
                 ),
               ),
-              backgroundColor: Colors.transparent,
               leading: Padding(
                 padding: const EdgeInsets.all(8),
                 child: IconButton(
@@ -299,7 +303,15 @@ class LargeDetailedItinerary extends StatelessWidget {
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: brandedAppBar,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actionsIconTheme: const IconThemeData(color: Colors.black12),
+        actions: const [HomeButton()],
+      ),
       backgroundColor: colorScheme.surface,
       body: Row(children: [
         const SizedBox.square(
