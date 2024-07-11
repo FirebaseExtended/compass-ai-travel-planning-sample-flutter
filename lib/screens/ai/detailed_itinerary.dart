@@ -439,11 +439,12 @@ class _DayStepperState extends State<DayStepper> {
                 connectorThickness: 0,
                 color: Colors.transparent,
               ),
-              title: Text(widget.activities[index].title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-              subtitle: Text(widget.activities[index].ref),
+              title: Text(
+                widget.activities[index].title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               content: Text(widget.activities[index].description)
                   .animate()
                   .fadeIn(duration: 750.milliseconds),
