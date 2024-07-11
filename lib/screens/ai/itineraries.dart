@@ -145,6 +145,9 @@ class ItineraryCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 32,
                             )),
+                        const SizedBox.square(
+                          dimension: 8,
+                        ),
                         Text(
                             '${prettyDate(itinerary.startDate)} - ${prettyDate(itinerary.endDate)}',
                             style: const TextStyle(
@@ -152,10 +155,13 @@ class ItineraryCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             )),
+                        const SizedBox.square(
+                          dimension: 8,
+                        ),
                         SizedBox(
                           height: 100,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
+                          child: Wrap(
+                            alignment: WrapAlignment.start,
                             children:
                                 List.generate(itinerary.tags.length, (index) {
                               return BrandChip(
