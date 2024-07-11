@@ -9,6 +9,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/config.dart';
 import 'package:tripedia/image_handling.dart';
 import 'package:tripedia/screens/components/basics.dart';
 import 'package:tripedia/view_models/intineraries_viewmodel.dart';
@@ -508,8 +509,8 @@ class _FormScreenState extends State<FormScreen> {
 class QueryClient {
   static Future<Map<String, bool>> hasRequiredInfo(String query) async {
     var endpoint = Uri.https(
-      // TODO(@nohe427): Use env vars to set this.
-      '9000-idx-tripedia-flutter-1720557953594.cluster-t23zgfo255e32uuvburngnfnn4.cloudworkstations.dev',
+      // TODO(@nohe427): Use env vars to set this. ==> see config.dart
+      backendEndpoint,
       '/textRefinement',
     );
 

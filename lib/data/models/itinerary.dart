@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:tripedia/config.dart';
 
 class Itinerary {
   List<DayPlan> dayPlans = [];
@@ -94,8 +95,8 @@ class ItineraryClient {
   Future<List<Itinerary>> loadItinerariesFromServer(String query,
       {List<String>? images}) async {
     var endpoint = Uri.https(
-      // TODO(@nohe427): Use env vars to set this.
-      '9000-idx-tripedia-flutter-1720557953594.cluster-t23zgfo255e32uuvburngnfnn4.cloudworkstations.dev',
+      // TODO(@nohe427): Use env vars to set this. ==> see config.dart
+      backendEndpoint,
       '/itineraryGenerator2',
     );
 
