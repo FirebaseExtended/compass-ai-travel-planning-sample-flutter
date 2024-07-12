@@ -332,14 +332,6 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
     return (_isLabel() && _stepIconHeight != null) ? 2.5 : 2.0;
   }
 
-  bool _isFirst(int index) {
-    return index == 0;
-  }
-
-  bool _isLast(int index) {
-    return widget.steps.length - 1 == index;
-  }
-
   bool _isCurrent(int index) {
     return widget.currentStep == index;
   }

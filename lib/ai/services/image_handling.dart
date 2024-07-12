@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:mime/mime.dart';
-import 'package:image/image.dart' as imgPkg;
+import 'package:image/image.dart' as imgpkg;
 
 import 'package:http/http.dart' as http;
 
@@ -17,15 +17,15 @@ class UserSelectedImage {
   UserSelectedImage(this.path, this.bytes);
 
   Future<Uint8List?> get smallBytes async {
-    imgPkg.Image? img = imgPkg.decodeImage(bytes);
+    imgpkg.Image? img = imgpkg.decodeImage(bytes);
 
     if (img == null) {
       return null;
     }
 
-    imgPkg.Image smallImg = imgPkg.copyResize(img, width: 250);
+    imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
 
-    var smallBytes = imgPkg.encodeNamedImage(path, smallImg);
+    var smallBytes = imgpkg.encodeNamedImage(path, smallImg);
 
     if (smallBytes == null) {
       return null;

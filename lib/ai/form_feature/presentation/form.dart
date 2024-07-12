@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -338,7 +337,7 @@ class _FormScreenState extends State<FormScreen> {
 
   // Conditionally builds the pageview on small screens the textfield is in an
   // elevated card, in large, it's on surfaceContainerLow
-  Widget _buildPageView(BuildContext context, {paginate = true}) {
+  /*Widget _buildPageView(BuildContext context, {paginate = true}) {
     if (paginate) {
       return PageView(
           scrollBehavior: const ScrollBehavior().copyWith(dragDevices: {
@@ -391,7 +390,7 @@ class _FormScreenState extends State<FormScreen> {
         ),
       );
     }
-  }
+  }*/
 
   List<Widget> _buildInputBox(BuildContext context) {
     return <Widget>[

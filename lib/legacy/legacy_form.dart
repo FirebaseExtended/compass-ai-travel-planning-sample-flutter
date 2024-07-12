@@ -227,7 +227,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
   }
 
   Widget _buildWideScreen(BuildContext context, BoxConstraints constraints) {
-    final double halfWidth = constraints.maxWidth * 0.5;
+    //final double halfWidth = constraints.maxWidth * 0.5;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -363,8 +363,8 @@ class LocationPicker extends StatefulWidget {
 
   final String? selected;
   final void Function(String) onSelect;
-  final width;
-  final height;
+  final int width;
+  final int height;
 
   @override
   State<LocationPicker> createState() => _LocationPickerState();
