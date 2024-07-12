@@ -40,6 +40,9 @@ async (input) => {
     });
     console.log(response.data);
     let data = response.data;
+    if (!data.places) {
+        return { places: [] };
+    }
     for (let i = 0; i < data.places.length; i++) {
         if (data.places[i].photos) {
             data.places[i].photos = [data.places[i].photos[0]];

@@ -52,7 +52,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
     context.push('/legacy/results');
   }
 
-  Widget _buildMoreTallThanWideScreen(BuildContext context) {
+  Widget _buildMobileScreen(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -226,8 +226,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
     );
   }
 
-  Widget _buildMoreWideThanTallScreen(
-      BuildContext context, BoxConstraints constraints) {
+  Widget _buildWideScreen(BuildContext context, BoxConstraints constraints) {
     final double halfWidth = constraints.maxWidth * 0.5;
     return Scaffold(
       appBar: AppBar(
@@ -260,19 +259,19 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                 child: Row(
               children: [
                 SizedBox(
-                    width: halfWidth.toDouble(),
+                    width: constraints.maxWidth * 0.48,
                     child: LocationPickerGrid(
                       width: 400,
                       height: 200,
                       selected: selectedLocation,
                       onSelect: selectLocation,
                     )),
-                const SizedBox.square(
-                  dimension: 24,
+                SizedBox.square(
+                  dimension: (constraints.maxWidth > 724) ? 24 : 16,
                 ),
                 Column(children: [
                   Container(
-                    width: constraints.maxWidth * 0.45,
+                    width: constraints.maxWidth * 0.43,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey[300]!),
@@ -284,7 +283,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     dimension: 16,
                   ),
                   Container(
-                    width: constraints.maxWidth * 0.45,
+                    width: constraints.maxWidth * 0.43,
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     decoration: BoxDecoration(
@@ -342,10 +341,13 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
     return LayoutBuilder(builder: (context, constraints) {
       print(constraints);
       final isMoreTallThanWide = constraints.maxHeight > constraints.maxWidth;
+      if (constraints.maxWidth < 550) {
+        return _buildMobileScreen(context);
+      }
       if (isMoreTallThanWide) {
-        return _buildMoreTallThanWideScreen(context);
+        return _buildMobileScreen(context);
       } else {
-        return _buildMoreWideThanTallScreen(context, constraints);
+        return _buildWideScreen(context, constraints);
       }
     });
   }

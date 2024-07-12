@@ -43,6 +43,9 @@ export const restaurantFinder = defineTool(
         );
         console.log(response.data);
         let data = (response.data as PlaceResponse);
+        if (!data.places) {
+          return {places: []} as PlaceResponse;
+        }
         for(let i = 0; i < data.places.length; i++) {
           if (data.places[i].photos) {
             data.places[i].photos = [data.places[i].photos[0]];

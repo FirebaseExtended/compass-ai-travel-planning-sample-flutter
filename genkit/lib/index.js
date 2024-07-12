@@ -22,14 +22,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.retrievers = exports.flows = exports.tools = void 0;
 const core_1 = require("@genkit-ai/core");
 const flow_1 = require("@genkit-ai/flow");
-const firebase_1 = require("@genkit-ai/firebase");
 const googleai_1 = require("@genkit-ai/googleai");
 const dotprompt_1 = require("@genkit-ai/dotprompt");
 // importing our own tooling.
@@ -39,42 +35,17 @@ const flows = __importStar(require("./flows"));
 exports.flows = flows;
 const retrievers = __importStar(require("./retrievers"));
 exports.retrievers = retrievers;
-const google_cloud_1 = __importDefault(require("@genkit-ai/google-cloud"));
-const sdk_trace_base_1 = require("@opentelemetry/sdk-trace-base");
 (0, core_1.configureGenkit)({
     plugins: [
-        (0, firebase_1.firebase)({
-            flowStateStore: { collection: 'flowTraceStore' },
-        }),
         (0, googleai_1.googleAI)(),
         // Uncomment to use Vertex AI instead.
         // vertexAI({
         //   location: 'us-central1',
         // }),
         (0, dotprompt_1.dotprompt)({ dir: 'prompts' }),
-        (0, google_cloud_1.default)({
-            forceDevExport: true, // Set this to true to export telemetry for local runs
-            telemetryConfig: {
-                sampler: new sdk_trace_base_1.AlwaysOnSampler(),
-                autoInstrumentation: true,
-                autoInstrumentationConfig: {
-                    '@opentelemetry/instrumentation-fs': { enabled: false },
-                    '@opentelemetry/instrumentation-dns': { enabled: false },
-                    '@opentelemetry/instrumentation-net': { enabled: false },
-                },
-                metricExportIntervalMillis: 5000,
-                metricExportTimeoutMillis: 5000,
-            },
-        }),
     ],
-    flowStateStore: 'firebase',
-    traceStore: 'firebase',
     enableTracingAndMetrics: true,
     logLevel: 'debug',
-    telemetry: {
-        instrumentation: 'googleCloud',
-        logger: 'googleCloud',
-    },
 });
 (0, flow_1.startFlowsServer)({ port: 2222, cors: {
         origin: "*",

@@ -30,7 +30,9 @@ Widget _buildLearnMoreDialogSmall(
         child: SizedBox(
             width: width,
             height: 0.5 * height,
-            child: Image.network(activity.imageUrl, fit: BoxFit.cover)),
+            child: Image(
+                image: CachedNetworkImageProvider(activity.imageUrl),
+                fit: BoxFit.cover)),
       ),
       const SizedBox(
         width: 16,
@@ -64,32 +66,24 @@ Widget _buildLearnMoreDialogSmall(
 }
 
 Widget _buildLearnMoreDialogMid(BuildContext context, LegacyActivity activity) {
-  return Dialog(child: Builder(builder: (context) {
-    var width = MediaQuery.sizeOf(context).width;
-    var height = MediaQuery.sizeOf(context).height;
-    var duration = activity.duration;
+  return Dialog(
+    child: Builder(builder: (context) {
+      var width = MediaQuery.sizeOf(context).width;
+      var height = MediaQuery.sizeOf(context).height;
+      var duration = activity.duration;
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-        ),
-        child: SizedBox(
-            width: width,
-            height: 0.6 * height,
-            child: Image.network(activity.imageUrl, fit: BoxFit.cover)),
-      ),
-      const SizedBox(
-        width: 16,
-      ),
-      Column(children: [
-        const SizedBox(height: 16),
-        Text(
-          activity.name,
-          style: const TextStyle(
-            fontSize: 18,
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
+          child: SizedBox(
+              width: width,
+              height: 0.6 * height,
+              child: Image(
+                  image: CachedNetworkImageProvider(activity.imageUrl),
+                  fit: BoxFit.cover)),
         ),
         Text(
           '$duration ${duration <= 1 ? 'hour' : 'hours'}',
@@ -104,9 +98,9 @@ Widget _buildLearnMoreDialogMid(BuildContext context, LegacyActivity activity) {
               //height: 300,
               child: Text(activity.description)),
         ),
-      ])
-    ]);
-  }));
+      ]);
+    }),
+  );
 }
 
 // This is for tablet
@@ -126,7 +120,9 @@ Widget _buildLearnMoreDialogLarge(
         child: SizedBox(
             width: 0.48 * width,
             height: height,
-            child: Image.network(activity.imageUrl, fit: BoxFit.cover)),
+            child: Image(
+                image: CachedNetworkImageProvider(activity.imageUrl),
+                fit: BoxFit.cover)),
       ),
       const SizedBox(
         width: 16,
@@ -332,10 +328,10 @@ class _ActivityCardState extends State<ActivityCard> {
                 width: 400,
                 height: 400,
                 child: Stack(fit: StackFit.expand, children: [
-                  Image.network(
-                    widget.activity.imageUrl,
-                    fit: BoxFit.fitHeight,
-                  ),
+                  Image(
+                      image:
+                          CachedNetworkImageProvider(widget.activity.imageUrl),
+                      fit: BoxFit.fitHeight),
                   Positioned(right: 24, top: 24, child: _buildCheck(context)),
                   Positioned(
                       bottom: 32.0,
