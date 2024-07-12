@@ -2839,7 +2839,7 @@
         "imageUrl": "https://storage.googleapis.com/tripedia-images/activities/us-virgin-islands_dive-into-history-at-fort-christiansvaern.jpg",
         "destination": "us-virgin-islands",
         "name": "Dive into History at Fort Christiansvaern",
-        "description": "Step back in time at Fort Christiansvaern, a meticulously preserved 18th-century Danish fort on the island of St. Croix. Explore the ramparts, barracks, and dungeons, and learn about the island's colonial past and its role in the transatlantic slave trade. Immerse yourself in the fascinating history and stunning architecture of this historic landmark.",
+        "description": "Step back in time at Fort Christiansvaern, a meticulously preserved 18th-century Danish fort on the island of St. Croix. Explore the ramparts, barracks, and dungeons, and learn about the island's colonial past and its role in the transatlantic trade. Immerse yourself in the fascinating history and stunning architecture of this historic landmark.",
         "familyFriendly": true,
         "timeOfDay": "any"
     },
@@ -20527,7 +20527,7 @@
         "imageUrl": "https://storage.googleapis.com/tripedia-images/activities/us-virgin-islands_explore-the-annaberg-sugar-plantation-ruins.jpg",
         "name": "Explore the Annaberg Sugar Plantation Ruins",
         "destination": "us-virgin-islands",
-        "description": "Step back in time and delve into the Virgin Islands' colonial past at the Annaberg Sugar Plantation Ruins on St. John. Explore the remnants of this historic site, including the factory, windmill, and slave quarters, and learn about the island's sugar production history and the lives of those who worked on the plantation.",
+        "description": "Step back in time and delve into the Virgin Islands' colonial past at the Annaberg Sugar Plantation Ruins on St. John. Explore the remnants of this historic site, including the factory, windmill, living quarters, and learn about the island's sugar production history and the lives of those who worked on the plantation.",
         "familyFriendly": true,
         "timeOfDay": "any"
     },
@@ -25327,7 +25327,7 @@
         "imageUrl": "https://storage.googleapis.com/tripedia-images/activities/new-orleans_day-trip-to-oak-alley-plantation.jpg",
         "destination": "new-orleans",
         "name": "Day Trip to Oak Alley Plantation",
-        "description": "Step back in time with a day trip to Oak Alley Plantation, a historic sugar plantation renowned for its stunning avenue of live oak trees. Explore the beautifully preserved mansion, learn about the history of the plantation and the lives of enslaved people, and wander through the picturesque grounds. This is a captivating experience that offers a glimpse into Louisiana's complex past.",
+        "description": "Step back in time with a day trip to Oak Alley Plantation, a historic sugar plantation renowned for its stunning avenue of live oak trees. Explore the beautifully preserved mansion, learn about the history of the plantation and the lives of people forced to work there, and wander through the picturesque grounds. This is a captivating experience that offers a glimpse into Louisiana's complex past.",
         "familyFriendly": true,
         "timeOfDay": "any"
     },
@@ -30499,7 +30499,7 @@
         "imageUrl": "https://storage.googleapis.com/tripedia-images/activities/mallorca_explore-the-palma-aquarium.jpg",
         "destination": "mallorca",
         "name": "Explore the Palma Aquarium",
-        "description": "Dive into the fascinating underwater world at Palma Aquarium. Discover a diverse array of marine life, from colorful fish and majestic sharks to playful sea turtles and graceful jellyfish. Learn about marine conservation efforts and enjoy interactive exhibits that are both educational and entertaining for all ages.",
+        "description": "Dive into the fascinating underwater world at Palma Aquarium. Discover a diverse array of marine life, from colorful fish and majestic sharks to playful sea turtles and graceful fish of jelly. Learn about marine conservation efforts and enjoy interactive exhibits that are both educational and entertaining for all ages.",
         "familyFriendly": true,
         "timeOfDay": "any"
     },
