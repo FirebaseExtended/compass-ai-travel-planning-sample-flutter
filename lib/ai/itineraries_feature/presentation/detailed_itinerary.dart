@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tripedia/common/utilties.dart';
 
 import 'components/custom_stepper.dart' as custom_stepper;
 import '../models/itinerary.dart';
 import 'itineraries.dart';
-import '../../common/presentation/app_bar.dart';
+import '../../../common/services/navigation.dart';
+import '../../common/presentation/home_button.dart';
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({required this.itinerary, super.key});
@@ -143,7 +143,7 @@ class SmallDetailedItinerary extends StatelessWidget {
                         backgroundColor:
                             WidgetStatePropertyAll(Colors.grey[300]),
                       ),
-                      onPressed: () => context.go('/'),
+                      onPressed: () => goToSplashScreen(context),
                       icon: const Icon(
                         Icons.home_outlined,
                       ),

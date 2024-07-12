@@ -6,6 +6,7 @@ import 'package:tripedia/common/utilties.dart';
 import '../common/presentation/components/thumbnail.dart';
 import 'activities_feature/models/activity.dart';
 import 'results/presentation/results_viewmodel.dart';
+import '../../../common/services/navigation.dart';
 
 class LegacyFormScreen extends StatefulWidget {
   const LegacyFormScreen({super.key});
@@ -69,7 +70,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     ),
                   ),
                 ),
-                onPressed: () => context.go('/'),
+                onPressed: () => goToSplashScreen(context),
                 icon: const Icon(
                   Icons.home_outlined,
                 ),
@@ -244,7 +245,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     ),
                   ),
                 ),
-                onPressed: () => context.go('/'),
+                onPressed: () => () => goToSplashScreen(context),
                 icon: const Icon(
                   Icons.home_outlined,
                 ),

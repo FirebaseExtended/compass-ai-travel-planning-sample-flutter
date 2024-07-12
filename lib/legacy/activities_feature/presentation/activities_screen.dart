@@ -5,6 +5,7 @@ import 'package:tripedia/legacy/activities_feature/presentation/activity_list_ti
 import '../view_models/activities_viewmodel.dart';
 
 import '../models/activity.dart';
+import '../../../common/services/navigation.dart';
 
 class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({super.key});
@@ -63,7 +64,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                     ),
                   ),
                 ),
-                onPressed: () => context.go('/'),
+                onPressed: () => () => goToSplashScreen(context),
                 icon: const Icon(
                   Icons.home_outlined,
                 ),

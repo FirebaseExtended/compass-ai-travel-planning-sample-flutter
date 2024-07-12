@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../activities_feature/models/activity.dart';
 import '../../../common/utilties.dart';
+import '../../../common/services/navigation.dart';
 
 class ResultsScreen extends StatelessWidget {
   const ResultsScreen({
@@ -64,7 +65,7 @@ class ResultsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => context.go('/'),
+                  onPressed: () => goToSplashScreen(context),
                   icon: const Icon(
                     Icons.home_outlined,
                   ),

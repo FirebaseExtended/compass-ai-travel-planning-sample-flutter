@@ -6,6 +6,7 @@ import 'package:tripedia/legacy/common/widgets/tag_chip.dart';
 import 'package:tripedia/common/utilties.dart';
 
 import '../activities_feature/models/activity.dart';
+import '../../common/services/navigation.dart';
 
 class LegacyItinerary extends StatefulWidget {
   const LegacyItinerary({super.key});
@@ -136,7 +137,7 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
                         backgroundColor: const WidgetStatePropertyAll(
                             Color.fromARGB(170, 148, 136, 136)),
                       ),
-                      onPressed: () => context.go('/'),
+                      onPressed: () => goToSplashScreen(context),
                       icon: Icon(
                         Icons.home_outlined,
                         color: Theme.of(context).colorScheme.onPrimary,
