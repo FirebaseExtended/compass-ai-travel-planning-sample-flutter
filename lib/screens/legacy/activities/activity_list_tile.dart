@@ -28,7 +28,7 @@ Widget _buildLearnMoreDialogSmall(BuildContext context, LegacyActivity activity)
               topLeft: Radius.circular(16),
               topRight:  Radius.circular(16),
             ),
-            child: SizedBox(width: width, height: 0.5* height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
+            child: SizedBox(width: width, height: 0.5* height, child:Image(image:CachedNetworkImageProvider(activity.imageUrl), fit: BoxFit.cover)),
 
           ),
           const SizedBox(
@@ -75,7 +75,7 @@ Widget _buildLearnMoreDialogMid(BuildContext context, LegacyActivity activity) {
               topLeft: Radius.circular(16),
               topRight:  Radius.circular(16),
             ),
-            child: SizedBox(width: width, height: 0.6* height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
+            child: SizedBox(width: width, height: 0.6* height, child:Image(image:CachedNetworkImageProvider(activity.imageUrl), fit: BoxFit.cover)),
           ),
           const SizedBox(
             width: 16,
@@ -121,7 +121,8 @@ Widget _buildLearnMoreDialogLarge(BuildContext context, LegacyActivity activity)
           topLeft: Radius.circular(16),
           bottomLeft: Radius.circular(16),
         ),
-        child: SizedBox(width: 0.48 * width, height: height, child:Image.network(activity.imageUrl, fit: BoxFit.cover)),
+        child: SizedBox(width: 0.48 * width, height: height,
+            child:Image(image:CachedNetworkImageProvider(activity.imageUrl), fit: BoxFit.cover)),
       ),
       const SizedBox(
         width: 16,
