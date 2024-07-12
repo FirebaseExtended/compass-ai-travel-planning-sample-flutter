@@ -61,7 +61,7 @@ class _DreamingScreenState extends State<DreamingScreen> {
       precacheImage(CachedNetworkImageProvider(itinerary.heroUrl), context);
       for (var day in itinerary.dayPlans) {
         for (var activity in day.planForDay) {
-          print('cache-ing ${activity.imageUrl}');
+          debugPrint('cache-ing ${activity.imageUrl}');
           precacheImage(CachedNetworkImageProvider(activity.imageUrl), context);
         }
       }
@@ -106,7 +106,6 @@ class _DreamingScreenState extends State<DreamingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var itineraries = context.watch<ItinerariesViewModel>().itineraries;
     return buildDreamScreen(context);
   }
 }

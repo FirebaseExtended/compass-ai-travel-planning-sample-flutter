@@ -40,7 +40,7 @@ Widget _buildLearnMoreDialogSmall(
       Column(children: [
         const SizedBox(height: 16),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(
               activity.name,
               style: const TextStyle(
@@ -93,7 +93,7 @@ Widget _buildLearnMoreDialogMid(BuildContext context, LegacyActivity activity) {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 8, left: 16),
+          padding: const EdgeInsets.only(top: 8, left: 16),
           child: SizedBox(
               //height: 300,
               child: Text(activity.description)),
@@ -143,7 +143,7 @@ Widget _buildLearnMoreDialogLarge(
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 8),
           child: SizedBox(
               width: width * 0.4,
               //height: 300,
@@ -157,7 +157,6 @@ Widget _buildLearnMoreDialogLarge(
 Widget buildLearnMoreButton(
     BuildContext context, Color color, LegacyActivity activity) {
   var width = MediaQuery.sizeOf(context).width;
-  var height = MediaQuery.sizeOf(context).height;
 
   return TextButton(
     style: ButtonStyle(
@@ -179,7 +178,7 @@ Widget buildLearnMoreButton(
           context: context,
           builder: (context) {
             return OrientationBuilder(builder: (context, orientation) {
-              print(orientation);
+              debugPrint(orientation.toString());
               if (width < 600) {
                 if (orientation == Orientation.portrait) {
                   return _buildLearnMoreDialogSmall(context, activity);

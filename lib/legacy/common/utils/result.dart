@@ -4,10 +4,10 @@
 /// ```dart
 /// switch (result) {
 ///   case Ok(): {
-///     print(result.value);
+///     debugPrint(result.value);
 ///   }
 ///   case Error(): {
-///     print(result.error);
+///     debugPrint(result.error);
 ///   }
 /// }
 /// ```

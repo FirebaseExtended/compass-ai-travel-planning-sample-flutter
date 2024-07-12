@@ -134,12 +134,12 @@ class ItineraryClient {
       for (final itineraryData in itineraryList) {
         final days = <DayPlan>[];
         for (final dayData in itineraryData['itinerary']) {
-          //print(dayData);
+          //debugPrint(dayData);
           final event = DayPlan.fromJson(dayData);
           days.add(event);
         }
 
-        print(itineraryData['itineraryImageUrl']);
+        debugPrint(itineraryData['itineraryImageUrl']);
 
         final itinerary = Itinerary(
           days,
@@ -167,5 +167,5 @@ void main() async {
       .loadItinerariesFromServer(
           'I want a vacation at the beach with beautiful views and good food');
 
-  //print(itineraries);
+  debugPrint(itineraries.toString());
 }

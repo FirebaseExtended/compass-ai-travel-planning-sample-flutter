@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,7 +48,7 @@ class _FormScreenState extends State<FormScreen> {
       // Validate necessary info
 
       var details = await checkQueryDetails(query);
-      print('details: $details');
+      debugPrint('details: $details');
 
       if (mounted && details.containsValue(false)) {
         Map<String, dynamic> clarifyingAnswers = await showModalBottomSheet(
@@ -59,7 +58,7 @@ class _FormScreenState extends State<FormScreen> {
           },
         );
 
-        print('Clarifying Answers: $clarifyingAnswers');
+        debugPrint('Clarifying Answers: $clarifyingAnswers');
 
         query += QueryClient.generateRefinements(clarifyingAnswers);
       }
@@ -265,7 +264,7 @@ class _FormScreenState extends State<FormScreen> {
                 ),
               ),
             ]),
-            SizedBox.square(dimension: 32),
+            const SizedBox.square(dimension: 32),
           ],
         ),
       ),
@@ -274,7 +273,6 @@ class _FormScreenState extends State<FormScreen> {
 
   Widget _buildLargeForm(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     final displayXLTextTheme = GoogleFonts.rubikTextTheme()
         .displayLarge
         ?.copyWith(
@@ -487,14 +485,12 @@ class _FormScreenState extends State<FormScreen> {
           ),
         ),
       ]),
-      SizedBox.square(dimension: 32),
+      const SizedBox.square(dimension: 32),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    var w = MediaQuery.sizeOf(context).width;
-    var h = MediaQuery.sizeOf(context).height;
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       if (constraints.maxWidth < 1024) {
@@ -529,10 +525,10 @@ class QueryClient {
 
       Map<String, dynamic> hasRequiredData = jsonDecode(response.body);
 
-      print('data: $hasRequiredData');
+      debugPrint('data: $hasRequiredData');
       Map<String, dynamic> result =
           hasRequiredData['result'] as Map<String, dynamic>;
-      print('result: $result');
+      debugPrint('result: $result');
       bool cost, kids, date;
 
       {
@@ -565,7 +561,7 @@ class QueryClient {
 }
 
 class BrandGradient extends StatelessWidget {
-  BrandGradient({required this.child, super.key});
+  const BrandGradient({required this.child, super.key});
 
   final Widget child;
 
@@ -639,7 +635,7 @@ class _TalkToMeState extends State<TalkToMe> {
   String mostRecent6Words(String str) {
     var words = str.split(' ');
 
-    print(words);
+    debugPrint(words);
 
     if (words.length < 6) {
       return str;
@@ -784,16 +780,16 @@ class ImageSelectorEmpty extends StatelessWidget {
             color: Theme.of(context).colorScheme.surfaceContainer,
           ),
           height: 120,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BrandGradient(
-                  child: const Icon(
+                  child: Icon(
                 Icons.image_outlined,
                 size: 32,
               )),
-              const SizedBox.square(dimension: 16),
-              const Text('Add images for inspiration'),
+              SizedBox.square(dimension: 16),
+              Text('Add images for inspiration'),
             ],
           ),
         ),

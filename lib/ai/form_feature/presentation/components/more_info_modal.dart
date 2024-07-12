@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 
 class CompassSwitch extends StatelessWidget {
-  CompassSwitch({this.value = false, required this.onChanged, super.key});
+  const CompassSwitch({this.value = false, required this.onChanged, super.key});
 
-  bool value;
-  Function(bool) onChanged;
+  final bool value;
+  final Function(bool) onChanged;
 
   @override
   Widget build(BuildContext context) {

@@ -339,7 +339,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      print(constraints);
+      debugPrint(constraints.toString());
       final isMoreTallThanWide = constraints.maxHeight > constraints.maxWidth;
       if (constraints.maxWidth < 550) {
         return _buildMobileScreen(context);
@@ -470,6 +470,7 @@ class _LocationPickerGridState extends State<LocationPickerGrid>
               ),
             );
           }
+          return null;
         });
   }
 }

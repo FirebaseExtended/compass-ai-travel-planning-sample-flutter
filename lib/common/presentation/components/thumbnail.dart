@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
 
 class Thumbnail extends StatelessWidget {
    const Thumbnail(

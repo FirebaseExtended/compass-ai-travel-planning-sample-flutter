@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
 
-import '../../common/themes/colors.dart';
 import 'result_card.dart';
 import 'results_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<TravelPlan>().query);
+    debugPrint(context.read<TravelPlan>().query.toString());
 
     var startDate =
         prettyDate(context.read<TravelPlan>().query!.dates.start.toString());
@@ -118,6 +117,7 @@ class _Grid extends StatelessWidget {
               destination: viewModel.destinations[index],
             );
           }
+          return null;
         },
       );
     } else {
@@ -136,6 +136,7 @@ class _Grid extends StatelessWidget {
                 destination: viewModel.destinations[index],
               );
             }
+            return null;
           });
     }
   }

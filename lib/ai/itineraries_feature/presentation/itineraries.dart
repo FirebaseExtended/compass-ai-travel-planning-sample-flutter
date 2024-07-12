@@ -72,7 +72,6 @@ Widget buildSmallItineraries(BuildContext context, ItinerariesViewModel model) {
 class _ItinerariesState extends State<Itineraries> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.sizeOf(context);
     var model = context.watch<ItinerariesViewModel>();
 
     if (model.itineraries != null) {
@@ -142,7 +141,7 @@ class ItineraryCard extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(24),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -32,14 +32,14 @@ class Splash extends StatelessWidget {
           ConstrainedBox(
               constraints: const BoxConstraints(
                   maxHeight: 52, minWidth: 320, maxWidth: 360),
-              child: FindMyTripButton()),
+              child: const FindMyTripButton()),
           const SizedBox.square(
             dimension: 16,
           ),
           ConstrainedBox(
               constraints: const BoxConstraints(
                   maxHeight: 52, minWidth: 320, maxWidth: 360),
-              child: DreamTripButton()),
+              child: const DreamTripButton()),
         ],
       ),
     )));

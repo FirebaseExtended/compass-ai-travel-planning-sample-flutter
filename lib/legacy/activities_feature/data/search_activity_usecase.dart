@@ -16,14 +16,14 @@ class SearchActivityUsecase {
   /// All search filter options are optional
   Future<Result<List<LegacyActivity>>> search({String? location}) async {
     bool filter(LegacyActivity activity) {
-      /*print(
+      /*debugPrint(
           '${location!.toLowerCase().replaceAll(' ', '-')} vs ${activity.locationName} vs ${activity.destination}');*/
       return (location == null ||
           activity.destination == location.toLowerCase().replaceAll(' ', '-'));
     }
 
     final result = await _repository.getActivities();
-    //print(result);
+    //debugPrint(result);
     return switch (result) {
       Ok() => Result.ok(result.value.where(filter).toList()),
       Error() => result,

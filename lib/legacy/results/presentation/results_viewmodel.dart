@@ -50,7 +50,7 @@ class ResultsViewModel extends ChangeNotifier {
         {
           // TODO: Handle error
           // ignore: avoid_print
-          print(result.error);
+          debugPrint(result.error.toString());
         }
     }
 

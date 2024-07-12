@@ -1,9 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tripedia/ai/services/image_handling.dart';
-import 'dart:io';
 
 import '../models/itinerary.dart';
 
@@ -24,7 +20,7 @@ class ItinerariesViewModel extends ChangeNotifier {
           ? await ImageClient.base64EncodeImages(images)
           : null;
 
-      print('Loading Itineraries from server: $query');
+      debugPrint('Loading Itineraries from server: $query');
       itineraries = await client.loadItinerariesFromServer(
         query,
         images: base64EncodedImages,

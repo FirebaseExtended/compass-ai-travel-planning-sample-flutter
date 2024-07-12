@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:tripedia/common/utilties.dart';
 
 import 'components/custom_stepper.dart' as custom_stepper;

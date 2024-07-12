@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/legacy/activities_feature/presentation/activity_list_tile.dart';
-import 'package:tripedia/legacy/detailed_itinerary/legacy_itinerary.dart';
 import '../view_models/activities_viewmodel.dart';
 
 import '../models/activity.dart';
@@ -24,7 +23,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
   @override
   Widget build(BuildContext context) {
     bool isSmall = MediaQuery.sizeOf(context).width < 800;
-    ;
     activities = context.watch<ActivitiesViewModel>().activities;
 
     morningActivities = activities.where((activity) {

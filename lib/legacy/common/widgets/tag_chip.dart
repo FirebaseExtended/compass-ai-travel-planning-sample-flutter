@@ -111,7 +111,7 @@ class DetailTagChip extends StatelessWidget {
                   Text(
                     tag,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12,
                       color: Colors.white,

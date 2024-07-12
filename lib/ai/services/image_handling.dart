@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:mime/mime.dart';
-import 'dart:developer';
 import 'package:image/image.dart' as imgPkg;
 
 import 'package:http/http.dart' as http;
@@ -46,10 +44,10 @@ class ImageClient {
   static String? getMimeType(UserSelectedImage image) {
     List<int> header = [];
 
-    image.bytes.forEach((element) {
-      if (element == 0) return;
+    for (var element in image.bytes) {
+      if (element == 0) continue;
       header.add(element);
-    });
+    }
 
     String? mimeType = lookupMimeType(image.path, headerBytes: header);
 
@@ -80,7 +78,7 @@ class ImageClient {
 
       return (uploadUrl, downloadUrl);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       throw ('couldn\'t get image processing urls');
     }
   }
@@ -116,7 +114,7 @@ class ImageClient {
       body: image.bytes,
     );
 
-    print(downloadUrl);
+    debugPrint(downloadUrl);
 
     return downloadUrl;
   }
@@ -131,7 +129,7 @@ class ImageClient {
 
       var imagesDownloadUrls = await Future.wait(imagesFutures);
 
-      print('Uploaded all images!\n$imagesDownloadUrls');
+      debugPrint('Uploaded all images!\n$imagesDownloadUrls');
 
       return imagesDownloadUrls;
     } catch (e) {
@@ -170,7 +168,7 @@ void main() async {
 
   //var downloadUrl = await ImageClient.uploadImage(imageFile);
 
-  //print('Uploaded! Check it out:\n$downloadUrl');
+  //debugPrint('Uploaded! Check it out:\n$downloadUrl');
 
   /*var images = [
     File('assets/images/la-jolla.jpeg').readAsBytes(),
@@ -183,5 +181,5 @@ void main() async {
 
   var downloadUrls = await ImageClient.uploadImagesBytes(imageBytes);
 
-  print(downloadUrls);*/
+  debugPrint(downloadUrls);*/
 }
