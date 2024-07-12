@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/screens/legacy/activities/activity.dart';
@@ -26,10 +27,9 @@ class ResultCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.network(
-            destination.imageUrl,
-            fit: BoxFit.fitHeight,
-          ),
+      Image(image:CachedNetworkImageProvider(
+          destination.imageUrl,
+        ), fit: BoxFit.fitHeight,),
           Positioned(
             bottom: 12.0,
             left: 12.0,
@@ -67,11 +67,9 @@ class ResultCard extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-
-        Image.network(
+          Image(image:CachedNetworkImageProvider(
             destination.imageUrl,
-            fit: BoxFit.fitHeight,
-          ),
+          ), fit: BoxFit.fitHeight,),
           Positioned(
             bottom: 32.0,
             left: 16.0,

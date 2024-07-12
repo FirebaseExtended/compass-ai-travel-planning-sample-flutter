@@ -327,10 +327,7 @@ class _ActivityCardState extends State<ActivityCard> {
                 width: 400,
                 height: 400,
                 child: Stack(fit: StackFit.expand, children: [
-                  Image.network(
-                    widget.activity.imageUrl,
-                    fit: BoxFit.fitHeight,
-                  ),
+                  Image(image: CachedNetworkImageProvider(widget.activity.imageUrl), fit: BoxFit.fitHeight),
                   Positioned(right: 24, top: 24, child: _buildCheck(context)),
                   Positioned(
                       bottom: 32.0,
