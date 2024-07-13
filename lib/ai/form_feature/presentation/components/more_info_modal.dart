@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:intl/intl.dart';
 import 'package:tripedia/common/utilties.dart';
 
 class KidsSwitch extends StatelessWidget {

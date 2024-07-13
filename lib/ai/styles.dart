@@ -12,6 +12,8 @@ ButtonStyle get appBarSquareButtonStyle => ButtonStyle(
       iconColor: const WidgetStatePropertyAll(Colors.black87),
     );
 
+// Whitespace & Padding
+
 // App Theme
 ThemeData get compassAITheme => ThemeData(
       colorScheme: ColorScheme.fromSeed(

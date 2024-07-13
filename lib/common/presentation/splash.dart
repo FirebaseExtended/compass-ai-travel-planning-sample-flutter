@@ -124,7 +124,7 @@ class DreamTripButton extends StatelessWidget {
             );
           },
         ),
-        onPressed: () => context.push('/ai'),
+        onPressed: () => context.go('/ai'),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

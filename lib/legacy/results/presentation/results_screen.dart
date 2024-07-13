@@ -38,7 +38,7 @@ class ResultsScreen extends StatelessWidget {
             ),
             onPressed: () {
               context.read<TravelPlan>().clearQuery();
-              context.pop();
+              Navigator.pop(context);
             },
           ),
           title: Text(
