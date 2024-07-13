@@ -1,4 +1,3 @@
-
 import 'result_card.dart';
 import 'results_viewmodel.dart';
 import 'package:flutter/material.dart';

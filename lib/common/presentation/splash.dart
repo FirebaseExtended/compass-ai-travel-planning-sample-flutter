@@ -48,12 +48,8 @@ class Splash extends StatelessWidget {
   Widget _buildLargeSplash() {
     return Scaffold(
         body: Row(children: [
-      Expanded(
-        child: Image.asset('assets/images/splash-image.png'),
-      ),
-      const SizedBox(
-        width: 120,
-      ),
+      Expanded(child: Image.asset('assets/images/splash-image.png')),
+      const SizedBox(width: 120),
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,9 +65,7 @@ class Splash extends StatelessWidget {
               child: const DreamTripButton())
         ],
       ),
-      const SizedBox(
-        width: 120,
-      ),
+      const SizedBox(width: 120),
     ]));
   }
 }

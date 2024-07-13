@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Thumbnail extends StatelessWidget {
-   const Thumbnail(
-      {required this.image, this.title, this.faded = false, super.key, required this.width, required this.height});
+  const Thumbnail({
+    required this.image,
+    this.title,
+    this.faded = false,
+    super.key,
+    required this.width,
+    required this.height,
+  });
 
   final ImageProvider image;
   final String? title;
