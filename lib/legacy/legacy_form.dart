@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/common/utilties.dart';
+import 'package:tripedia/legacy/results/presentation/results_screen.dart';
 
 import '../common/presentation/components/thumbnail.dart';
 import 'activities_feature/models/activity.dart';
 import 'results/presentation/results_viewmodel.dart';
+import '../../../common/services/navigation.dart';
 
 class LegacyFormScreen extends StatefulWidget {
   const LegacyFormScreen({super.key});
@@ -49,7 +51,12 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
 
     context.read<ResultsViewModel>().search(continent: location);
 
-    context.push('/legacy/results');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ResultsScreen(),
+      ),
+    );
   }
 
   Widget _buildMobileScreen(BuildContext context) {
@@ -69,7 +76,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     ),
                   ),
                 ),
-                onPressed: () => context.go('/'),
+                onPressed: () => goToSplashScreen(context),
                 icon: const Icon(
                   Icons.home_outlined,
                 ),
@@ -244,7 +251,7 @@ class _LegacyFormScreenState extends State<LegacyFormScreen> {
                     ),
                   ),
                 ),
-                onPressed: () => context.go('/'),
+                onPressed: () => () => goToSplashScreen(context),
                 icon: const Icon(
                   Icons.home_outlined,
                 ),

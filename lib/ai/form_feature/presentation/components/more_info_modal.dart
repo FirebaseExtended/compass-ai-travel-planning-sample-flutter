@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:intl/intl.dart';
+import 'package:tripedia/common/utilties.dart';
 
-class CompassSwitch extends StatelessWidget {
-  const CompassSwitch({this.value = false, required this.onChanged, super.key});
+class KidsSwitch extends StatelessWidget {
+  const KidsSwitch({this.value = false, required this.onChanged, super.key});
 
   final bool value;
   final Function(bool) onChanged;
@@ -25,16 +25,16 @@ class CompassSwitch extends StatelessWidget {
   }
 }
 
-class CompassDateInput extends StatefulWidget {
-  const CompassDateInput({required this.onChanged, super.key});
+class TravelDateTextField extends StatefulWidget {
+  const TravelDateTextField({required this.onChanged, super.key});
 
   final Function(String) onChanged;
 
   @override
-  State<CompassDateInput> createState() => _CompassDateInputState();
+  State<TravelDateTextField> createState() => _TravelDateTextFieldState();
 }
 
-class _CompassDateInputState extends State<CompassDateInput> {
+class _TravelDateTextFieldState extends State<TravelDateTextField> {
   TextEditingController userInputtedDate = TextEditingController();
 
   @override
@@ -56,7 +56,7 @@ class _CompassDateInputState extends State<CompassDateInput> {
           decoration: InputDecoration(
             label: const Text('When would you like to travel?'),
             hintText:
-                '${formatter.format(DateTime.now())}, July 2025, next year...',
+                '${datesWithSlash.format(DateTime.now())}, July 2025, next year...',
           ),
         ),
       ),
@@ -65,11 +65,8 @@ class _CompassDateInputState extends State<CompassDateInput> {
   }
 }
 
-final DateFormat formatter = DateFormat('MM/dd/yyyy');
-
-class CompassSlider extends StatelessWidget {
-  const CompassSlider(
-      {required this.value, required this.onChanged, super.key});
+class BudgetSlider extends StatelessWidget {
+  const BudgetSlider({required this.value, required this.onChanged, super.key});
 
   final double value;
   final Function(double) onChanged;
@@ -134,22 +131,7 @@ class MoreInfoSheet extends StatefulWidget {
 class _MoreInfoSheetState extends State<MoreInfoSheet> {
   bool hasKids = false;
   double budget = 1;
-  String date = formatter.format(DateTime.now());
-
-  @override
-  void initState() {
-    /*if (widget.details['kids'] != null) {
-      hasKids = widget.details['kids'] as bool;
-    }
-    if (widget.details['cost'] != null) {
-      budget = widget.details['budget'] as double;
-    }
-    if (widget.details['date'] != null) {
-      date = widget.details['date'] as String;
-    }*/
-
-    super.initState();
-  }
+  String date = '';
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +153,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
               ),
               if (widget.details['kids'] == false)
                 Column(children: [
-                  CompassSwitch(
+                  KidsSwitch(
                     value: hasKids,
                     onChanged: (val) {
                       setState(() {
@@ -186,7 +168,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
               ),
               if (widget.details['date'] == false)
                 Column(children: [
-                  CompassDateInput(onChanged: (userInputtedDate) {
+                  TravelDateTextField(onChanged: (userInputtedDate) {
                     setState(() {
                       date = userInputtedDate;
                     });
@@ -197,7 +179,7 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
                   const Divider(),
                 ]),
               if (widget.details['cost'] == false)
-                CompassSlider(
+                BudgetSlider(
                   value: budget,
                   onChanged: (val) {
                     setState(() {

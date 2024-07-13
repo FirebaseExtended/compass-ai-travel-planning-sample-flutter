@@ -4,10 +4,12 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../common/presentation/branding.dart';
-import '../../common/presentation/app_bar.dart';
+import '../../common/presentation/home_button.dart';
 import 'dart:math';
 import 'dart:ui';
 import '../../itineraries_feature/view_models/intineraries_viewmodel.dart';
+
+import '../../itineraries_feature/presentation/itineraries.dart';
 
 class DreamingScreen extends StatefulWidget {
   const DreamingScreen({super.key});
@@ -82,7 +84,11 @@ class _DreamingScreenState extends State<DreamingScreen> {
         context.go('/ai');
       });
     } else if (itineraries != null) {
-      context.go('/ai/itineraries');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const Itineraries(),
+        ),
+      );
     }
   }
 

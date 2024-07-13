@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/legacy/activities_feature/models/activity.dart';
+import 'package:tripedia/legacy/activities_feature/presentation/activities_screen.dart';
 
 import '../../common/themes/text_styles.dart';
 import '../../common/widgets/tag_chip.dart';
@@ -118,7 +119,12 @@ class ResultCard extends StatelessWidget {
           context
               .read<ActivitiesViewModel>()
               .search(location: destination.name);
-          context.push('/legacy/activities');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ActivitiesScreen(),
+            ),
+          );
         },
         child: isSmall ? _buildSmall(context) : _buildLarge(context));
   }

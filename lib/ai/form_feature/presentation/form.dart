@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tripedia/ai/form_feature/presentation/dreaming.dart';
 import 'package:tripedia/config.dart';
 import 'package:tripedia/ai/services/image_handling.dart';
 import 'package:tripedia/ai/form_feature/presentation/components/more_info_modal.dart';
@@ -82,7 +83,8 @@ class _FormScreenState extends State<FormScreen> {
         context
             .read<ItinerariesViewModel>()
             .loadItineraries(query, selectedImages);
-        context.go('/ai/dreaming');
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DreamingScreen()));
       }
     } finally {
       setState(() {

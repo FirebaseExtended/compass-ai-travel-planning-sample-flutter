@@ -4,6 +4,7 @@ import 'dart:ui';
 
 final DateFormat dateFormatter = DateFormat('MMMM dd, yyyy');
 final DateFormat shortenedDateFormatter = DateFormat('MMM dd, yyyy');
+final DateFormat datesWithSlash = DateFormat('MM/dd/yyyy');
 
 String prettyDate(String dateStr) {
   return dateFormatter.format(DateTime.parse(dateStr));
