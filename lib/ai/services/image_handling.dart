@@ -23,13 +23,9 @@ class UserSelectedImage {
       return null;
     }
 
-    debugPrint('copy & resize');
     imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
-
-    debugPrint('encodeJpg');
     Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 20);
 
-    debugPrint('return');
     return smallBytes;
   }
 }
@@ -140,7 +136,6 @@ class ImageClient {
         var imgBytes = await image.smallBytes;
 
         if (imgBytes != null) {
-          debugPrint(imgBytes.length.toString());
           base64Encodedimages
               .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
         }
