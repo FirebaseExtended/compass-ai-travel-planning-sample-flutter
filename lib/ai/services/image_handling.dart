@@ -23,20 +23,14 @@ class UserSelectedImage {
       return null;
     }
 
+    debugPrint('copy & resize');
     imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
 
-    var smallBytes = imgpkg.encodeNamedImage(path, smallImg);
+    debugPrint('encodeJpg');
+    Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 20);
 
-    if (smallBytes == null) {
-      return null;
-    }
-
-    var compressedBytes = await FlutterImageCompress.compressWithList(
-      smallBytes,
-      quality: 20,
-    );
-
-    return compressedBytes;
+    debugPrint('return');
+    return smallBytes;
   }
 }
 
