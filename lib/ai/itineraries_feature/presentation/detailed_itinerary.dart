@@ -8,7 +8,7 @@ import 'components/custom_stepper.dart' as custom_stepper;
 import '../models/itinerary.dart';
 import 'itineraries.dart';
 import '../../../common/services/navigation.dart';
-import '../../common/presentation/home_button.dart';
+import '../../common/components.dart';
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({required this.itinerary, super.key});

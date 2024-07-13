@@ -17,7 +17,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
-import '../../common/presentation/branding.dart';
+import '../../common/components.dart';
 import '../../../common/presentation/components/thumbnail.dart';
 
 class FormScreen extends StatefulWidget {

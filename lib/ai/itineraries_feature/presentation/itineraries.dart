@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/ai/itineraries_feature/presentation/detailed_itinerary.dart';
 import 'package:tripedia/common/utilties.dart';
-import '../../common/presentation/app_bar.dart';
+import '../../common/components.dart';
 import '../models/itinerary.dart';
 import '../view_models/intineraries_viewmodel.dart';
-import '../../common/presentation/home_button.dart';
 
 class Itineraries extends StatefulWidget {
   const Itineraries({super.key});
