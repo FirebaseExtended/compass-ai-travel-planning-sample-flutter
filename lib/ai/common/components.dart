@@ -20,6 +20,31 @@ class AppLogo extends StatelessWidget {
   }
 }
 
+class BrandGradient extends StatelessWidget {
+  const BrandGradient({required this.child, super.key});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) => const LinearGradient(colors: [
+        Color(0xff59B7EC),
+        Color(0xff9A62E1),
+        Color(0xffE66CF9),
+      ], stops: [
+        0.0,
+        0.05,
+        0.9,
+      ]).createShader(
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
+      child: child,
+    );
+  }
+}
+
 PreferredSizeWidget get brandedAppBar {
   return AppBar(
     backgroundColor: Colors.transparent,
