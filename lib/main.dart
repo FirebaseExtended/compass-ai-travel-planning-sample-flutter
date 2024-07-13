@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:provider/provider.dart';
 import 'package:tripedia/ai/ai_root.dart';
-import 'package:tripedia/ai/itineraries_feature/models/itinerary.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tripedia/common/presentation/splash.dart';
 import 'package:tripedia/common/utilties.dart';
 import 'package:tripedia/legacy/legacy_root.dart';
 
-import 'ai/form_feature/presentation/form.dart';
-import 'ai/itineraries_feature/view_models/intineraries_viewmodel.dart';
-
 void main() {
   Animate.restartOnHotReload = true;
-  runApp(const MyApp());
+  runApp(const CompassApp());
 }
 
 // GoRouter configuration
@@ -37,8 +32,8 @@ final _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CompassApp extends StatelessWidget {
+  const CompassApp({super.key});
 
   @override
   Widget build(BuildContext context) {

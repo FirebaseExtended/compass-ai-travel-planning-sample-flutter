@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/legacy/activities_feature/presentation/activity_list_tile.dart';
 import 'package:tripedia/legacy/common/widgets/tag_chip.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tripedia/common/utilties.dart';
 import 'package:tripedia/legacy/results/presentation/results_screen.dart';
