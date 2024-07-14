@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/ai/form_feature/presentation/dreaming.dart';
+import 'package:tripedia/ai/dreaming_feature/presentation/dreaming.dart';
 import 'package:tripedia/ai/itineraries_feature/presentation/itineraries.dart';
 import '../view_models/intineraries_viewmodel.dart';
 
