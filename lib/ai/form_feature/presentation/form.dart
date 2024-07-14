@@ -40,42 +40,28 @@ class _FormScreenState extends State<FormScreen> {
 
       // Validate necessary info
 
-      var details = await checkQueryDetails(query);
-      debugPrint('details: $details');
+      var details = await QueryClient.hasRequiredInfo(query);
 
       if (mounted && details.containsValue(false)) {
-        Map<String, dynamic> clarifyingAnswers = await showModalBottomSheet(
+        Map<String, dynamic> refinementAnswers = await showModalBottomSheet(
           context: context,
           builder: (context) {
             return MoreInfoSheet(details: details);
           },
         );
 
-        debugPrint('Clarifying Answers: $clarifyingAnswers');
-
-        query += QueryClient.generateRefinements(clarifyingAnswers);
+        query += QueryClient.generateRefinements(refinementAnswers);
       }
 
       if (mounted) {
-        precacheImage(
-            const CachedNetworkImageProvider(
-                'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
-            context);
-        precacheImage(
-            const CachedNetworkImageProvider(
-                'https://rstr.in/google/tripedia/llRpA9RuvTy'),
-            context);
-        precacheImage(
-            const CachedNetworkImageProvider(
-                'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
-            context);
-        precacheImage(
-            const CachedNetworkImageProvider(
-                'https://rstr.in/google/tripedia/Y292jg7Wr69'),
-            context);
+        precacheDreamingImages();
+
+        // Load itineraries with user query
         context
             .read<ItinerariesViewModel>()
             .loadItineraries(query, selectedImages);
+
+        // Show "dreaming" screen
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const DreamingScreen()));
       }
@@ -86,10 +72,23 @@ class _FormScreenState extends State<FormScreen> {
     }
   }
 
-  Future<Map<String, Object?>> checkQueryDetails(String query) async {
-    var hasNeededInfo = await QueryClient.hasRequiredInfo(query);
-
-    return hasNeededInfo;
+  void precacheDreamingImages() {
+    precacheImage(
+        const CachedNetworkImageProvider(
+            'https://rstr.in/google/tripedia/x9b8ZmlQhod'),
+        context);
+    precacheImage(
+        const CachedNetworkImageProvider(
+            'https://rstr.in/google/tripedia/llRpA9RuvTy'),
+        context);
+    precacheImage(
+        const CachedNetworkImageProvider(
+            'https://rstr.in/google/tripedia/ANNOvZaekFJ'),
+        context);
+    precacheImage(
+        const CachedNetworkImageProvider(
+            'https://rstr.in/google/tripedia/Y292jg7Wr69'),
+        context);
   }
 
   _showAlert() {
