@@ -5,11 +5,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:tripedia/common/utilties.dart';
 
 import 'components/custom_stepper.dart' as custom_stepper;
-import '../models/itinerary.dart';
-import 'itineraries.dart';
 import '../../../common/services/navigation.dart';
 import '../../common/components.dart';
-import '../models/activity.dart';
+import '../models/models.dart';
+import './components/components.dart';
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({required this.itinerary, super.key});

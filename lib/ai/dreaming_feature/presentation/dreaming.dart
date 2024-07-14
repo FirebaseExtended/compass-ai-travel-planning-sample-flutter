@@ -61,7 +61,7 @@ class _DreamingScreenState extends State<DreamingScreen> {
     } else if (itineraries != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const Itineraries(),
+          builder: (context) => const ItinerariesScreen(),
         ),
       );
     }
