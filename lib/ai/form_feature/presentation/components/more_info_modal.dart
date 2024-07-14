@@ -72,7 +72,7 @@ class BudgetSlider extends StatelessWidget {
   final Function(double) onChanged;
 
   String getLabel(double value) {
-    return "\$" * value.toInt();
+    return '\$' * value.toInt();
   }
 
   @override
