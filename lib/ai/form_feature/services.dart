@@ -7,16 +7,11 @@ import 'package:http/http.dart' as http;
 class QueryClient {
   static Future<Map<String, bool>> hasRequiredInfo(String query) async {
     var endpoint = Uri.https(
-      // TODO(@nohe427): Use env vars to set this. ==> see config.dart
-      backendEndpoint,
-      '/textRefinement',
-    );
+        // TODO(@nohe427): Use env vars to set this. ==> see config.dart
+        backendEndpoint,
+        '/textRefinement');
 
-    var jsonBody = jsonEncode(
-      {
-        'data': query,
-      },
-    );
+    var jsonBody = jsonEncode({'data': query});
 
     try {
       var response = await http.post(
@@ -26,13 +21,10 @@ class QueryClient {
       );
 
       Map<String, dynamic> hasRequiredData = jsonDecode(response.body);
-
-      debugPrint('data: $hasRequiredData');
       Map<String, dynamic> result =
           hasRequiredData['result'] as Map<String, dynamic>;
-      debugPrint('result: $result');
-      bool cost, kids, date;
 
+      bool cost, kids, date;
       {
         'cost': cost as bool,
         'kids': kids as bool,

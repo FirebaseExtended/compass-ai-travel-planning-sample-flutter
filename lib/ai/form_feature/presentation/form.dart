@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/ai/form_feature/presentation/dreaming.dart';
+import 'package:tripedia/ai/dreaming_feature/presentation/dreaming.dart';
 import 'package:tripedia/ai/services/image_handling.dart';
 import 'package:tripedia/ai/itineraries_feature/view_models/intineraries_viewmodel.dart';
 import 'package:tripedia/ai/styles.dart';
@@ -10,6 +10,7 @@ import 'package:tripedia/ai/styles.dart';
 import '../../common/components.dart';
 import './components/components.dart';
 import '../services.dart';
+import '../../dreaming_feature/presentation/dreaming.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
