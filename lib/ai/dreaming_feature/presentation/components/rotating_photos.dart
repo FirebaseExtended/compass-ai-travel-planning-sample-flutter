@@ -4,26 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:ui';
 import 'dart:math';
 
-class Pair<S, T> {
-  late S first;
-  late T second;
-
-  Pair(this.first, this.second);
-}
-
-final smallDeviceDimens = <Pair<EdgeInsets, double>>[
-  Pair(const EdgeInsets.only(top: -100, right: -100), 400),
-  Pair(const EdgeInsets.only(top: 300, left: -100), 200),
-  Pair(const EdgeInsets.only(right: 40, bottom: 250), 100),
-  Pair(const EdgeInsets.only(right: -100, bottom: -100), 400)
-];
-final largeDeviceDimens = <Pair<EdgeInsets, double>>[
-  Pair(const EdgeInsets.only(top: -85, right: 100), 400),
-  Pair(const EdgeInsets.only(top: 300, left: 150), 250),
-  Pair(const EdgeInsets.only(right: 370, bottom: 370), 100),
-  Pair(const EdgeInsets.only(right: 100, bottom: -50), 400)
-];
-
 List<Widget> buildRotatingPhotos(BuildContext context) {
   var isTablet = MediaQuery.sizeOf(context).shortestSide < 800;
   var dimens = isTablet ? smallDeviceDimens : largeDeviceDimens;
@@ -123,3 +103,23 @@ class _RotateScaleWidgetState extends State<RotateScaleWidget>
         .fadeOut(duration: 3.seconds);
   }
 }
+
+class Pair<S, T> {
+  late S first;
+  late T second;
+
+  Pair(this.first, this.second);
+}
+
+final smallDeviceDimens = <Pair<EdgeInsets, double>>[
+  Pair(const EdgeInsets.only(top: -100, right: -100), 400),
+  Pair(const EdgeInsets.only(top: 300, left: -100), 200),
+  Pair(const EdgeInsets.only(right: 40, bottom: 250), 100),
+  Pair(const EdgeInsets.only(right: -100, bottom: -100), 400)
+];
+final largeDeviceDimens = <Pair<EdgeInsets, double>>[
+  Pair(const EdgeInsets.only(top: -85, right: 100), 400),
+  Pair(const EdgeInsets.only(top: 300, left: 150), 250),
+  Pair(const EdgeInsets.only(right: 370, bottom: 370), 100),
+  Pair(const EdgeInsets.only(right: 100, bottom: -50), 400)
+];
