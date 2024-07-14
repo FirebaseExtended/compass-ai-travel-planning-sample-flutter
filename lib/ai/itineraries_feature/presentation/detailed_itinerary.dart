@@ -9,6 +9,7 @@ import '../models/itinerary.dart';
 import 'itineraries.dart';
 import '../../../common/services/navigation.dart';
 import '../../common/components.dart';
+import '../models/activity.dart';
 
 class DetailedItinerary extends StatefulWidget {
   const DetailedItinerary({required this.itinerary, super.key});
