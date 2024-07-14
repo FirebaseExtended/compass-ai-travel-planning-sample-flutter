@@ -26,6 +26,8 @@ class _ImageSelectorState extends State<ImageSelector> {
       limit: 4,
     );
 
+    if (picked.isEmpty) return;
+
     List<UserSelectedImage> userSelectedImages = [];
 
     for (var image in picked) {
