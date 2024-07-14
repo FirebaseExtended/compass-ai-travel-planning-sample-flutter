@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 
@@ -103,5 +104,74 @@ class _TalkToMeState extends State<TalkToMe> {
                   ),
           ))
     ]);
+  }
+}
+
+class VoiceOrTextInput extends StatefulWidget {
+  const VoiceOrTextInput(
+      {required this.promptController,
+      required this.onUserVoiceInput,
+      super.key});
+
+  final TextEditingController promptController;
+  final void Function(String) onUserVoiceInput;
+
+  @override
+  State<VoiceOrTextInput> createState() => _VoiceOrTextInputState();
+}
+
+class _VoiceOrTextInputState extends State<VoiceOrTextInput> {
+  bool useVoice = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          useVoice
+              ? Center(
+                  child: TalkToMe(onVoiceInput: widget.onUserVoiceInput),
+                ).animate().scale()
+              : Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: TextField(
+                        controller: widget.promptController,
+                        keyboardType: TextInputType.multiline,
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          hintText: 'Write anything',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ).animate().scale(),
+                ),
+          const SizedBox.square(
+            dimension: 4,
+          ),
+          TextButton.icon(
+            label: useVoice
+                ? const Text(
+                    'Type instead',
+                  )
+                : const Text('Talk'),
+            onPressed: () {
+              setState(() {
+                useVoice = !useVoice;
+              });
+            },
+            icon: useVoice ? const Icon(Icons.keyboard) : const Icon(Icons.mic),
+          ).animate().shimmer()
+        ],
+      ),
+    );
   }
 }
