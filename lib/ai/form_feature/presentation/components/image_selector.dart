@@ -22,7 +22,7 @@ class _ImageSelectorState extends State<ImageSelector> {
   void selectImages() async {
     // TODO: Only allow JPEG and PNG images.
     var picked = await _picker.pickMultiImage(
-      imageQuality: 50,
+      imageQuality: 20,
       limit: 4,
     );
 
