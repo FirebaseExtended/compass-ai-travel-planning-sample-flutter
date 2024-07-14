@@ -31,7 +31,7 @@ class _ItinerariesScreenState extends State<ItinerariesScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DetailedItinerary(itinerary: itinerary),
+        builder: (context) => DetailedItineraryScreen(itinerary: itinerary),
       ),
     );
   }
