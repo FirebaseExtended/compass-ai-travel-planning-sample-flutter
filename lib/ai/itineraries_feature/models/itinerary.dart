@@ -105,6 +105,5 @@ void main() async {
   List<Itinerary> itineraries = await ItineraryClient()
       .loadItinerariesFromServer(
           'I want a vacation at the beach with beautiful views and good food');
-
-  debugPrint(itineraries.toString());
+  print(itineraries);
 }
