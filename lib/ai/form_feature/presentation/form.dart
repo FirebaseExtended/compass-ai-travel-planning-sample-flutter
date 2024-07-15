@@ -10,7 +10,6 @@ import 'package:tripedia/ai/styles.dart';
 import '../../common/components.dart';
 import './components/components.dart';
 import '../services.dart';
-import '../../dreaming_feature/presentation/dreaming.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
