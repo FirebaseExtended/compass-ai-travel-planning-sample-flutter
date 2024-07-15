@@ -1,23 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../results/business/model/destination.dart';
-
-class TravelQuery {
-  String location;
-  DateTimeRange dates;
-  int numPeople;
-
-  TravelQuery({
-    required this.location,
-    required this.dates,
-    required this.numPeople,
-  });
-
-  @override
-  String toString() {
-    return 'TravelQuery(location: $location, dates: start: ${dates.start} end: ${dates.end}, numPeople: $numPeople)';
-  }
-}
+import '../../form_feature/models/travel_query.dart';
 
 class TravelPlan extends ChangeNotifier {
   TravelQuery? query;
