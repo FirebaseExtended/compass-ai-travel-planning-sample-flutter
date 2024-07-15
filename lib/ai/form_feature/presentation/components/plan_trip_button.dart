@@ -13,33 +13,40 @@ class PlanTripButton extends StatelessWidget {
       Expanded(
         child: TextButton(
           style: ButtonStyle(
-            padding: const WidgetStatePropertyAll(
-              EdgeInsets.symmetric(
-                vertical: 16,
-                horizontal: 8,
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 8,
+                ),
               ),
-            ),
-            shape: WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
-            ),
-            backgroundColor: WidgetStatePropertyAll(
-              Theme.of(context).colorScheme.primary,
+              backgroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.disabled)) {
+                  return Colors.transparent;
+                }
+
+                if (states.contains(WidgetState.pressed)) {
+                  return Theme.of(context).colorScheme.primaryFixedDim;
+                }
+
+                return Theme.of(context).colorScheme.primary;
+              }),
+              foregroundColor: WidgetStateProperty.resolveWith((states) {
+                return loading
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onPrimary;
+              })),
+          onPressed: loading ? null : onPressed,
+          child: Text(
+            loading ? 'Loading...' : 'Plan my dream trip',
+            style: const TextStyle(
+              fontSize: 18,
             ),
           ),
-          onPressed: onPressed,
-          child: loading
-              ? CircularProgressIndicator(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                )
-              : Text(
-                  'Plan my dream trip',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 18,
-                  ),
-                ),
         ),
       ),
     ]);

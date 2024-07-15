@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:mime/mime.dart';
 import 'package:image/image.dart' as imgpkg;
 
@@ -16,14 +18,16 @@ class UserSelectedImage {
   UserSelectedImage(this.path, this.bytes);
 
   Future<Uint8List?> get smallBytes async {
-    imgpkg.Image? img = imgpkg.decodeImage(bytes);
+    imgpkg.Image? img = await compute(imgpkg.decodeImage, bytes);
 
     if (img == null) {
       return null;
     }
 
     imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
-    Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 20);
+    Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 10);
+
+    debugPrint(smallBytes.lengthInBytes.toString());
 
     return smallBytes;
   }
