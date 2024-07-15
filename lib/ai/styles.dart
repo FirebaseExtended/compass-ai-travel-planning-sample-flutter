@@ -22,3 +22,16 @@ ThemeData get compassAITheme => ThemeData(
       textTheme: GoogleFonts.rubikTextTheme(),
       useMaterial3: true,
     );
+
+List<Color> brandGradientColorList = const [
+  Color(0xff59B7EC),
+  Color(0xff9A62E1),
+  Color(0xffE66CF9),
+];
+
+class Breakpoints {
+  static double get compact => 600;
+  static double get medium => 840;
+  static double get expanded => 1200;
+  static double get large => 1600;
+}

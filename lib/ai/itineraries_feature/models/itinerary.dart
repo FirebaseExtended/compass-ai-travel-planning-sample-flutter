@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:tripedia/config.dart';
 
+import './day_plan.dart';
+
 class Itinerary {
   List<DayPlan> dayPlans = [];
   String place = '';
@@ -31,83 +33,21 @@ class Itinerary {
   }
 }
 
-class DayPlan {
-  int dayNum;
-  String date;
-  List<Activity> planForDay;
-
-  DayPlan({required this.dayNum, required this.date, required this.planForDay});
-
-  static DayPlan fromJson(Map<String, dynamic> jsonMap) {
-    int localDayNum;
-    String localDate;
-    List<dynamic> localPlan;
-
-    {
-      'day': localDayNum,
-      'date': localDate,
-      'planForDay': localPlan,
-    } = jsonMap;
-
-    return DayPlan(
-      dayNum: localDayNum,
-      date: localDate,
-      planForDay: List<Activity>.from(
-        localPlan.map(
-          (activity) => Activity.fromJson(activity),
-        ),
-      ),
-    );
-  }
-}
-
-class Activity {
-  String ref = '';
-  String title = '';
-  String description = '';
-  String imageUrl = '';
-
-  Activity(
-      {required this.ref,
-      required this.title,
-      required this.description,
-      required this.imageUrl});
-
-  static Activity fromJson(Map<String, dynamic> jsonMap) {
-    String localRef, localTitle, localDescription, localImageUrl;
-
-    {
-      'activityRef': localRef,
-      'activityTitle': localTitle,
-      'activityDesc': localDescription,
-      'imgUrl': localImageUrl
-    } = jsonMap;
-
-    return Activity(
-        ref: localRef,
-        title: localTitle,
-        description: localDescription,
-        imageUrl: localImageUrl);
-  }
-}
-
 class ItineraryClient {
+  Uri endpoint = Uri.https(
+    // TODO(@nohe427): Use env vars to set this. ==> see config.dart
+    backendEndpoint,
+    '/itineraryGenerator2',
+  );
+
   Future<List<Itinerary>> loadItinerariesFromServer(String query,
       {List<String>? images}) async {
-    var endpoint = Uri.https(
-      // TODO(@nohe427): Use env vars to set this. ==> see config.dart
-      backendEndpoint,
-      '/itineraryGenerator2',
-    );
-
-    var jsonBody = jsonEncode(
-      {
-        'data': {
-          'request': query,
-          if (images != null) 'images': images,
-        },
+    var jsonBody = jsonEncode({
+      'data': {
+        'request': query,
+        if (images != null) 'images': images,
       },
-    );
+    });
 
     try {
       var response = await http.post(
@@ -134,7 +74,6 @@ class ItineraryClient {
       for (final itineraryData in itineraryList) {
         final days = <DayPlan>[];
         for (final dayData in itineraryData['itinerary']) {
-          //debugPrint(dayData);
           final event = DayPlan.fromJson(dayData);
           days.add(event);
         }
@@ -166,6 +105,5 @@ void main() async {
   List<Itinerary> itineraries = await ItineraryClient()
       .loadItinerariesFromServer(
           'I want a vacation at the beach with beautiful views and good food');
-
-  debugPrint(itineraries.toString());
+  print(itineraries);
 }

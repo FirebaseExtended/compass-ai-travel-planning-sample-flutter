@@ -24,19 +24,9 @@ class UserSelectedImage {
     }
 
     imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
+    Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 20);
 
-    var smallBytes = imgpkg.encodeNamedImage(path, smallImg);
-
-    if (smallBytes == null) {
-      return null;
-    }
-
-    var compressedBytes = await FlutterImageCompress.compressWithList(
-      smallBytes,
-      quality: 20,
-    );
-
-    return compressedBytes;
+    return smallBytes;
   }
 }
 
@@ -146,7 +136,6 @@ class ImageClient {
         var imgBytes = await image.smallBytes;
 
         if (imgBytes != null) {
-          debugPrint(imgBytes.length.toString());
           base64Encodedimages
               .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
         }

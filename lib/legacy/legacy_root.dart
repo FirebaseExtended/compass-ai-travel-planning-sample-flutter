@@ -7,7 +7,7 @@ import './results/business/usecases/search_destination_usecase.dart';
 import './results/data/destination_repository_local.dart';
 import './activities_feature/data/search_activity_usecase.dart';
 import './activities_feature/data/legacy_activity_repository_local.dart';
-import 'package:tripedia/legacy/legacy_form.dart';
+import 'package:tripedia/legacy/form_feature/presentation/legacy_form.dart';
 
 class LegacyApp extends StatefulWidget {
   const LegacyApp({super.key});

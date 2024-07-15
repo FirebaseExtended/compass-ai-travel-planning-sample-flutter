@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../../common/components.dart';
 
-import './home_button.dart';
-
-PreferredSizeWidget get brandedAppBar {
+AppBar buildTransparentAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.transparent,
     iconTheme: const IconThemeData(color: Colors.white),
+    leading: IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () => Navigator.pop(context),
+    ),
     actionsIconTheme: const IconThemeData(color: Colors.black12),
     actions: const [HomeButton()],
   );
