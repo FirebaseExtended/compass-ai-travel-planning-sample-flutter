@@ -6,6 +6,9 @@ import 'package:tripedia/common/utilties.dart';
 
 import '../../activities_feature/models/activity.dart';
 import '../../../common/services/navigation.dart';
+import './components/components.dart';
+import '../../form_feature/models/travel_query.dart';
+import '../../results/business/model/destination.dart';
 
 class LegacyItinerary extends StatefulWidget {
   const LegacyItinerary({super.key});
@@ -17,6 +20,14 @@ class LegacyItinerary extends StatefulWidget {
 class _LegacyItineraryState extends State<LegacyItinerary> {
   @override
   Widget build(BuildContext context) {
+    var query = context.watch<TravelPlan>().query;
+    var destination = context.watch<TravelPlan>().destination;
+    var activities = context.watch<TravelPlan>().activities;
+
+    if (query == null || destination == null) {
+      return const Placeholder();
+    }
+
     return Theme(
       data: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -26,42 +37,13 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
         ),
       ),
       child: Scaffold(
-        body: const SmallLegacyItinerary(),
-        bottomNavigationBar: SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceTint,
-                border: Border(
-                    top: BorderSide(
-                        color: Theme.of(context).colorScheme.outline))),
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                padding: const WidgetStatePropertyAll(
-                  EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 8,
-                  ),
-                ),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                ),
-                backgroundColor: WidgetStatePropertyAll(
-                  Theme.of(context).colorScheme.surface,
-                ),
-              ),
-              child: Text(
-                'Share Trip',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-          ),
+        body: SmallLegacyItinerary(
+          query: query,
+          destination: destination,
+          activities: activities,
+        ),
+        bottomNavigationBar: const SafeArea(
+          child: ShareTripButton(),
         ),
       ),
     );
@@ -69,18 +51,18 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
 }
 
 class SmallLegacyItinerary extends StatelessWidget {
-  const SmallLegacyItinerary({super.key});
+  const SmallLegacyItinerary(
+      {required this.query,
+      required this.destination,
+      required this.activities,
+      super.key});
+
+  final TravelQuery query;
+  final Destination destination;
+  final Set<LegacyActivity> activities;
 
   @override
   Widget build(BuildContext context) {
-    var query = context.watch<TravelPlan>().query;
-    var destination = context.watch<TravelPlan>().destination;
-    var activities = context.watch<TravelPlan>().activities;
-
-    if (query == null || destination == null) {
-      return const Placeholder();
-    }
-
     return CustomScrollView(
       slivers: [
         SliverAppBar(
