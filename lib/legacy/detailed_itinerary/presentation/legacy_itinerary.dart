@@ -4,8 +4,8 @@ import 'package:tripedia/legacy/activities_feature/presentation/activity_list_ti
 import 'package:tripedia/legacy/common/widgets/tag_chip.dart';
 import 'package:tripedia/common/utilties.dart';
 
-import '../activities_feature/models/activity.dart';
-import '../../common/services/navigation.dart';
+import '../../activities_feature/models/activity.dart';
+import '../../../common/services/navigation.dart';
 
 class LegacyItinerary extends StatefulWidget {
   const LegacyItinerary({super.key});
