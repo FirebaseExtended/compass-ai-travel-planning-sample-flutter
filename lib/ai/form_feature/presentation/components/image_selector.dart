@@ -101,7 +101,7 @@ class ImageSelectorEmpty extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BrandGradient(
+              BrandGradientShaderMask(
                   child: Icon(
                 Icons.image_outlined,
                 size: 32,

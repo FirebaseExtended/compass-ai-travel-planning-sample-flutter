@@ -10,7 +10,7 @@ class GradientTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BrandGradient(
+    return BrandGradientShaderMask(
       child: Text(
         textAlign: textAlign ?? TextAlign.left,
         style: (textStyle != null)

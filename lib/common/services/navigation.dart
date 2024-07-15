@@ -10,7 +10,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const Splash(),
+      builder: (context, state) => const SplashScreen(),
       routes: [
         GoRoute(
           path: 'ai',
