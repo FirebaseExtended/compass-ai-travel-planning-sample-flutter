@@ -19,19 +19,22 @@ class BrandChip extends StatelessWidget {
           vertical: 0,
           horizontal: 4,
         ),
-        child: Chip(
-          //color: const WidgetStatePropertyAll(Colors.transparent),
-          backgroundColor:
-              Theme.of(context).colorScheme.surface.withOpacity(0.8),
-          shape: const StadiumBorder(side: BorderSide.none),
-          avatar: (icon != null)
-              ? Icon(icon,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant)
-              : null,
-          label: Text(
-            title,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 4, bottom: 4),
+          child: Chip(
+            //color: const WidgetStatePropertyAll(Colors.transparent),
+            backgroundColor:
+                Theme.of(context).colorScheme.surface.withOpacity(0.8),
+            shape: const StadiumBorder(side: BorderSide.none),
+            avatar: (icon != null)
+                ? Icon(icon,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant)
+                : null,
+            label: Text(
+              title,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ),
