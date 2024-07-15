@@ -77,7 +77,7 @@ class ShareTripButton extends StatelessWidget {
                       top: BorderSide(
                           color:
                               Theme.of(context).colorScheme.outlineVariant))),
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
               child: ElevatedButton(
                 onPressed: () {},
                 style: ButtonStyle(
