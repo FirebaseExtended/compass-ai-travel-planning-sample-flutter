@@ -140,6 +140,7 @@ class ImageClient {
 
   static Future<List<String>> base64EncodeImages(
       List<UserSelectedImage> images) async {
+    debugPrint('Compressing & encoding images');
     try {
       List<String> base64Encodedimages = [];
 
