@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tripedia/ai/common/components.dart';
+import 'package:compass/ai/common/components.dart';
 import './components.dart';
 
 class SmallFormLayout extends StatelessWidget {

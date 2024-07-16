@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/legacy/activities_feature/models/activity.dart';
+import 'package:compass/legacy/activities_feature/models/activity.dart';
 
 import '../../common/themes/text_styles.dart';
 

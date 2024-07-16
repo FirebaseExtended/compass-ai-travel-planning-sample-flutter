@@ -1,6 +1,6 @@
 {
-    "name": "tripedia",
-    "short_name": "tripedia",
+    "name": "compass",
+    "short_name": "compass",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

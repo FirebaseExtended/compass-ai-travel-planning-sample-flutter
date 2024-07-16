@@ -14,7 +14,7 @@
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:tripedia/ai/services/image_handling.dart';
+import 'package:compass/ai/services/image_handling.dart';
 import '../models/itinerary.dart';
 
 class ItinerariesViewModel extends ChangeNotifier {

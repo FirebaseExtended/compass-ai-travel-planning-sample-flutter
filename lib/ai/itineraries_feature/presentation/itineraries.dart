@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/ai/itineraries_feature/presentation/detailed_itinerary.dart';
+import 'package:compass/ai/itineraries_feature/presentation/detailed_itinerary.dart';
 import '../../common/components.dart';
 import '../view_models/intineraries_viewmodel.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../common/services/navigation.dart';
-import 'package:tripedia/ai/styles.dart';
+import 'package:compass/ai/styles.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({required this.dimension, super.key});

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tripedia/config.dart';
+import 'package:compass/config.dart';
 import 'package:http/http.dart' as http;
 
 class QueryClient {

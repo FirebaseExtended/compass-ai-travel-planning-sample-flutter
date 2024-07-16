@@ -16,7 +16,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:tripedia/config.dart';
+import 'package:compass/config.dart';
 
 import './day_plan.dart';
 

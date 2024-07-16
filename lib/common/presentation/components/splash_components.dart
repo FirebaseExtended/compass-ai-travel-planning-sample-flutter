@@ -14,7 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tripedia/ai/styles.dart';
+import 'package:compass/ai/styles.dart';
 
 class AIDreamTripButton extends StatelessWidget {
   const AIDreamTripButton({
