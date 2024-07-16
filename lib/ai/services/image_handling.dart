@@ -14,7 +14,12 @@
 
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image/image.dart' as imgpkg;
+import 'dart:ui' as ui;
+
+import 'package:flutter/rendering.dart';
 
 var imageResourceEndpoint = 'uploadimgtrip-hovwuqnpzq-uc.a.run.app';
 var imageMimeTypeResourceEndpoint = 'us-central1-yt-rag.cloudfunctions.net';
@@ -28,19 +33,42 @@ class UserSelectedImage {
 
 class ImageClient {
   static Future<Uint8List?> resizeAndCompressImage(Uint8List imageBytes) async {
-    imgpkg.Image? img = await compute(imgpkg.decodeImage, imageBytes);
+    try {
+      ui.Image img = await decodeImageFromList(imageBytes);
 
-    if (img == null) {
-      return null;
+      var record = ui.PictureRecorder();
+      var imgCanvas = Canvas(record);
+
+      imgCanvas.drawImage(
+        img,
+        const Offset(0, 0),
+        Paint(),
+      );
+
+      var picture = record.endRecording();
+
+      ui.Image resizedImage = await picture.toImage(250, 250);
+
+      picture.dispose();
+
+      var resizedImageByteData = await resizedImage.toByteData(
+        format: ui.ImageByteFormat.png,
+      );
+
+      resizedImage.dispose();
+
+      var resizedImageBytes = resizedImageByteData!.buffer.asUint8List();
+
+      imgpkg.encodeJpg(imgpkg.decodePng(resizedImageBytes)!);
+
+      return resizedImageBytes;
+    } catch (e) {
+      debugPrint(e.toString());
+      throw ('Unable to resize and compress images');
     }
-
-    imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
-    Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 10);
-
-    return smallBytes;
   }
 
-  static Future<List<String>> base64EncodeImages(
+  static Future<List<String>?> base64EncodeImages(
       List<UserSelectedImage> images) async {
     debugPrint('Resizing, compressing, and encoding images');
     try {
@@ -49,13 +77,18 @@ class ImageClient {
       for (var image in images) {
         var imgBytes = await resizeAndCompressImage(image.bytes);
 
+        print('imgBytes is null: ${imgBytes == null}');
+
         if (imgBytes != null) {
-          base64Encodedimages
-              .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
+          String base64image =
+              'data:image/png;base64,${base64Encode(imgBytes)}';
+          base64Encodedimages.add(base64image);
         }
       }
 
-      return base64Encodedimages;
+      //base64Encodedimages.forEach((element) => debugPrint(element + '\n'));
+
+      return base64Encodedimages.isEmpty ? null : base64Encodedimages;
     } catch (e) {
       throw ('Unable to upload images');
     }
