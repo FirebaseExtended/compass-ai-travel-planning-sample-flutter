@@ -41,8 +41,6 @@ class UserSelectedImage {
     imgpkg.Image smallImg = imgpkg.copyResize(img, width: 250);
     Uint8List smallBytes = imgpkg.encodeJpg(smallImg, quality: 10);
 
-    debugPrint(smallBytes.lengthInBytes.toString());
-
     return smallBytes;
   }
 }
@@ -121,8 +119,6 @@ class ImageClient {
       body: image.bytes,
     );
 
-    debugPrint(downloadUrl);
-
     return downloadUrl;
   }
 
@@ -135,8 +131,6 @@ class ImageClient {
       );
 
       var imagesDownloadUrls = await Future.wait(imagesFutures);
-
-      debugPrint('Uploaded all images!\n$imagesDownloadUrls');
 
       return imagesDownloadUrls;
     } catch (e) {
@@ -156,10 +150,6 @@ class ImageClient {
           base64Encodedimages
               .add('data:image/jpeg;base64,${base64Encode(imgBytes)}');
         }
-      }
-
-      for (var image in base64Encodedimages) {
-        debugPrint(image);
       }
 
       return base64Encodedimages;

@@ -53,7 +53,6 @@ class ActivitiesViewModel extends ChangeNotifier {
 
     // Call the search usecase and request data
     final result = await _searchActivityUsecase.search(location: location);
-    //debugPrint(result); // Set loading state to false
     _loading = false;
     switch (result) {
       case Ok():
@@ -64,7 +63,6 @@ class ActivitiesViewModel extends ChangeNotifier {
       case Error():
         {
           // TODO: Handle error
-          // ignore: avoid_print
           debugPrint(result.error.toString());
         }
     }

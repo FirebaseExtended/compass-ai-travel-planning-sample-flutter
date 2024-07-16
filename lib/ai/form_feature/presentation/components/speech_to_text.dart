@@ -53,8 +53,6 @@ class _TalkToMeState extends State<TalkToMe> {
   String mostRecent6Words(String str) {
     var words = str.split(' ');
 
-    debugPrint(words.toString());
-
     if (words.length < 6) {
       return str;
     } else {

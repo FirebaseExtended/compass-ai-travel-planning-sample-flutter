@@ -178,7 +178,6 @@ Widget buildLearnMoreButton(
           context: context,
           builder: (context) {
             return OrientationBuilder(builder: (context, orientation) {
-              debugPrint(orientation.toString());
               if (width < 600) {
                 if (orientation == Orientation.portrait) {
                   return _buildLearnMoreDialogSmall(context, activity);

@@ -34,7 +34,7 @@ class ItinerariesViewModel extends ChangeNotifier {
           ? await ImageClient.base64EncodeImages(images)
           : null;
 
-      debugPrint('Loading Itineraries from server: $query');
+      debugPrint('Loading Itineraries for: $query');
       itineraries = await client.loadItinerariesFromServer(
         query,
         images: base64EncodedImages,

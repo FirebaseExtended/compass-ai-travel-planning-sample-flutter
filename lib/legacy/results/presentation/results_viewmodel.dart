@@ -63,7 +63,6 @@ class ResultsViewModel extends ChangeNotifier {
       case Error():
         {
           // TODO: Handle error
-          // ignore: avoid_print
           debugPrint(result.error.toString());
         }
     }

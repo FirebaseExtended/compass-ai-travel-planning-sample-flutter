@@ -14,8 +14,6 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(context.read<TravelPlan>().query.toString());
-
     var startDate =
         prettyDate(context.read<TravelPlan>().query!.dates.start.toString());
     var endDate =
