@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../common/presentation/components/thumbnail.dart';
-import 'package:tripedia/ai/services/image_handling.dart';
+import 'package:compass/ai/services/image_handling.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../common/components.dart';
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/legacy/activities_feature/view_models/activities_viewmodel.dart';
-import 'package:tripedia/legacy/activities_feature/models/activity.dart';
-import 'package:tripedia/legacy/results/presentation/results_viewmodel.dart';
+import 'package:compass/legacy/activities_feature/view_models/activities_viewmodel.dart';
+import 'package:compass/legacy/activities_feature/models/activity.dart';
+import 'package:compass/legacy/results/presentation/results_viewmodel.dart';
 import './results/business/usecases/search_destination_usecase.dart';
 import './results/data/destination_repository_local.dart';
 import './activities_feature/data/search_activity_usecase.dart';
 import './activities_feature/data/legacy_activity_repository_local.dart';
-import 'package:tripedia/legacy/form_feature/presentation/legacy_form.dart';
+import 'package:compass/legacy/form_feature/presentation/legacy_form.dart';
 
 class LegacyApp extends StatefulWidget {
   const LegacyApp({super.key});

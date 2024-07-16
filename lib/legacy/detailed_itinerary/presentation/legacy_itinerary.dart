@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/ai/styles.dart';
+import 'package:compass/ai/styles.dart';
 
 import '../../activities_feature/models/activity.dart';
 import './components/components.dart';

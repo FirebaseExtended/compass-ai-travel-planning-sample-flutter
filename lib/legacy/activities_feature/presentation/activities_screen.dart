@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/legacy/activities_feature/presentation/activity_list_tile.dart';
+import 'package:compass/legacy/activities_feature/presentation/activity_list_tile.dart';
 import '../view_models/activities_viewmodel.dart';
 
 import '../models/activity.dart';

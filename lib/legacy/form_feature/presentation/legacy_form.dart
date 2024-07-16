@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tripedia/ai/styles.dart';
-import 'package:tripedia/legacy/results/presentation/results_screen.dart';
+import 'package:compass/ai/styles.dart';
+import 'package:compass/legacy/results/presentation/results_screen.dart';
 
 import '../../activities_feature/models/activity.dart';
 import '../../results/presentation/results_viewmodel.dart';

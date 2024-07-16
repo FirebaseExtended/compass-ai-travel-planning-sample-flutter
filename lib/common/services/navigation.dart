@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:tripedia/ai/ai_root.dart';
-import 'package:tripedia/common/presentation/splash.dart';
-import 'package:tripedia/legacy/legacy_root.dart';
+import 'package:compass/ai/ai_root.dart';
+import 'package:compass/common/presentation/splash.dart';
+import 'package:compass/legacy/legacy_root.dart';
 
 // GoRouter configuration
 final router = GoRouter(

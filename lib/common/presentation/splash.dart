@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tripedia/ai/styles.dart';
+import 'package:compass/ai/styles.dart';
 
 import './components/splash_components.dart';
 

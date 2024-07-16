@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tripedia/ai/itineraries_feature/presentation/components/components.dart';
-import 'package:tripedia/ai/styles.dart';
+import 'package:compass/ai/itineraries_feature/presentation/components/components.dart';
+import 'package:compass/ai/styles.dart';
 import '../../../activities_feature/models/activity.dart';
 import '../../../form_feature/models/travel_query.dart';
 import '../../../results/business/model/destination.dart';
-import 'package:tripedia/common/utilties.dart';
+import 'package:compass/common/utilties.dart';
 import '../../../../common/services/navigation.dart';
-import 'package:tripedia/legacy/common/widgets/tag_chip.dart';
-import 'package:tripedia/legacy/activities_feature/presentation/activity_list_tile.dart';
+import 'package:compass/legacy/common/widgets/tag_chip.dart';
+import 'package:compass/legacy/activities_feature/presentation/activity_list_tile.dart';
 
 class SmallLegacyItinerary extends StatelessWidget {
   const SmallLegacyItinerary(

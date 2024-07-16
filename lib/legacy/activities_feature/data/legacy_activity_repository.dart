@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:tripedia/legacy/activities_feature/models/activity.dart';
+import 'package:compass/legacy/activities_feature/models/activity.dart';
 import '../../common/utils/result.dart';
 
 /// Data source with all possible destinations
