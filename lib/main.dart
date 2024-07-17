@@ -17,9 +17,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:compass/common/utilties.dart';
 import './common/services/navigation.dart';
+import 'package:flutter/foundation.dart';
+
+import './web_setup.dart';
 
 void main() {
   Animate.restartOnHotReload = true;
+  if (kIsWeb) loadPicaScript();
   runApp(const CompassApp());
 }
 

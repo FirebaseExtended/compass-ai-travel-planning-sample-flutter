@@ -39,15 +39,23 @@ class ImageClient {
       var record = ui.PictureRecorder();
       var imgCanvas = Canvas(record);
 
-      imgCanvas.drawImage(
+      double targetWidth = 300;
+      var percentageScale = targetWidth / img.width.toDouble();
+      var targetHeight = img.height * percentageScale;
+
+      imgCanvas.drawImageRect(
         img,
-        const Offset(0, 0),
+        Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
+        Rect.fromLTWH(0, 0, targetWidth, targetHeight),
         Paint(),
       );
 
       var picture = record.endRecording();
 
-      ui.Image resizedImage = await picture.toImage(250, 250);
+      ui.Image resizedImage = await picture.toImage(
+        targetWidth.toInt(),
+        targetHeight.toInt(),
+      );
 
       picture.dispose();
 
@@ -57,11 +65,18 @@ class ImageClient {
 
       resizedImage.dispose();
 
-      var resizedImageBytes = resizedImageByteData!.buffer.asUint8List();
+      if (resizedImageByteData == null) return null;
 
-      imgpkg.encodeJpg(imgpkg.decodePng(resizedImageBytes)!);
+      var resizedImageBytes = resizedImageByteData.buffer.asUint8List();
 
-      return resizedImageBytes;
+      var compressedBytes = await FlutterImageCompress.compressWithList(
+        resizedImageBytes,
+        minWidth: targetWidth.floor(),
+        minHeight: targetHeight.floor(),
+        quality: 50,
+      );
+
+      return compressedBytes;
     } catch (e) {
       debugPrint(e.toString());
       throw ('Unable to resize and compress images');
@@ -77,16 +92,12 @@ class ImageClient {
       for (var image in images) {
         var imgBytes = await resizeAndCompressImage(image.bytes);
 
-        print('imgBytes is null: ${imgBytes == null}');
-
         if (imgBytes != null) {
           String base64image =
-              'data:image/png;base64,${base64Encode(imgBytes)}';
+              'data:image/jpeg;base64,${base64Encode(imgBytes)}';
           base64Encodedimages.add(base64image);
         }
       }
-
-      //base64Encodedimages.forEach((element) => debugPrint(element + '\n'));
 
       return base64Encodedimages.isEmpty ? null : base64Encodedimages;
     } catch (e) {
