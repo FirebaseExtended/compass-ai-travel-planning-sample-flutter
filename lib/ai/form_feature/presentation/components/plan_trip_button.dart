@@ -13,40 +13,42 @@ class PlanTripButton extends StatelessWidget {
       Expanded(
         child: TextButton(
           style: ButtonStyle(
-              padding: const WidgetStatePropertyAll(
-                EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 8,
-                ),
+            padding: const WidgetStatePropertyAll(
+              EdgeInsets.symmetric(
+                vertical: 16,
+                horizontal: 8,
               ),
-              shape: WidgetStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              backgroundColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.disabled)) {
-                  return Colors.transparent;
-                }
-
-                if (states.contains(WidgetState.pressed)) {
-                  return Theme.of(context).colorScheme.primaryFixedDim;
-                }
-
-                return Theme.of(context).colorScheme.primary;
-              }),
-              foregroundColor: WidgetStateProperty.resolveWith((states) {
-                return loading
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onPrimary;
-              })),
-          onPressed: loading ? null : onPressed,
-          child: Text(
-            loading ? 'Loading...' : 'Plan my dream trip',
-            style: const TextStyle(
-              fontSize: 18,
             ),
+            shape: WidgetStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+            backgroundColor:
+                WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
+            foregroundColor:
+                WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimary),
           ),
+          onPressed: loading ? null : onPressed,
+          child: loading
+              ? Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 3, horizontal: 0),
+                  child: SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                )
+              : const Text(
+                  'Plan my dream trip',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
         ),
       ),
     ]);
