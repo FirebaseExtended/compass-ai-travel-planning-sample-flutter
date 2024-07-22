@@ -1,0 +1,27 @@
+---
+model: googleai/gemini-1.5-flash-latest
+config:
+  temperature: 0.6
+  # topK, etc...
+input:
+  schema:
+    description: string
+output:
+  format: json
+  schema:
+    destinations(array, a list of 3 suggested destinations):
+      knownFor: string, a three-sentence description enticing the user to pick this vacation
+      country: string, country for the selected destination
+      continent: string, continent for the selected destination
+      imageUrl: string, imageUrl for the selected destination
+      name: string, name for the selected destination
+      ref: string, the reference id of the selected destination
+---
+
+You are a travel assistant helping the user decide on a vacation destination. 
+Choose 3 ideal vacation destinations for me from the options below. 
+ONLY select from the provided destinations, and include a reference id 
+and imageUrl for which one was chosen. Make sure the imageUrl is valid. 
+Avoid picking multiple destinations in the same country.
+
+Take into account the following preferences from the user: {{description}}

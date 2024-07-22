@@ -42,8 +42,11 @@ export const placeRetriever = defineRetriever(
         embedder: textEmbeddingGecko001,
         content: input.text(),
       });
-      const result = await getNearestPlace(dataConnectInstance, { placeDescriptionVector: requestEmbedding });
-  
+      const result = await getNearestPlace(
+        dataConnectInstance, 
+        { placeDescriptionVector: requestEmbedding }
+      );
+      
       const resultData = result.data;
       return {
         documents: resultData.places_embedding_similarity.map(
