@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { retrieve } from '@genkit-ai/ai/retriever';
 import { prompt } from '@genkit-ai/dotprompt';
 import { defineFlow, run } from "@genkit-ai/flow";
@@ -22,45 +21,49 @@ import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
 import { planItenerary } from './shared/tripPlan';
 
-export const itineraryGenerator2 = defineFlow(
+export const dreamTrip = defineFlow(
     {
-      name: 'itineraryGenerator2',
+      name: 'dreamTrip',
       inputSchema: ItineraryRequest,
       outputSchema: z.unknown(),
     },
-    async (tripDetails) => {
-      console.log("RUNNING");
+    async (userInputs) => {
+      console.log("RUNNING - dreamTrip");
 
       // #region : 1 - Obtain the description of the image
       const imageDescription = await run('Decribe Image', async () => {
-        if (!tripDetails.images || tripDetails.images.length === 0 || tripDetails.images[0] == "") {
+
+        if (!userInputs.images || userInputs.images.length === 0 || userInputs.images[0] == "") {
           return '';
         }
-        const imgDescription = await prompt('imageDescription');
-        const result = await imgDescription.generate({
-          input: { images: tripDetails.images },
+
+        const imageDescriptionPrompt = await prompt('imageDescription');
+        const result = await imageDescriptionPrompt.generate({
+          input: { images: userInputs.images },
         });
+
         return result.text();
       });
-
-      // #endregion : 1 - Obtain the description of the image
+      // #endregion
+      
 
       // #region : 2 - Suggest Destinations matching users input
       const possibleDestinations = await run('Suggest Destinations', async () => {
 
         // #region : Retriever
         const contextDestinations = await retrieve({
-          retriever: placeRet`riever,
-          query: `${imageDescription} ${tripDetails.request}`,
+          retriever: placeRetriever,
+          query: `${imageDescription} ${userInputs.request}`,
           options: {
             k: 3,
           },
         });
+        //suggestDestinationsWithContextAgent
         // #endregion
 
         const suggestDestinationsAgentPrompt = await prompt('suggestDestinationsWithContextAgent');
         const result = await suggestDestinationsAgentPrompt.generate({
-          input: { description: `${imageDescription} ${tripDetails.request}` },
+          input: { description: `${imageDescription} ${userInputs.request}` },
           context: contextDestinations
         });
 
@@ -76,29 +79,30 @@ export const itineraryGenerator2 = defineFlow(
         // #endregion
 
         return destinations;
-
       });
+      // #endregion
+
 
      // #region : 3 - Plan itineraries for each destination
-     let destDetails: Promise<unknown>[] = [];
+      let destDetails: Promise<unknown>[] = [];
 
-     possibleDestinations.forEach((dest) => {
-       const loc0 = run(`Plan Itinerary for Destination: `+ dest.ref , (): Promise<unknown> => {
-         return planItenerary(tripDetails.request!, dest);
-       });
-       destDetails.push(loc0);
-     });
-     //#endregion
+      possibleDestinations.forEach((dest) => {
+        const loc0 = run(`Plan Itinerary for Destination: `+ dest.ref , (): Promise<unknown> => {
+          return planItenerary(userInputs.request!, dest);
+        });
+        destDetails.push(loc0);
+      });
+      //#endregion
 
 
-     // #region 4 - Merge eveything together and tide up data model
-     const itineraries = await run('Finally Merge all Results into Itinerary', async () => {
-       const results = await Promise.all(destDetails);
-       const itineraries = { itineraries: [...(results as ItineraryGeneratorOutput[])] };
-       return itineraries;
-     });
-     // #endregion
- 
-     return itineraries;
+      // #region 4 - Merge eveything together and tide up data model
+      const itineraries = await run('Finally Merge all Results into Itinerary', async () => {
+        const results = await Promise.all(destDetails);
+        const itineraries = { itineraries: [...(results as ItineraryGeneratorOutput[])] };
+        return itineraries;
+      });
+      // #endregion
+  
+      return itineraries;
     },
   );
