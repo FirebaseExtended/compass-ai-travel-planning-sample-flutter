@@ -21,14 +21,14 @@ import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
 import { planItenerary } from './shared/tripPlan';
 
-export const dreamTrip = defineFlow(
+export const itineraryGenerator2 = defineFlow(
     {
-      name: 'dreamTrip',
+      name: 'itineraryGenerator2',
       inputSchema: ItineraryRequest,
       outputSchema: z.unknown(),
     },
     async (userInputs) => {
-      console.log("RUNNING - dreamTrip");
+      console.log("RUNNING - itineraryGenerator2");
 
       // #region : 1 - Obtain the description of the image
       const imageDescription = await run('Decribe Image', async () => {
