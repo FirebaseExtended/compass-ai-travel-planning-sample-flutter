@@ -146,7 +146,7 @@ const cleanUpGeneratedItinerary = async (
  * @param location - The location the user wants to explore
  * @returns 
  */
-export const tripPlan2 = async (request: string, location: Destination): Promise<ItineraryGeneratorOutput> => {
+export const planItenerary = async (request: string, location: Destination): Promise<ItineraryGeneratorOutput> => {
     const activityDescs = await getPlaceActivities(location.ref);
     let restaurants: string[] = [];
     if (MAPS_API_KEY) {
