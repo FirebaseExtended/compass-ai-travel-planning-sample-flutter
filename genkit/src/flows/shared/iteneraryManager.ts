@@ -18,6 +18,7 @@ import { getActivitiesForPlace } from "@compass/backend";
 import { dataConnectInstance } from "../../config/firebase";
 import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from "../../common/types";
 import { restaurantFinder } from "../../tools/restaurantFinder";
+import { supermarketFinder } from "../../tools/supermarketFinder";
 import { prompt } from '@genkit-ai/dotprompt';
 import axios from "axios";
 
@@ -33,18 +34,25 @@ const getPlaceActivities = async (placeID: string): Promise<string[]> => {
     return activityDescs;
   };
 
-const generateItineraryForPlace = async (request: string, location: Destination, activityDescs: string[], rFormatted: string[]):Promise<ItineraryGeneratorOutput> => {
-    const itineraryPrompt = await prompt('itineraryGenToolPico');
-    const result = await itineraryPrompt.generate({
+const generateItineraryForPlace = async (request: string, location: Destination, activityDescs: string[]):Promise<ItineraryGeneratorOutput> => {
+    // #region : recommend Meals
+    let mealPlaces: string[] = [];
+    if (MAPS_API_KEY) {
+        mealPlaces = await recommendMeals(location.name, request);
+    }
+    // #endregion
+    
+    const itineraryPlanningAgentPrompt = await prompt('itineraryPlanningAgent');
+    const itineraries = await itineraryPlanningAgentPrompt.generate({
         input: {
-        request: request,
-        place: location!.name,
-        placeDescription: location!.knownFor,
-        activities: activityDescs,
-        restaurants: rFormatted,
+            request: request,
+            place: location!.name,
+            placeDescription: location!.knownFor,
+            activities: activityDescs,
+            mealOptions: mealPlaces
         }
     });
-    return result.output() as ItineraryGeneratorOutput;
+    return itineraries.output() as ItineraryGeneratorOutput;
 }
 
 /**
@@ -84,11 +92,12 @@ const formatPhoto = async (activityRef: string, locationRef: string, photoUri?: 
  * @param request - The specific user request
  * @returns Promise<string> a formatted array of any restaurants that match uesrs preference. Can sometimes be an empty array.
  */
-const restaurantSearch = async (locationName: string, request: string): Promise<string[]> => {
+const recommendMeals = async (locationName: string, request: string): Promise<string[]> => {
     // TODO: Have the user fill this in.
     // Search for restaurants
-    const finder = await prompt('formatRestaurantsQuery');
-    const rresult = await finder.generate({
+    const mealsPlanningAgentPrompt = await prompt('mealsPlanningAgent');
+
+    const rescommendMealsTool = await mealsPlanningAgentPrompt.generate({
         input: {
         place: locationName,
         request: request,
@@ -97,16 +106,35 @@ const restaurantSearch = async (locationName: string, request: string): Promise<
     });
 
     // TODO: We are using tool usage here in a contrived example.
-    const rOut: PlaceResponse[] = await Promise.all(rresult.toolRequests().map(async (element) => await restaurantFinder(element.toolRequest.input as any) as PlaceResponse));
+    const restaurantsFound: PlaceResponse[] = await Promise.all(
+        rescommendMealsTool.toolRequests().map(async (element) => {
+            switch(element.toolRequest.name){
+                case "restaurantFinder":
+                    return await restaurantFinder(
+                        element.toolRequest.input as any
+                    ) as PlaceResponse;
+                    break;
+                case "supermarketFinder":
+                    return await supermarketFinder(
+                        element.toolRequest.input as any
+                    ) as PlaceResponse;
+                    break;
+            }
+            return await restaurantFinder(
+                element.toolRequest.input as any
+            ) as PlaceResponse;
+        }
+    ));
 
     let rFormatted: string[] = [];
-    if (rOut.length>0) {
-        rFormatted = rOut[0].places.map((value: Place) => {
-        return `{ displayName: ${value.displayName.text}, formattedAddress: ${value.formattedAddress}, googleMapsUri: ${value.googleMapsUri}, priceLevel: ${value.priceLevel}, photoUri: ${value.photos ? value.photos[0].name : ""}, "editorialSummary": ${value.editorialSummary ? value.editorialSummary.text : '""'} }`
+    if (restaurantsFound.length>0) {
+        rFormatted = restaurantsFound[0].places.map((value: Place) => {
+            return `{ displayName: ${value.displayName.text}, formattedAddress: ${value.formattedAddress}, googleMapsUri: ${value.googleMapsUri}, priceLevel: ${value.priceLevel}, photoUri: ${value.photos ? value.photos[0].name : ""}, "editorialSummary": ${value.editorialSummary ? value.editorialSummary.text : '""'} }`
         });
     }
     return rFormatted;
 }
+
 
 /**
  * This cleans the output from the itinerary generator so its easier to consume.
@@ -147,21 +175,18 @@ const cleanUpGeneratedItinerary = async (
  * @returns 
  */
 export const planItenerary = async (request: string, location: Destination): Promise<ItineraryGeneratorOutput> => {
-    const activityDescs = await getPlaceActivities(location.ref);
-    let restaurants: string[] = [];
-    if (MAPS_API_KEY) {
-        restaurants = await restaurantSearch(location.name, request);
-    }
+    
+    // Activities RAG for each destination
+    const activities= await getPlaceActivities(location.ref);
 
     let result: ItineraryGeneratorOutput;
+    
     // retry request, otherwise, throw an error
     try {
-        result = await generateItineraryForPlace(request, location, activityDescs, restaurants);
+        result = await generateItineraryForPlace(request, location, activities);
     } catch (e) {
-        result = await generateItineraryForPlace(request, location, activityDescs, restaurants);
+        result = await generateItineraryForPlace(request, location, activities);
     }
-
-    console.log(result.place);
     
     return cleanUpGeneratedItinerary(result, location.imageUrl, location.ref);
 };

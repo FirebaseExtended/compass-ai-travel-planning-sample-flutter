@@ -17,7 +17,7 @@ input:
     place: string, The place that closely represents the users request.
     placeDescription: string, A description of that place.
     activities(array, a stringify list of activities that can be found at the specified place): string
-    restaurants?(array, a stringify list of all the restaurants found at that location): string
+    mealOptions?(array, a stringify list of all the restaurants and supermarkets found at that location): string
 output:
   schema:
     place: string, The place the user is traveling to.
@@ -32,7 +32,7 @@ output:
         activityRef: string, the reference value for the activity - this comes from the available activities JSON. If no value is present use a ref value of restaurant.
         activityTitle: string, a catchy title for the activity
         activityDesc: string, a six word description of the activity
-        photoUri?: string, set the photo uri value for restaurants only.
+        photoUri?: string, set the photo uri value for restaurants and supermarket only.
         googleMapsUri?: string, if this is a restaurant include the googleMapsUri
 ---
 
@@ -54,21 +54,21 @@ Give each activity a unique title and description.
 
 Limit activity descriptions to 6 words.
 
-If no restaurants are supplied, do not recommend any restaurants to eat at.
+If no mealOptions are supplied, do not recommend any mealOptions to eat at.
 
-{{#if restaurants}}
-Find a restaurant to eat at each day.
+{{#if mealOptions}}
+Find a mealOptions to eat at each day.
 
-Include a restaurant to visit in the itinerary for each day from the available restaurants.
+Include a mealOptions to visit in the itinerary for each day from the available mealOptions.
 The restaurant should be the only activity with a photoUri.
 The photoUri for the restaurant should be from the photoUri property from the restaurant array.
-If there are no restaurants to pick from, do not include it in the list.
+If there are no mealOptions to pick from, do not include it in the list.
 
-The photoUri from the restaurantFinder should be in the format of places/${placeId}/photos/${photoId}
+The photoUri from the restaurantFinder or supermarketFinder should be in the format of places/${placeId}/photos/${photoId}
 
-Each restaurant should be unique to the overall itinerary.
-Each restaurant must contain a photoUri in their output JSON schema.
-Each restaurant must also include  an activitiyRef, activityTitle, and activityDesc in their output
+Each mealOptions should be unique to the overall itinerary.
+Each mealOptions must contain a photoUri in their output JSON schema.
+Each mealOptions must also include  an activitiyRef, activityTitle, and activityDesc in their output
 {{/if}}
 Output must be in JSON format.
 
@@ -76,4 +76,4 @@ REQUEST : {{request}}
 PLACE : {{place}}
 PLACE DESCRIPTION : {{placeDescription}}
 AVAILABLE ACTIVITIES : {{activities}}
-RESTAURANTS : {{restaurants}}
+MEALOPTIONS : {{mealOptions}}
