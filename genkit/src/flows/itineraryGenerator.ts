@@ -19,7 +19,7 @@ import { defineFlow, run } from "@genkit-ai/flow";
 import { z } from "zod";
 import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
-import { planItenerary } from './shared/tripPlan';
+import { planItenerary } from './shared/iteneraryManager';
 
 export const itineraryGenerator2 = defineFlow(
     {
