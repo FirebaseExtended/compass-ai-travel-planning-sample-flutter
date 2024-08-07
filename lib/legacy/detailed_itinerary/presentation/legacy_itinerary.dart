@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:compass/ai/styles.dart';
 
@@ -26,55 +27,62 @@ class _LegacyItineraryState extends State<LegacyItinerary> {
       return const Placeholder();
     }
 
-    return Theme(
-      data: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
-          seedColor: Colors.black,
-          brightness: Brightness.dark,
-        ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        systemNavigationBarColor: Colors.white,
       ),
-      child: Scaffold(
-        appBar: !displaySmallLayout
-            ? AppBar(
-                actions: [
-                  Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: IconButton(
-                        style: ButtonStyle(
-                          side: WidgetStatePropertyAll(
-                            BorderSide(color: Colors.grey[300]!),
-                          ),
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+      child: Theme(
+        data: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            dynamicSchemeVariant: DynamicSchemeVariant.monochrome,
+            seedColor: Colors.black,
+            brightness: Brightness.dark,
+          ),
+        ),
+        child: Scaffold(
+          appBar: !displaySmallLayout
+              ? AppBar(
+                  actions: [
+                    Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: IconButton(
+                          style: ButtonStyle(
+                            side: WidgetStatePropertyAll(
+                              BorderSide(color: Colors.grey[300]!),
+                            ),
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                             ),
                           ),
-                        ),
-                        onPressed: () => goToSplashScreen(context),
-                        icon: const Icon(
-                          Icons.home_outlined,
-                        ),
-                      )),
-                  const SizedBox(
-                    width: 8,
-                  )
-                ],
-              )
-            : null,
-        body: displaySmallLayout
-            ? SmallLegacyItinerary(
-                query: query,
-                destination: destination,
-                activities: activities,
-              )
-            : LargeLegacyItinerary(
-                query: query, destination: destination, activities: activities),
-        bottomNavigationBar: displaySmallLayout
-            ? const SafeArea(
-                child: ShareTripButton(),
-              )
-            : null,
+                          onPressed: () => goToSplashScreen(context),
+                          icon: const Icon(
+                            Icons.home_outlined,
+                          ),
+                        )),
+                    const SizedBox(
+                      width: 8,
+                    )
+                  ],
+                )
+              : null,
+          body: displaySmallLayout
+              ? SmallLegacyItinerary(
+                  query: query,
+                  destination: destination,
+                  activities: activities,
+                )
+              : LargeLegacyItinerary(
+                  query: query,
+                  destination: destination,
+                  activities: activities),
+          bottomNavigationBar: displaySmallLayout
+              ? const SafeArea(
+                  child: ShareTripButton(),
+                )
+              : null,
+        ),
       ),
     );
   }

@@ -7,7 +7,6 @@ class ShareTripButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceTint,
           border: Border(
               top: BorderSide(color: Theme.of(context).colorScheme.outline))),
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
@@ -26,13 +25,13 @@ class ShareTripButton extends StatelessWidget {
             ),
           ),
           backgroundColor: WidgetStatePropertyAll(
-            Theme.of(context).colorScheme.surface,
+            Theme.of(context).colorScheme.surfaceTint,
           ),
         ),
         child: Text(
           'Share Trip',
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.onInverseSurface,
             fontSize: 18,
           ),
         ),
