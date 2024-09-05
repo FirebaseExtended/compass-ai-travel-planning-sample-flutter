@@ -43,7 +43,7 @@
     # Runs when a workspace is first created with this `dev.nix` file
     onCreate = {
       git-lfs-fetch = ''
-        curl -o local.zip https://firebasestorage.googleapis.com/v0/b/yt-rag.appspot.com/o/genkit%2Flocal.zip?alt=media&token=2f1d181d-9eda-4dc1-9ffc-e988f69c26f2
+        curl -o local.zip 'https://firebasestorage.googleapis.com/v0/b/yt-rag.appspot.com/o/genkit%2Flocal.zip?alt=media&token=2f1d181d-9eda-4dc1-9ffc-e988f69c26f2'
         unzip local.zip -d .
       '';
       npm-install = ''
