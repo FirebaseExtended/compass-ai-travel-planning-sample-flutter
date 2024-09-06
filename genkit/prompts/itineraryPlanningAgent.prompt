@@ -60,8 +60,8 @@ If no mealOptions are supplied, do not recommend any mealOptions to eat at.
 Find a mealOptions to eat at each day.
 
 Include a mealOptions to visit in the itinerary for each day from the available mealOptions.
-The restaurant should be the only activity with a photoUri.
-The photoUri for the restaurant should be from the photoUri property from the restaurant array.
+The mealOption should be the only activity with a photoUri.
+The photoUri for the mealOption should be from the photoUri property from the restaurant array.
 If there are no mealOptions to pick from, do not include it in the list.
 
 The photoUri from the restaurantFinder or supermarketFinder should be in the format of places/${placeId}/photos/${photoId}
@@ -76,4 +76,3 @@ REQUEST : {{request}}
 PLACE : {{place}}
 PLACE DESCRIPTION : {{placeDescription}}
 AVAILABLE ACTIVITIES : {{activities}}
-MEALOPTIONS : {{mealOptions}}
