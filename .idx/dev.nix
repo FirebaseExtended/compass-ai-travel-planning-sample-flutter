@@ -58,6 +58,7 @@
         npx genkit start 
       '';
       flutter-start = ''
+        flutter upgrade
         flutter run --machine -d web-server --web-hostname 0.0.0.0 --web-port 6789 --dart-define=WEB_HOST=9000-$WEB_HOST
       '';
     };
