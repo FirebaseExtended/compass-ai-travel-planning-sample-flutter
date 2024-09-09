@@ -3,7 +3,7 @@ import { getDataConnect, connectDataConnectEmulator } from 'firebase/data-connec
 import { connectorConfig } from '@compass/backend'
 
 export default (host: string = 'localhost') => {
-	const firebaseApp = initializeApp({projectId: 'CHANGE_ME_PLEASE_'}); //TODO ENV VAR
+	const firebaseApp = initializeApp({projectId: 'demo-example'}); //TODO ENV VAR
 	const dataConnect = getDataConnect(firebaseApp, connectorConfig)
     // It is always 'localhost' on the server
     connectDataConnectEmulator(

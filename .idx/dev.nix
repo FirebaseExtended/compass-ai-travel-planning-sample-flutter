@@ -54,7 +54,8 @@
     onStart = {
       genkit-start = ''
         cd genkit
-        npm ci
+        npm install
+        npm i firebase@dataconnect-preview
         npx genkit start 
       '';
       flutter-start = ''
