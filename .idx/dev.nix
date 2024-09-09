@@ -55,6 +55,7 @@
       genkit-start = ''
         cd genkit
         npm install
+        npm install --only=dev
         npm i firebase@dataconnect-preview
         npx genkit start 
       '';
