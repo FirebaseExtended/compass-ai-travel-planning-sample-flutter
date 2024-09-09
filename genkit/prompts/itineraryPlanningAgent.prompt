@@ -56,6 +56,8 @@ Limit activity descriptions to 6 words.
 
 If no mealOptions are supplied, do not recommend any mealOptions to eat at.
 
+Output must be in JSON format.
+
 {{#if mealOptions}}
 Find a mealOptions to eat at each day.
 
@@ -69,9 +71,9 @@ The photoUri from the restaurantFinder or supermarketFinder should be in the for
 Each mealOptions should be unique to the overall itinerary.
 Each mealOptions must contain a photoUri in their output JSON schema.
 Each mealOptions must also include  an activitiyRef, activityTitle, and activityDesc in their output
-{{/if}}
-Output must be in JSON format.
 
+MEALOPTIONS: {{mealOptions}}
+{{/if}}
 REQUEST : {{request}}
 PLACE : {{place}}
 PLACE DESCRIPTION : {{placeDescription}}
