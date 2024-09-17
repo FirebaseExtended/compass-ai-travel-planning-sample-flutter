@@ -1,3 +1,4 @@
 {
-  "gemini_api": {}
+  "gemini_api": {},
+  "secrets_manager": {}
 }

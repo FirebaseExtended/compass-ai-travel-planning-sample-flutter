@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "coral-mechanism-360215"
+  },
   "targets": {},
   "etags": {},
   "dataconnectEmulatorConfig": {
