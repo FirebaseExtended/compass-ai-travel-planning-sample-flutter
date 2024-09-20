@@ -23,7 +23,7 @@
     "@genkit-ai/googleai": "^0.5.5",
     "@genkit-ai/vertexai": "^0.5.5",
     "axios": "^1.7.2",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "firebase": "^10.12.4-dataconnect-preview.d986d4bf2",
     "zod": "^3.23.8"
   },
