@@ -16,8 +16,8 @@
     pkgs.yarn
     pkgs.nodePackages.pnpm
     pkgs.bun
-    pkgs.git-lfs
     pkgs.zip
+    pkgs.curl
   ];
   env = {
     POSTGRESQL_CONN_STRING = "postgresql://user:mypassword@localhost:5432/dataconnect?sslmode=disable";
@@ -43,8 +43,7 @@
     # Runs when a workspace is first created with this `dev.nix` file
     onCreate = {
       git-lfs-fetch = ''
-        git lfs install
-        git lfs pull
+        curl -o local.zip 'https://firebasestorage.googleapis.com/v0/b/yt-rag.appspot.com/o/genkit%2Flocal.zip?alt=media&token=2f1d181d-9eda-4dc1-9ffc-e988f69c26f2'
         unzip local.zip -d .
       '';
       npm-install = ''
@@ -55,10 +54,13 @@
     onStart = {
       genkit-start = ''
         cd genkit
-        npm ci
+        npm install
+        npm install --only=dev
+        npm i firebase@dataconnect-preview
         npx genkit start 
       '';
       flutter-start = ''
+        flutter upgrade
         flutter run --machine -d web-server --web-hostname 0.0.0.0 --web-port 6789 --dart-define=WEB_HOST=9000-$WEB_HOST
       '';
     };

@@ -43,7 +43,10 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
     }).toList();
 
     return PopScope(
-      onPopInvoked: (val) {
+      onPopInvokedWithResult: (didPop, val) {
+        if (didPop) {
+          return;
+        }
         context.read<TravelPlan>().clearDestination();
         context.read<TravelPlan>().clearActivities();
       },

@@ -24,7 +24,7 @@
     "@genkit-ai/vertexai": "^0.5.5",
     "axios": "^1.7.2",
     "express": "^4.19.2",
-    "firebase": "^10.12.0-dataconnect-preview.388b61c7e",
+    "firebase": "^10.12.4-dataconnect-preview.d986d4bf2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
