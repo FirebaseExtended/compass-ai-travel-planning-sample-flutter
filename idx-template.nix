@@ -1,5 +1,8 @@
 { pkgs, ... }: {
-  packages = [];
+  packages = [
+    pkgs.curl
+    pkgs.unzip
+  ];
   bootstrap = ''
     mkdir "$out"
     cp -rf ${./.}/* "$out"
