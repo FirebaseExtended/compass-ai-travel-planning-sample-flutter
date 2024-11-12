@@ -1,12 +1,12 @@
 {pkgs, ...}:
   let firebase-ext = pkgs.fetchurl {
     url =
-      "https://firebasestorage.googleapis.com/v0/b/firemat-preview-drop/o/vsix%2Ffirebase-vscode-0.2.8.vsix?alt=media&token=ba272e6e-c6b3-4860-bc2a-cd5b9cd7e022";
-    hash = "sha256-n4D70K61vThL3Tdjq1lq2Z/+4CBLtRj7ePY8uiv0taw=";
+      "https://firebasestorage.googleapis.com/v0/b/firemat-preview-drop/o/vsix%2Ffirebase-vscode-idx-0.1.7.vsix?alt=media&token=83902099-e9e4-4ee8-b953-2deb6a3e0167";
+    hash = "sha256-OAYOxRcFyUR2tiaH1IdNmJeOhfR5c8G32bkqvzZZbbc=";
     name = "firebase.vsix";
   };
   in {
-  channel = "stable-23.11";
+  channel = "stable-24.05";
   packages = [
     pkgs.nodePackages.firebase-tools
     pkgs.jdk17
@@ -42,10 +42,6 @@
   idx.workspace = {
     # Runs when a workspace is first created with this `dev.nix` file
     onCreate = {
-      git-lfs-fetch = ''
-        curl -o local.zip 'https://firebasestorage.googleapis.com/v0/b/yt-rag.appspot.com/o/genkit%2Flocal.zip?alt=media&token=2f1d181d-9eda-4dc1-9ffc-e988f69c26f2'
-        unzip local.zip -d .
-      '';
       npm-install = ''
         cd proxy
         npm ci

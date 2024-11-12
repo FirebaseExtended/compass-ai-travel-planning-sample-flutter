@@ -1,0 +1,10 @@
+{
+  "name": "Compass",
+  "description": "AI Travel Planning app with Flutter",
+  "categories": ["AI & ML", "Mobile"],
+  "icon": "https://www.gstatic.com/monospace/231128/logo_gemini_512.png",
+  "publisher": "Google LLC",
+  "host": {
+    "virtualization": "true"
+  }
+}
