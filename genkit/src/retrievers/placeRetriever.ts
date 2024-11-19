@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { getNearestPlace } from "@compass/backend";
-import { Destination } from "../common/types";
+import { getNearestPlace } from '@compass/backend';
+import { Destination } from '../common/types';
 import { z } from 'genkit';
-import { dataConnectInstance } from "../config/firebase";
-import { textEmbeddingGecko001 } from "@genkit-ai/googleai";
+import { dataConnectInstance } from '../config/firebase';
+import { textEmbeddingGecko001 } from '@genkit-ai/googleai';
 import { ai } from '../config/genkit';
-import { Document } from "genkit";
+import { Document } from 'genkit';
 
 export const QueryOptions = z.object({
     k: z.number().optional(),

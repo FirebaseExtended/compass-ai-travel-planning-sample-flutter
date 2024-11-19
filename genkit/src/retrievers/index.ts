@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import { placeRetriever } from "./placeRetriever";
+import { placeRetriever } from './placeRetriever';
 
 export {placeRetriever};

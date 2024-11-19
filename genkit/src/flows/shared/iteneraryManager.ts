@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-import { getActivitiesForPlace } from "@compass/backend";
-import { dataConnectInstance } from "../../config/firebase";
-import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from "../../common/types";
-import { restaurantFinder } from "../../tools/restaurantFinder";
-import { supermarketFinder } from "../../tools/supermarketFinder";
-import axios from "axios";
+import { getActivitiesForPlace } from '@compass/backend';
+import { dataConnectInstance } from '../../config/firebase';
+import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from '../../common/types';
+import { restaurantFinder } from '../../tools/restaurantFinder';
+import { supermarketFinder } from '../../tools/supermarketFinder';
+import axios from 'axios';
 import { ai } from '../../config/genkit';
 
 const MAPS_API_KEY = process.env.MAPS_API_KEY;

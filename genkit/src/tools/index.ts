@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import { restaurantFinder } from "./restaurantFinder";
+import { restaurantFinder } from './restaurantFinder';
 
 export {restaurantFinder};

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import dataConnect from "./data-connect";
-import { initializeApp } from "firebase/app";
-import { getDataConnect } from "firebase/data-connect";
-export const dataConnectInstance = dataConnect("localhost");
+import dataConnect from './data-connect';
+import { initializeApp } from 'firebase/app';
+import { getDataConnect } from 'firebase/data-connect';
+export const dataConnectInstance = dataConnect('localhost');
 // Uncomment to work with your own production instance
 // getDataConnect(app, {
 //   location: 'us-central1',

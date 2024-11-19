@@ -15,9 +15,9 @@
  */
 
 import { ai } from '../config/genkit';
-import axios from "axios";
+import axios from 'axios';
 import { z } from 'genkit';
-import { PlaceResponse } from "../common/types";
+import { PlaceResponse } from '../common/types';
 
 // TODO: Have this tool be empty but supply the content of it.
 // The description should be something an LLM can understand as a prompt.
