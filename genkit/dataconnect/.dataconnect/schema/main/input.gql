@@ -43,13 +43,14 @@ input Activity_Filter {
   timeOfDay: String_Filter
 }
 input Activity_ListFilter {
-  count: Int_Filter
+  count: Int_Filter = {gt:0}
   exist: Activity_Filter
 }
 input Activity_Order {
   ref: OrderDirection
   destinationRef: OrderDirection
   placeRef: OrderDirection
+  place: Place_Order
   description: OrderDirection
   duration: OrderDirection
   embedding: OrderDirection
@@ -92,7 +93,7 @@ input Place_Filter {
   activities_on_place: Activity_ListFilter
 }
 input Place_ListFilter {
-  count: Int_Filter
+  count: Int_Filter = {gt:0}
   exist: Place_Filter
 }
 input Place_Order {

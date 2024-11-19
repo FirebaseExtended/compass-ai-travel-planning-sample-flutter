@@ -14,18 +14,14 @@
   "license": "ISC",
   "dependencies": {
     "@compass/backend": "file:compass-generated",
-    "@genkit-ai/ai": "^0.5.5",
-    "@genkit-ai/core": "^0.5.5",
-    "@genkit-ai/dotprompt": "^0.5.5",
-    "@genkit-ai/firebase": "^0.5.5",
-    "@genkit-ai/flow": "^0.5.5",
-    "@genkit-ai/google-cloud": "^0.5.2",
-    "@genkit-ai/googleai": "^0.5.5",
-    "@genkit-ai/vertexai": "^0.5.5",
+    "@genkit-ai/firebase": "^0.9.3",
+    "@genkit-ai/google-cloud": "^0.9.3",
+    "@genkit-ai/googleai": "^0.9.3",
+    "@genkit-ai/vertexai": "^0.9.3",
     "axios": "^1.7.2",
     "express": "^4.21.1",
-    "firebase": "^10.12.4-dataconnect-preview.d986d4bf2",
-    "zod": "^3.23.8"
+    "firebase": "^11.0.2",
+    "genkit": "^0.9.3"
   },
   "devDependencies": {
     "typescript": "^5.5.3"

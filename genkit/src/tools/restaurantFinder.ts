@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { defineTool } from "@genkit-ai/ai/tool";
+import { ai } from '../config/genkit';
 import axios from "axios";
-import { z } from "zod";
+import { z } from 'genkit';
 import { PlaceResponse } from "../common/types";
 
 // TODO: Have this tool be empty but supply the content of it.
 // The description should be something an LLM can understand as a prompt.
 // Then we call the places API.
 
-export const restaurantFinder = defineTool(
+export const restaurantFinder = ai.defineTool(
   // [START restaurant_tool_desc]  
     {  
       name: 'restaurantFinder',

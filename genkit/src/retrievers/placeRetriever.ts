@@ -15,12 +15,12 @@
  */
 
 import { getNearestPlace } from "@compass/backend";
-import { defineRetriever, Document } from "@genkit-ai/ai/retriever";
 import { Destination } from "../common/types";
-import { z } from "zod";
+import { z } from 'genkit';
 import { dataConnectInstance } from "../config/firebase";
 import { textEmbeddingGecko001 } from "@genkit-ai/googleai";
-import { embed } from "@genkit-ai/ai/embedder";
+import { ai } from '../config/genkit';
+import { Document } from "genkit";
 
 export const QueryOptions = z.object({
     k: z.number().optional(),
@@ -32,15 +32,15 @@ export const QueryOptions = z.object({
  * We are using the generated client SDKs for now, but once the admin
  * SDKs are available, we would likely prefer to use those.
  */
-export const placeRetriever = defineRetriever(
+export const placeRetriever = ai.defineRetriever(
     {
       name: 'dataconnect-placeRetriever',
       configSchema: QueryOptions,
     },
     async (input, options) => {
-      const requestEmbedding = await embed({
+      const requestEmbedding = await ai.embed({
         embedder: textEmbeddingGecko001,
-        content: input.text(),
+        content: input.text,
       });
       const result = await getNearestPlace(
         dataConnectInstance, 

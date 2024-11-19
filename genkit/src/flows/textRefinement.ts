@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import { prompt } from "@genkit-ai/dotprompt";
-import { defineFlow } from "@genkit-ai/flow";
-import { z } from "zod";
+import { ai } from '../config/genkit';
+import { z } from 'genkit';
 
 // FINAL STEP
 // We realize that our initial prompts aren't great, so we want to
@@ -24,7 +23,7 @@ import { z } from "zod";
 // We can fill in this flow to get that additional information from the uesr.
 
 // [START text_refinement_flow]
-export const textRefinement = defineFlow(
+export const textRefinement = ai.defineFlow(
     {
       name: 'textRefinement',
       inputSchema: z.string(),
@@ -32,8 +31,8 @@ export const textRefinement = defineFlow(
     },
     async (userRequest) => {
         console.log("RUNNING REFINMENT");
-        const refinementPrompt = await prompt('textRefinement')
-        const result = await refinementPrompt.generate({
+        const refinementPrompt = await ai.prompt('textRefinement')
+        const result = await refinementPrompt({
             input: {
                 request: userRequest
             },

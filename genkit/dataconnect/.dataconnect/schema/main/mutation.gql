@@ -2,49 +2,65 @@ extend type Mutation {
   """
   Insert a single Activity into the table. Columns not specified in `data` will receive defaults (e.g. `null`).
   """
-  activity_insert(data: Activity_Data!): Activity_Key!
+  activity_insert(data: Activity_Data!): Activity_Key! @fdc_generated(from: "Activity", purpose: INSERT_SINGLE)
   """
   Insert a single Place into the table. Columns not specified in `data` will receive defaults (e.g. `null`).
   """
-  place_insert(data: Place_Data!): Place_Key!
+  place_insert(data: Place_Data!): Place_Key! @fdc_generated(from: "Place", purpose: INSERT_SINGLE)
+  """
+  Insert Activity entries into the table. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  activity_insertMany(data: [Activity_Data!]!): [Activity_Key!]! @fdc_generated(from: "Activity", purpose: INSERT_MULTIPLE)
+  """
+  Insert Place entries into the table. Columns not specified in `data` will receive defaults (e.g. `null`).
+  """
+  place_insertMany(data: [Place_Data!]!): [Place_Key!]! @fdc_generated(from: "Place", purpose: INSERT_MULTIPLE)
   """
   Insert or update a single Activity into the table, based on the primary key. Returns the key of the newly inserted Activity.
   """
-  activity_upsert(data: Activity_Data!): Activity_Key!
+  activity_upsert(data: Activity_Data!): Activity_Key! @fdc_generated(from: "Activity", purpose: UPSERT_SINGLE)
   """
   Insert or update a single Place into the table, based on the primary key. Returns the key of the newly inserted Place.
   """
-  place_upsert(data: Place_Data!): Place_Key!
+  place_upsert(data: Place_Data!): Place_Key! @fdc_generated(from: "Place", purpose: UPSERT_SINGLE)
+  """
+  Insert or update Activity entries into the table, based on the primary key. Returns the key of the newly inserted Activity.
+  """
+  activity_upsertMany(data: [Activity_Data!]): [Activity_Key!]! @fdc_generated(from: "Activity", purpose: UPSERT_MULTIPLE)
+  """
+  Insert or update Place entries into the table, based on the primary key. Returns the key of the newly inserted Place.
+  """
+  place_upsertMany(data: [Place_Data!]): [Place_Key!]! @fdc_generated(from: "Place", purpose: UPSERT_MULTIPLE)
   """
   Update a single Activity based on `id` or `key`, setting columns specified in `data`. Returns `null` if not found.
   """
-  activity_update(key: Activity_Key, data: Activity_Data!): Activity_Key
+  activity_update(key: Activity_Key, data: Activity_Data!): Activity_Key @fdc_generated(from: "Activity", purpose: UPDATE_SINGLE)
   """
   Update a single Place based on `id` or `key`, setting columns specified in `data`. Returns `null` if not found.
   """
-  place_update(key: Place_Key, data: Place_Data!): Place_Key
+  place_update(key: Place_Key, data: Place_Data!): Place_Key @fdc_generated(from: "Place", purpose: UPDATE_SINGLE)
   """
   Update Activity entries matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
   """
-  activity_updateMany(where: Activity_Filter, all: Boolean = false, data: Activity_Data!): Int!
+  activity_updateMany(where: Activity_Filter, all: Boolean = false, data: Activity_Data!): Int! @fdc_generated(from: "Activity", purpose: UPDATE_MULTIPLE)
   """
   Update Place entries matching `where` conditions (or `all`, if true) according to `data`. Returns the number of rows updated.
   """
-  place_updateMany(where: Place_Filter, all: Boolean = false, data: Place_Data!): Int!
+  place_updateMany(where: Place_Filter, all: Boolean = false, data: Place_Data!): Int! @fdc_generated(from: "Place", purpose: UPDATE_MULTIPLE)
   """
   Delete a single Activity based on `id` or `key` and return its key (or `null` if not found).
   """
-  activity_delete(key: Activity_Key): Activity_Key
+  activity_delete(key: Activity_Key): Activity_Key @fdc_generated(from: "Activity", purpose: DELETE_SINGLE)
   """
   Delete a single Place based on `id` or `key` and return its key (or `null` if not found).
   """
-  place_delete(key: Place_Key): Place_Key
+  place_delete(key: Place_Key): Place_Key @fdc_generated(from: "Place", purpose: DELETE_SINGLE)
   """
   Delete Activity entries matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
   """
-  activity_deleteMany(where: Activity_Filter, all: Boolean = false): Int!
+  activity_deleteMany(where: Activity_Filter, all: Boolean = false): Int! @fdc_generated(from: "Activity", purpose: DELETE_MULTIPLE)
   """
   Delete Place entries matching `where` conditions (or `all`, if true). Returns the number of rows deleted.
   """
-  place_deleteMany(where: Place_Filter, all: Boolean = false): Int!
+  place_deleteMany(where: Place_Filter, all: Boolean = false): Int! @fdc_generated(from: "Place", purpose: DELETE_MULTIPLE)
 }
