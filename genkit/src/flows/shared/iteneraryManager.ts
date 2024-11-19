@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { getActivitiesForPlace } from "@compass/backend";
-import { dataConnectInstance } from "../../config/firebase";
-import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from "../../common/types";
-import { restaurantFinder } from "../../tools/restaurantFinder";
-import { supermarketFinder } from "../../tools/supermarketFinder";
-import { prompt } from '@genkit-ai/dotprompt';
-import axios from "axios";
+import { getActivitiesForPlace } from '@compass/backend';
+import { dataConnectInstance } from '../../config/firebase';
+import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse } from '../../common/types';
+import { restaurantFinder } from '../../tools/restaurantFinder';
+import { supermarketFinder } from '../../tools/supermarketFinder';
+import axios from 'axios';
+import { ai } from '../../config/genkit';
 
 const MAPS_API_KEY = process.env.MAPS_API_KEY;
 
@@ -42,8 +42,8 @@ const generateItineraryForPlace = async (request: string, location: Destination,
     }
     // #endregion
     
-    const itineraryPlanningAgentPrompt = await prompt('itineraryPlanningAgent');
-    const itineraries = await itineraryPlanningAgentPrompt.generate({
+    const itineraryPlanningAgentPrompt = await ai.prompt('itineraryPlanningAgent');
+    const itineraries = await itineraryPlanningAgentPrompt({
         input: {
             request: request,
             place: location!.name,
@@ -95,9 +95,9 @@ const formatPhoto = async (activityRef: string, locationRef: string, photoUri?: 
 const recommendMeals = async (locationName: string, request: string): Promise<string[]> => {
     // TODO: Have the user fill this in.
     // Search for restaurants
-    const mealsPlanningAgentPrompt = await prompt('mealsPlanningAgent');
+    const mealsPlanningAgentPrompt = await ai.prompt('mealsPlanningAgent');
 
-    const rescommendMealsTool = await mealsPlanningAgentPrompt.generate({
+    const rescommendMealsTool = await mealsPlanningAgentPrompt({
         input: {
         place: locationName,
         request: request,
@@ -107,7 +107,7 @@ const recommendMeals = async (locationName: string, request: string): Promise<st
 
     // TODO: We are using tool usage here in a contrived example.
     const restaurantsFound: PlaceResponse[] = await Promise.all(
-        rescommendMealsTool.toolRequests().map(async (element) => {
+        rescommendMealsTool.toolRequests.map(async (element) => {
             switch(element.toolRequest.name){
                 case "restaurantFinder":
                     return await restaurantFinder(

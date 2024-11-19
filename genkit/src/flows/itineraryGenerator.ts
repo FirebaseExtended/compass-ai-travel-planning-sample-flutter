@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { retrieve } from '@genkit-ai/ai/retriever';
-import { prompt } from '@genkit-ai/dotprompt';
-import { defineFlow, run } from "@genkit-ai/flow";
-import { z } from "zod";
+import { ai } from '../config/genkit';
+import { run, z } from 'genkit';
 import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
 import { planItenerary } from './shared/iteneraryManager';
 
-export const itineraryGenerator2 = defineFlow(
+export const itineraryGenerator2 = ai.defineFlow(
     {
       name: 'itineraryGenerator2',
       inputSchema: ItineraryRequest,
@@ -37,12 +35,12 @@ export const itineraryGenerator2 = defineFlow(
           return '';
         }
 
-        const imageDescriptionPrompt = await prompt('imageDescription');
-        const result = await imageDescriptionPrompt.generate({
+        const imageDescriptionPrompt = await ai.prompt('imageDescription');
+        const result = await imageDescriptionPrompt({
           input: { images: userInputs.images },
         });
 
-        return result.text();
+        return result.text;
       });
       // #endregion
       
@@ -51,7 +49,7 @@ export const itineraryGenerator2 = defineFlow(
       const possibleDestinations = await run('Suggest Destinations', async () => {
 
         // #region : Retriever
-        const contextDestinations = await retrieve({
+        const contextDestinations = await ai.retrieve({
           retriever: placeRetriever,
           query: `${imageDescription} ${userInputs.request}`,
           options: {
@@ -61,13 +59,13 @@ export const itineraryGenerator2 = defineFlow(
         //suggestDestinationsWithContextAgent
         // #endregion
 
-        const suggestDestinationsAgentPrompt = await prompt('suggestDestinationsWithContextAgent');
-        const result = await suggestDestinationsAgentPrompt.generate({
+        const suggestDestinationsAgentPrompt = await ai.prompt('suggestDestinationsWithContextAgent');
+        const result = await suggestDestinationsAgentPrompt({
           input: { description: `${imageDescription} ${userInputs.request}` },
           context: contextDestinations
         });
 
-        const { destinations } = result.output() as { destinations: Destination[] };
+        const { destinations } = result.output as { destinations: Destination[] };
 
         // #region : Clean Up images
         destinations.forEach((dest) =>{

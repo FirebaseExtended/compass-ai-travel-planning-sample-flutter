@@ -52,8 +52,7 @@
         cd genkit
         npm install
         npm install --only=dev
-        npm i firebase@dataconnect-preview
-        npx genkit start 
+        npx genkit-cli start -- npx tsx --watch src/index.ts
       '';
       flutter-start = ''
         flutter upgrade

@@ -2,5 +2,5 @@ extend type Place {
   """
   ✨ List Activity entries in a one-to-many relationship with this object (i.e. where `Activity.place` equals this object).
   """
-  activities_on_place(where: Activity_Filter, orderBy: [Activity_Order!], limit: Int = 100): [Activity!]!
+  activities_on_place(where: Activity_Filter, orderBy: [Activity_Order!], offset: Int, limit: Int = 100): [Activity!]! @fdc_generated(from: "Activity.place", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
 }
