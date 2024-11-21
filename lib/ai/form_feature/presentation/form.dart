@@ -98,7 +98,7 @@ class _FormScreenState extends State<FormScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context, rootNavigator: true).pop();
               },
               child: const Text('Okay'),
             ),
