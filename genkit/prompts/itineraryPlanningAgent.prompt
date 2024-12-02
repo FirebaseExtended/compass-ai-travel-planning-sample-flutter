@@ -15,7 +15,7 @@ input:
   schema:
     request: string, The users request for where they want to travel to.
     place: string, The place that closely represents the users request.
-    placeDescription: string, A description of that place.
+    knownFor: string, A description of that place.
     activities(array, a stringify list of activities that can be found at the specified place): string
     mealOptions?(array, a stringify list of all the restaurants and supermarkets found at that location): string
 output:

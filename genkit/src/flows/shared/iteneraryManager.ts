@@ -46,7 +46,7 @@ const generateItineraryForPlace = async (request: string, location: Destination,
     const itineraries = await itineraryPlanningAgentPrompt({
         request: request,
         place: location!.name,
-        placeDescription: location!.knownFor,
+        knownFor: location!.knownFor,
         activities: activityDescs,
         mealOptions: mealPlaces
     });
@@ -156,7 +156,6 @@ const cleanUpGeneratedItinerary = async (
             );
         }
     }
-    // console.log("TRIP NAME : \n\n\n\n\n\n\n\n\n\n", output.place);
     return output;
 }
 

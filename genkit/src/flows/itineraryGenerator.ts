@@ -59,12 +59,13 @@ export const itineraryGenerator2 = ai.defineFlow(
         //suggestDestinationsWithContextAgent
         // #endregion
 
-        const suggestDestinationsAgentPrompt = await ai.prompt('suggestDestinationsWithContextAgent');
-        const result = await suggestDestinationsAgentPrompt(
-          { description: `${imageDescription} ${userInputs.request}`, context: contextDestinations },
-        );
-
-        const { destinations } = result.output as { destinations: Destination[] };
+        const destinations = contextDestinations.map((doc) => {
+          const metadata = doc.toJSON().metadata as Destination;
+          console.log(metadata);
+          metadata.knownFor = doc.text;
+          console.log(metadata);
+          return metadata;
+        });
 
         // #region : Clean Up images
         destinations.forEach((dest) =>{
