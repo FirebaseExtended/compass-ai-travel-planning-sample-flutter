@@ -18,7 +18,7 @@ schema:
   source: "./schema"
   datasource:
     postgresql:
-      database: "postgres"
+      database: "dataconnect"
       cloudSql:
         instanceId: "dc-compass"
 connectorDirs: ["./connector"]
