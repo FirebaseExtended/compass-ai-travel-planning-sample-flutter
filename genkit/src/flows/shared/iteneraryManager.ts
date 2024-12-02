@@ -44,15 +44,13 @@ const generateItineraryForPlace = async (request: string, location: Destination,
     
     const itineraryPlanningAgentPrompt = await ai.prompt('itineraryPlanningAgent');
     const itineraries = await itineraryPlanningAgentPrompt({
-        input: {
-            request: request,
-            place: location!.name,
-            placeDescription: location!.knownFor,
-            activities: activityDescs,
-            mealOptions: mealPlaces
-        }
+        request: request,
+        place: location!.name,
+        placeDescription: location!.knownFor,
+        activities: activityDescs,
+        mealOptions: mealPlaces
     });
-    return itineraries.output() as ItineraryGeneratorOutput;
+    return itineraries.output as ItineraryGeneratorOutput;
 }
 
 /**
@@ -98,12 +96,9 @@ const recommendMeals = async (locationName: string, request: string): Promise<st
     const mealsPlanningAgentPrompt = await ai.prompt('mealsPlanningAgent');
 
     const rescommendMealsTool = await mealsPlanningAgentPrompt({
-        input: {
         place: locationName,
-        request: request,
-        },
-        returnToolRequests: true
-    });
+        request: request,   
+    }, {returnToolRequests: true});
 
     // TODO: We are using tool usage here in a contrived example.
     const restaurantsFound: PlaceResponse[] = await Promise.all(

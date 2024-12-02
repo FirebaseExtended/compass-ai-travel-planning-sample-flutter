@@ -1,5 +1,5 @@
 ---
-model: googleai/gemini-1.5-flash-latest
+model: googleai/gemini-1.5-flash
 config:
   temperature: 1.0
   safetySettings:
@@ -29,7 +29,7 @@ output:
       day: number
       date: string
       planForDay(array):
-        activityRef: string, the reference value for the activity - this comes from the available activities JSON. If no value is present use a ref value of restaurant.
+        activityRef: string, the reference value for the activity this comes from the available activities JSON. If no value is present use a ref value of restaurant.
         activityTitle: string, a catchy title for the activity
         activityDesc: string, a six word description of the activity
         photoUri?: string, set the photo uri value for restaurants and supermarket only.
