@@ -14,7 +14,7 @@
       pkgs.curl
     ];
     env = {
-      POSTGRESQL_CONN_STRING = "postgresql://user:mypassword@localhost:5432/dataconnect?sslmode=disable";
+      FIREBASE_DATACONNECT_POSTGRESQL_STRING = "postgresql://user:mypassword@localhost:5432/dataconnect?sslmode=disable";
       FIRESQL_PORT = "9939";
       # Sets environment variables in the workspace
       # You can get a Gemini API key through the IDX Integrations panel to the left!
