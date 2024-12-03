@@ -33,10 +33,8 @@ export const textRefinement = ai.defineFlow(
         console.log("RUNNING REFINMENT");
         const refinementPrompt = await ai.prompt('textRefinement')
         const result = await refinementPrompt({
-            input: {
                 request: userRequest
-            },
         });
-        return result.output();
+        return result.output;
 });
 // [END text_refinement_flow]
