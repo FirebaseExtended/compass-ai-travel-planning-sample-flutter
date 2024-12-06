@@ -19,7 +19,7 @@
     "@genkit-ai/googleai": "^0.9.6",
     "@genkit-ai/vertexai": "^0.9.6",
     "axios": "^1.7.8",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "firebase": "^11.0.2",
     "genkit": "^0.9.6"
   },
