@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ai } from '../config/genkit';
+import { ai, myMiddleware } from '../config/genkit';
 import { z } from 'genkit';
 
 // FINAL STEP
@@ -28,13 +28,18 @@ export const textRefinement = ai.defineFlow(
       name: 'textRefinement',
       inputSchema: z.string(),
       outputSchema: z.unknown(),
+      
     },
     async (userRequest) => {
         console.log("RUNNING REFINMENT");
         const refinementPrompt = await ai.prompt('textRefinement')
         const result = await refinementPrompt({
                 request: userRequest
-        });
+        }, {
+          use: [
+            ...myMiddleware
+          ]}
+        );
         return result.output;
 });
 // [END text_refinement_flow]

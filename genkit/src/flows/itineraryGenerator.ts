@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ai } from '../config/genkit';
+import { ai, myMiddleware } from '../config/genkit';
 import { run, z } from 'genkit';
 import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
@@ -38,7 +38,10 @@ export const itineraryGenerator2 = ai.defineFlow(
         const imageDescriptionPrompt = await ai.prompt('imageDescription');
         const result = await imageDescriptionPrompt({
           input: { images: userInputs.images },
-        });
+        }, {
+          use: [...myMiddleware],
+        },
+      );
 
         return result.text;
       });

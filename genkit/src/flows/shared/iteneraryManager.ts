@@ -20,7 +20,7 @@ import { Activity, Destination, ItineraryGeneratorOutput, Place, PlaceResponse }
 import { restaurantFinder } from '../../tools/restaurantFinder';
 import { supermarketFinder } from '../../tools/supermarketFinder';
 import axios from 'axios';
-import { ai } from '../../config/genkit';
+import { ai, myMiddleware } from '../../config/genkit';
 
 const MAPS_API_KEY = process.env.MAPS_API_KEY;
 
@@ -49,6 +49,8 @@ const generateItineraryForPlace = async (request: string, location: Destination,
         knownFor: location!.knownFor,
         activities: activityDescs,
         mealOptions: mealPlaces
+    },{
+        use: [...myMiddleware],
     });
     return itineraries.output as ItineraryGeneratorOutput;
 }
@@ -98,7 +100,10 @@ const recommendMeals = async (locationName: string, request: string): Promise<st
     const rescommendMealsTool = await mealsPlanningAgentPrompt({
         place: locationName,
         request: request,   
-    }, {returnToolRequests: true});
+    }, {
+        returnToolRequests: true,
+        use: [...myMiddleware],
+    });
 
     // TODO: We are using tool usage here in a contrived example.
     const restaurantsFound: PlaceResponse[] = await Promise.all(
