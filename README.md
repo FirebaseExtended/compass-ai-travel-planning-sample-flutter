@@ -40,6 +40,14 @@ Open the app in Project IDX using the button above.
 
 1. Once genkit has started running, close and re-open the web preview.
 
+### Trying out the Checks Guardrails API Plugin
+
+1. Ensure you have followed the instructions to get started with the [Guardrails API](https://developers.google.com/checks/guide/ai-safety/guardrails)
+
+1. Authorize the Application Default Credential using the following command: `gcloud auth application-default login --scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/checks`
+
+1. Restart the genkit server after the ADC has been updated with the appropriate scopes
+
 ### Additional Information
 
 This app is not an officially supported Google Product
