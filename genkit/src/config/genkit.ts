@@ -1,10 +1,12 @@
 import { gemini15Pro, googleAI } from '@genkit-ai/googleai';
 import { logger } from 'genkit/logging';
 import { genkit } from 'genkit';
-import { enableGoogleCloudTelemetry } from '@genkit-ai/google-cloud';
+import { enableFirebaseTelemetry } from '@genkit-ai/firebase';
 import { ChecksEvaluationMetricType, checksMiddleware } from '@genkit-ai/checks';
 import { ModelMiddleware } from 'genkit/model';
 
+
+enableFirebaseTelemetry();
 
 export const ai = genkit({
     plugins: [
@@ -16,8 +18,6 @@ export const ai = genkit({
 })
 
 logger.setLogLevel('debug');
-
-enableGoogleCloudTelemetry();
 
 const useChecksMiddleware = false;
 
