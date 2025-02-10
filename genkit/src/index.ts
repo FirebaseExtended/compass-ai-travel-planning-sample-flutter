@@ -15,6 +15,7 @@
  */
 
 import { ai } from './config/genkit';
+import { startFlowServer } from '@genkit-ai/express';
 // importing our own tooling.
 import * as tools from './tools'
 import * as flows from './flows'
@@ -24,7 +25,7 @@ import * as retrievers from './retrievers';
 // Making our tooling discoverable as endpoints to the flow server.
 export {tools, flows, retrievers};
 
-ai.startFlowServer({
+startFlowServer({
   port: 2222,
   cors: {
     origin: "*",

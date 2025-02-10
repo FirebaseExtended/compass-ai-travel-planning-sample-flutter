@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import { ai, myMiddleware } from '../config/genkit';
-import { run, z } from 'genkit';
+import { z } from 'genkit';
 import { placeRetriever } from '../retrievers/placeRetriever';
 import { Destination, ItineraryGeneratorOutput, ItineraryRequest } from '../common/types';
 import { planItenerary } from './shared/iteneraryManager';
@@ -29,7 +29,7 @@ export const itineraryGenerator2 = ai.defineFlow(
       console.log("RUNNING - itineraryGenerator2");
 
       // #region : 1 - Obtain the description of the image
-      const imageDescription = await run('Decribe Image', async () => {
+      const imageDescription = await ai.run('Decribe Image', async () => {
 
         if (!userInputs.images || userInputs.images.length === 0 || userInputs.images[0] == "") {
           return '';
@@ -49,7 +49,7 @@ export const itineraryGenerator2 = ai.defineFlow(
       
 
       // #region : 2 - Suggest Destinations matching users input
-      const possibleDestinations = await run('Suggest Destinations', async () => {
+      const possibleDestinations = await ai.run('Suggest Destinations', async () => {
 
         // #region : Retriever
         const contextDestinations = await ai.retrieve({
@@ -88,7 +88,7 @@ export const itineraryGenerator2 = ai.defineFlow(
       let destDetails: Promise<unknown>[] = [];
 
       possibleDestinations.forEach((dest) => {
-        const loc0 = run(`Plan Itinerary for Destination: `+ dest.ref , (): Promise<unknown> => {
+        const loc0 = ai.run(`Plan Itinerary for Destination: `+ dest.ref , (): Promise<unknown> => {
           return planItenerary(userInputs.request!, dest);
         });
         destDetails.push(loc0);
@@ -97,7 +97,7 @@ export const itineraryGenerator2 = ai.defineFlow(
 
 
       // #region 4 - Merge eveything together and tide up data model
-      const itineraries = await run('Finally Merge all Results into Itinerary', async () => {
+      const itineraries = await ai.run('Finally Merge all Results into Itinerary', async () => {
         const results = await Promise.all(destDetails);
         const itineraries = { itineraries: [...(results as ItineraryGeneratorOutput[])] };
         return itineraries;

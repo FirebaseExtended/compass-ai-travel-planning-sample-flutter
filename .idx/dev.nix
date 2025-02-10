@@ -46,7 +46,7 @@
           cd genkit
           npm install
           npm install --only=dev
-          npx genkit-cli@1.0.0-rc.1 start -- npx tsx --watch src/index.ts
+          npx genkit-cli@1.0.4 start -- npx tsx --watch src/index.ts
         '';
         flutter-start = ''
           flutter upgrade
