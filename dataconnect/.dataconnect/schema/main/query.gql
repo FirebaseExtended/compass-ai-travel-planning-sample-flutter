@@ -1,28 +1,148 @@
 extend type Query {
   """
-  Look up a single Activity based on `id` or `key` and return selected fields (or `null` if not found).
+  ✨ Look up a single `Activity` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
-  activity(key: Activity_Key): Activity @fdc_generated(from: "Activity", purpose: QUERY_SINGLE)
+  activity(
+    """
+    The key used to identify the object.
+    """
+    key: Activity_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Activity_FirstRow
+  ): Activity @fdc_generated(from: "Activity", purpose: QUERY_SINGLE)
   """
-  Look up a single Place based on `id` or `key` and return selected fields (or `null` if not found).
+  ✨ Look up a single `Place` based on `id`, `key` or `first` and return selected fields (or `null` if not found).
   """
-  place(key: Place_Key): Place @fdc_generated(from: "Place", purpose: QUERY_SINGLE)
+  place(
+    """
+    The key used to identify the object.
+    """
+    key: Place_Key
+
+    """
+    Fetch the first row based on the filters and ordering.
+    """
+    first: Place_FirstRow
+  ): Place @fdc_generated(from: "Place", purpose: QUERY_SINGLE)
   """
-  List Activity entries in the table, optionally filtered by `where` conditions.
+  ✨ List `Activity` objects in the table, optionally filtered by `where` conditions.
   """
-  activities(where: Activity_Filter, orderBy: [Activity_Order!], offset: Int, limit: Int = 100): [Activity!]! @fdc_generated(from: "Activity", purpose: QUERY_MULTIPLE)
+  activities(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Activity_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Activity_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+  ): [Activity!]! @fdc_generated(from: "Activity", purpose: QUERY_MULTIPLE)
   """
-  List Place entries in the table, optionally filtered by `where` conditions.
+  ✨ List `Place` objects in the table, optionally filtered by `where` conditions.
   """
-  places(where: Place_Filter, orderBy: [Place_Order!], offset: Int, limit: Int = 100): [Place!]! @fdc_generated(from: "Place", purpose: QUERY_MULTIPLE)
+  places(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Place_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Place_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+  ): [Place!]! @fdc_generated(from: "Place", purpose: QUERY_MULTIPLE)
   """
-  List Activity entries ordered by vector similarity between the `embedding` field and `compare_embed`.
+  ✨ List `Activity` objects ordered by vector similarity between the `embedding` field and `compare_embed`.
   (Alternatively, `compare` can be used if the input is a raw Vector.)
   """
-  activities_embedding_similarity(compare: Vector, compare_embed: Vector_Embed, method: VectorSimilarityMethod = INNER_PRODUCT, within: Float, where: Activity_Filter, limit: Int = 100): [Activity!]! @fdc_generated(from: "Activity.embedding", purpose: QUERY_MULTIPLE_BY_SIMILARITY)
+  activities_embedding_similarity(
+    """
+    Vector to compare with the stored vectors.
+    """
+    compare: Vector
+
+    """
+    ✨ `_embed` server value variant of `compare` (Vector to compare with the stored vectors.)
+    """
+    compare_embed: Vector_Embed
+
+    """
+    Similarity method to use for vector comparison (defaults to `INNER_PRODUCT`).
+    """
+    method: VectorSimilarityMethod = INNER_PRODUCT
+
+    """
+    Threshold for distance comparison.
+    """
+    within: Float
+
+    """
+    Filter condition to apply when searching for similar vectors.
+    """
+    where: Activity_Filter
+
+    """
+    Limit the number of similar vectors returned (defaults to 100 rows).
+    """
+    limit: Int = 100
+  ): [Activity!]! @fdc_generated(from: "Activity.embedding", purpose: QUERY_MULTIPLE_BY_SIMILARITY)
   """
-  List Place entries ordered by vector similarity between the `embedding` field and `compare_embed`.
+  ✨ List `Place` objects ordered by vector similarity between the `embedding` field and `compare_embed`.
   (Alternatively, `compare` can be used if the input is a raw Vector.)
   """
-  places_embedding_similarity(compare: Vector, compare_embed: Vector_Embed, method: VectorSimilarityMethod = INNER_PRODUCT, within: Float, where: Place_Filter, limit: Int = 100): [Place!]! @fdc_generated(from: "Place.embedding", purpose: QUERY_MULTIPLE_BY_SIMILARITY)
+  places_embedding_similarity(
+    """
+    Vector to compare with the stored vectors.
+    """
+    compare: Vector
+
+    """
+    ✨ `_embed` server value variant of `compare` (Vector to compare with the stored vectors.)
+    """
+    compare_embed: Vector_Embed
+
+    """
+    Similarity method to use for vector comparison (defaults to `INNER_PRODUCT`).
+    """
+    method: VectorSimilarityMethod = INNER_PRODUCT
+
+    """
+    Threshold for distance comparison.
+    """
+    within: Float
+
+    """
+    Filter condition to apply when searching for similar vectors.
+    """
+    where: Place_Filter
+
+    """
+    Limit the number of similar vectors returned (defaults to 100 rows).
+    """
+    limit: Int = 100
+  ): [Place!]! @fdc_generated(from: "Place.embedding", purpose: QUERY_MULTIPLE_BY_SIMILARITY)
 }

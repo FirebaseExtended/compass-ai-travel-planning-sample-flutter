@@ -1,3 +1,6 @@
 extend type Activity {
+  """
+  ✨ Implicit foreign key field based on `Activity`.`place`. It must match the value of `Place`.`ref`. See `@ref` for how to customize it.
+  """
   placeRef: String! @fdc_generated(from: "Activity.place", purpose: IMPLICIT_REF_FIELD)
 }

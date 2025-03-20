@@ -1,6 +1,36 @@
+extend type Activity {
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Activity", purpose: METADATA_FIELD)
+}
 extend type Place {
   """
-  ✨ List Activity entries in a one-to-many relationship with this object (i.e. where `Activity.place` equals this object).
+  ✨ List `Activity` objects in a one-to-many relationship (where `Activity`.`place` is this object).
   """
-  activities_on_place(where: Activity_Filter, orderBy: [Activity_Order!], offset: Int, limit: Int = 100): [Activity!]! @fdc_generated(from: "Activity.place", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  activities_on_place(
+    """
+    Filter condition to narrow down the query results.
+    """
+    where: Activity_Filter
+
+    """
+    Order the query results by specific fields.
+    """
+    orderBy: [Activity_Order!]
+
+    """
+    Number of rows to skip before starting to return the results.
+    """
+    offset: Int
+
+    """
+    Maximum number of rows to return (defaults to 100 rows).
+    """
+    limit: Int = 100
+  ): [Activity!]! @fdc_generated(from: "Activity.place", purpose: QUERY_MULTIPLE_ONE_TO_MANY)
+  """
+  Implicit metadata field that cannot be written. It provides extra information about query results.
+  """
+  _metadata: _Metadata @fdc_generated(from: "Place", purpose: METADATA_FIELD)
 }

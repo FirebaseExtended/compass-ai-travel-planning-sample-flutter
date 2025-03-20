@@ -1,107 +1,468 @@
-scalar Activity_Key
-scalar Place_Key
+"""
+✨ `Activity_KeyOutput` returns the primary key fields of table type `Activity`.
+
+It has the same format as `Activity_Key`, but is only used as mutation return value.
+"""
+scalar Activity_KeyOutput
+"""
+✨ `Place_KeyOutput` returns the primary key fields of table type `Place`.
+
+It has the same format as `Place_Key`, but is only used as mutation return value.
+"""
+scalar Place_KeyOutput
+"""
+✨ Generated data input type for table 'Activity'. It includes all necessary fields for creating or upserting rows into table.
+"""
 input Activity_Data {
+  """
+  ✨ Generated from Field `Activity`.`ref` of type `String!`
+  """
   ref: String
+  """
+  ✨ `_expr` server value variant of `ref` (✨ Generated from Field `Activity`.`ref` of type `String!`)
+  """
   ref_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`destinationRef` of type `String!`
+  """
   destinationRef: String
+  """
+  ✨ `_expr` server value variant of `destinationRef` (✨ Generated from Field `Activity`.`destinationRef` of type `String!`)
+  """
   destinationRef_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`placeRef` of type `String!`
+  """
   placeRef: String
+  """
+  ✨ `_expr` server value variant of `placeRef` (✨ Generated from Field `Activity`.`placeRef` of type `String!`)
+  """
   placeRef_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`place` of type `Place!`
+  """
   place: Place_Key
+  """
+  ✨ Generated from Field `Activity`.`description` of type `String!`
+  """
   description: String
+  """
+  ✨ `_expr` server value variant of `description` (✨ Generated from Field `Activity`.`description` of type `String!`)
+  """
   description_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`duration` of type `Float!`
+  """
   duration: Float
+  """
+  ✨ Generated from Field `Activity`.`embedding` of type `Vector!`
+  """
   embedding: Vector
+  """
+  ✨ `_embed` server value variant of `embedding` (✨ Generated from Field `Activity`.`embedding` of type `Vector!`)
+  """
   embedding_embed: Vector_Embed
+  """
+  ✨ Generated from Field `Activity`.`familyFriendly` of type `Boolean!`
+  """
   familyFriendly: Boolean
+  """
+  ✨ Generated from Field `Activity`.`imageUrl` of type `String!`
+  """
   imageUrl: String
+  """
+  ✨ `_expr` server value variant of `imageUrl` (✨ Generated from Field `Activity`.`imageUrl` of type `String!`)
+  """
   imageUrl_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`locationName` of type `String!`
+  """
   locationName: String
+  """
+  ✨ `_expr` server value variant of `locationName` (✨ Generated from Field `Activity`.`locationName` of type `String!`)
+  """
   locationName_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`name` of type `String!`
+  """
   name: String
+  """
+  ✨ `_expr` server value variant of `name` (✨ Generated from Field `Activity`.`name` of type `String!`)
+  """
   name_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`price` of type `Float!`
+  """
   price: Float
+  """
+  ✨ Generated from Field `Activity`.`timeOfDay` of type `String!`
+  """
   timeOfDay: String
+  """
+  ✨ `_expr` server value variant of `timeOfDay` (✨ Generated from Field `Activity`.`timeOfDay` of type `String!`)
+  """
   timeOfDay_expr: String_Expr
 }
+"""
+✨ Generated filter input type for table 'Activity'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
 input Activity_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
   _and: [Activity_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
   _not: Activity_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
   _or: [Activity_Filter!]
+  """
+  ✨ Generated from Field `Activity`.`ref` of type `String!`
+  """
   ref: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`destinationRef` of type `String!`
+  """
   destinationRef: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`placeRef` of type `String!`
+  """
   placeRef: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`place` of type `Place!`
+  """
   place: Place_Filter
+  """
+  ✨ Generated from Field `Activity`.`description` of type `String!`
+  """
   description: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`duration` of type `Float!`
+  """
   duration: Float_Filter
+  """
+  ✨ Generated from Field `Activity`.`embedding` of type `Vector!`
+  """
   embedding: Vector_Filter
+  """
+  ✨ Generated from Field `Activity`.`familyFriendly` of type `Boolean!`
+  """
   familyFriendly: Boolean_Filter
+  """
+  ✨ Generated from Field `Activity`.`imageUrl` of type `String!`
+  """
   imageUrl: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`locationName` of type `String!`
+  """
   locationName: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`name` of type `String!`
+  """
   name: String_Filter
+  """
+  ✨ Generated from Field `Activity`.`price` of type `Float!`
+  """
   price: Float_Filter
+  """
+  ✨ Generated from Field `Activity`.`timeOfDay` of type `String!`
+  """
   timeOfDay: String_Filter
 }
+"""
+✨ Generated first-row input type for table 'Activity'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Activity_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Activity_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Activity_Filter
+}
+"""
+✨ Generated key input type for table 'Activity'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Activity_Key {
+  """
+  ✨ Generated from Field `Activity`.`ref` of type `String!`
+  """
+  ref: String
+  """
+  ✨ `_expr` server value variant of `ref` (✨ Generated from Field `Activity`.`ref` of type `String!`)
+  """
+  ref_expr: String_Expr
+  """
+  ✨ Generated from Field `Activity`.`destinationRef` of type `String!`
+  """
+  destinationRef: String
+  """
+  ✨ `_expr` server value variant of `destinationRef` (✨ Generated from Field `Activity`.`destinationRef` of type `String!`)
+  """
+  destinationRef_expr: String_Expr
+}
+"""
+✨ Generated list filter input type for table 'Activity'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
 input Activity_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
   count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
   exist: Activity_Filter
 }
+"""
+✨ Generated order input type for table 'Activity'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
 input Activity_Order {
+  """
+  ✨ Generated from Field `Activity`.`ref` of type `String!`
+  """
   ref: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`destinationRef` of type `String!`
+  """
   destinationRef: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`placeRef` of type `String!`
+  """
   placeRef: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`place` of type `Place!`
+  """
   place: Place_Order
+  """
+  ✨ Generated from Field `Activity`.`description` of type `String!`
+  """
   description: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`duration` of type `Float!`
+  """
   duration: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`embedding` of type `Vector!`
+  """
   embedding: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`familyFriendly` of type `Boolean!`
+  """
   familyFriendly: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`imageUrl` of type `String!`
+  """
   imageUrl: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`locationName` of type `String!`
+  """
   locationName: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`name` of type `String!`
+  """
   name: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`price` of type `Float!`
+  """
   price: OrderDirection
+  """
+  ✨ Generated from Field `Activity`.`timeOfDay` of type `String!`
+  """
   timeOfDay: OrderDirection
 }
+"""
+✨ Generated data input type for table 'Place'. It includes all necessary fields for creating or upserting rows into table.
+"""
 input Place_Data {
+  """
+  ✨ Generated from Field `Place`.`ref` of type `String!`
+  """
   ref: String
+  """
+  ✨ `_expr` server value variant of `ref` (✨ Generated from Field `Place`.`ref` of type `String!`)
+  """
   ref_expr: String_Expr
+  """
+  ✨ Generated from Field `Place`.`continent` of type `String!`
+  """
   continent: String
+  """
+  ✨ `_expr` server value variant of `continent` (✨ Generated from Field `Place`.`continent` of type `String!`)
+  """
   continent_expr: String_Expr
+  """
+  ✨ Generated from Field `Place`.`country` of type `String!`
+  """
   country: String
+  """
+  ✨ `_expr` server value variant of `country` (✨ Generated from Field `Place`.`country` of type `String!`)
+  """
   country_expr: String_Expr
+  """
+  ✨ Generated from Field `Place`.`embedding` of type `Vector!`
+  """
   embedding: Vector
+  """
+  ✨ `_embed` server value variant of `embedding` (✨ Generated from Field `Place`.`embedding` of type `Vector!`)
+  """
   embedding_embed: Vector_Embed
+  """
+  ✨ Generated from Field `Place`.`imageUrl` of type `String!`
+  """
   imageUrl: String
+  """
+  ✨ `_expr` server value variant of `imageUrl` (✨ Generated from Field `Place`.`imageUrl` of type `String!`)
+  """
   imageUrl_expr: String_Expr
+  """
+  ✨ Generated from Field `Place`.`knownFor` of type `String!`
+  """
   knownFor: String
+  """
+  ✨ `_expr` server value variant of `knownFor` (✨ Generated from Field `Place`.`knownFor` of type `String!`)
+  """
   knownFor_expr: String_Expr
+  """
+  ✨ Generated from Field `Place`.`name` of type `String!`
+  """
   name: String
+  """
+  ✨ `_expr` server value variant of `name` (✨ Generated from Field `Place`.`name` of type `String!`)
+  """
   name_expr: String_Expr
+  """
+  ✨ Generated from Field `Place`.`tags` of type `[String]!`
+  """
   tags: [String!]
 }
+"""
+✨ Generated filter input type for table 'Place'. This input allows filtering objects using various conditions. Use `_or`, `_and`, and `_not` to compose complex filters.
+"""
 input Place_Filter {
+  """
+  Apply multiple filter conditions using `AND` logic.
+  """
   _and: [Place_Filter!]
+  """
+  Negate the result of the provided filter condition.
+  """
   _not: Place_Filter
+  """
+  Apply multiple filter conditions using `OR` logic.
+  """
   _or: [Place_Filter!]
+  """
+  ✨ Generated from Field `Place`.`ref` of type `String!`
+  """
   ref: String_Filter
+  """
+  ✨ Generated from Field `Place`.`continent` of type `String!`
+  """
   continent: String_Filter
+  """
+  ✨ Generated from Field `Place`.`country` of type `String!`
+  """
   country: String_Filter
+  """
+  ✨ Generated from Field `Place`.`embedding` of type `Vector!`
+  """
   embedding: Vector_Filter
+  """
+  ✨ Generated from Field `Place`.`imageUrl` of type `String!`
+  """
   imageUrl: String_Filter
+  """
+  ✨ Generated from Field `Place`.`knownFor` of type `String!`
+  """
   knownFor: String_Filter
+  """
+  ✨ Generated from Field `Place`.`name` of type `String!`
+  """
   name: String_Filter
+  """
+  ✨ Generated from Field `Place`.`tags` of type `[String]!`
+  """
   tags: String_ListFilter
+  """
+  ✨ Generated from Field `Place`.`activities_on_place` of type `[Activity!]!`
+  """
   activities_on_place: Activity_ListFilter
 }
+"""
+✨ Generated first-row input type for table 'Place'. This input selects the first row matching the filter criteria, ordered according to the specified conditions.
+"""
+input Place_FirstRow {
+  """
+  Order the result by the specified fields.
+  """
+  orderBy: [Place_Order!]
+  """
+  Filters rows based on the specified conditions.
+  """
+  where: Place_Filter
+}
+"""
+✨ Generated key input type for table 'Place'. It represents the primary key fields used to uniquely identify a row in the table.
+"""
+input Place_Key {
+  """
+  ✨ Generated from Field `Place`.`ref` of type `String!`
+  """
+  ref: String
+  """
+  ✨ `_expr` server value variant of `ref` (✨ Generated from Field `Place`.`ref` of type `String!`)
+  """
+  ref_expr: String_Expr
+}
+"""
+✨ Generated list filter input type for table 'Place'. This input applies filtering logic based on the count or existence of related objects that matches certain criteria.
+"""
 input Place_ListFilter {
+  """
+  The desired number of objects that match the condition (defaults to at least one).
+  """
   count: Int_Filter = {gt:0}
+  """
+  Condition of the related objects to filter for.
+  """
   exist: Place_Filter
 }
+"""
+✨ Generated order input type for table 'Place'. This input defines the sorting order of rows in query results based on one or more fields.
+"""
 input Place_Order {
+  """
+  ✨ Generated from Field `Place`.`ref` of type `String!`
+  """
   ref: OrderDirection
+  """
+  ✨ Generated from Field `Place`.`continent` of type `String!`
+  """
   continent: OrderDirection
+  """
+  ✨ Generated from Field `Place`.`country` of type `String!`
+  """
   country: OrderDirection
+  """
+  ✨ Generated from Field `Place`.`embedding` of type `Vector!`
+  """
   embedding: OrderDirection
+  """
+  ✨ Generated from Field `Place`.`imageUrl` of type `String!`
+  """
   imageUrl: OrderDirection
+  """
+  ✨ Generated from Field `Place`.`knownFor` of type `String!`
+  """
   knownFor: OrderDirection
+  """
+  ✨ Generated from Field `Place`.`name` of type `String!`
+  """
   name: OrderDirection
 }
