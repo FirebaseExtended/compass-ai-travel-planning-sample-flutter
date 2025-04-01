@@ -1,6 +1,6 @@
 enum Env { prod, dev }
 
-Env environment = Env.prod;
+Env environment = Env.dev;
 
 String get backendEndpoint {
   return switch (environment) {
