@@ -42,9 +42,13 @@ class _FormScreenState extends State<FormScreen> {
 
       if (mounted && details.containsValue(false)) {
         Map<String, dynamic> refinementAnswers = await showModalBottomSheet(
+          isScrollControlled: true,
           context: context,
           builder: (context) {
-            return MoreInfoSheet(details: details);
+            return Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.viewInsetsOf(context).bottom),
+                child: MoreInfoSheet(details: details));
           },
         );
         query += QueryClient.generateRefinements(refinementAnswers);

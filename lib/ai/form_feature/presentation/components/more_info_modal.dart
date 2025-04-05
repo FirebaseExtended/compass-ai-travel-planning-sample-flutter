@@ -66,7 +66,6 @@ class _TravelDateTextFieldState extends State<TravelDateTextField> {
         child: TextField(
           controller: userInputtedDate,
           onChanged: widget.onChanged,
-          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             label: const Text('When would you like to travel?'),
             hintText:
@@ -149,101 +148,103 @@ class _MoreInfoSheetState extends State<MoreInfoSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomSheet(
-      enableDrag: false,
-      onClosing: () {},
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Just a few more details, please!',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox.square(
-                dimension: 16,
-              ),
-              if (widget.details['kids'] == false)
-                Column(children: [
-                  KidsSwitch(
-                    value: hasKids,
+    return SingleChildScrollView(
+      child: BottomSheet(
+        enableDrag: false,
+        onClosing: () {},
+        builder: (context) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 32, 16, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Just a few more details, please!',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox.square(
+                  dimension: 16,
+                ),
+                if (widget.details['kids'] == false)
+                  Column(children: [
+                    KidsSwitch(
+                      value: hasKids,
+                      onChanged: (val) {
+                        setState(() {
+                          hasKids = !hasKids;
+                        });
+                      },
+                    ).animate().fadeIn(),
+                    const Divider(),
+                  ]),
+                const SizedBox.square(
+                  dimension: 8,
+                ),
+                if (widget.details['date'] == false)
+                  Column(children: [
+                    TravelDateTextField(onChanged: (userInputtedDate) {
+                      setState(() {
+                        date = userInputtedDate;
+                      });
+                    }).animate().fadeIn(),
+                    const SizedBox.square(
+                      dimension: 16,
+                    ),
+                    const Divider(),
+                  ]),
+                if (widget.details['cost'] == false)
+                  BudgetSlider(
+                    value: budget,
                     onChanged: (val) {
                       setState(() {
-                        hasKids = !hasKids;
+                        budget = val;
                       });
                     },
                   ).animate().fadeIn(),
-                  const Divider(),
-                ]),
-              const SizedBox.square(
-                dimension: 8,
-              ),
-              if (widget.details['date'] == false)
-                Column(children: [
-                  TravelDateTextField(onChanged: (userInputtedDate) {
-                    setState(() {
-                      date = userInputtedDate;
-                    });
-                  }).animate().fadeIn(),
-                  const SizedBox.square(
-                    dimension: 16,
-                  ),
-                  const Divider(),
-                ]),
-              if (widget.details['cost'] == false)
-                BudgetSlider(
-                  value: budget,
-                  onChanged: (val) {
-                    setState(() {
-                      budget = val;
-                    });
-                  },
-                ).animate().fadeIn(),
-              const SizedBox.square(
-                dimension: 8,
-              ),
-              Row(children: [
-                Expanded(
-                  child: TextButton(
-                    style: ButtonStyle(
-                      padding: const WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 8,
-                        ),
-                      ),
-                      shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      backgroundColor: WidgetStatePropertyAll(
-                        Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context, {
-                        if (widget.details['kids'] == false) 'kids': hasKids,
-                        if (widget.details['date'] == false) 'date': date,
-                        if (widget.details['cost'] == false) 'cost': budget,
-                      });
-                    },
-                    child: Text(
-                      'Done',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
+                const SizedBox.square(
+                  dimension: 8,
                 ),
-              ]),
-            ],
-          ),
-        );
-      },
+                Row(children: [
+                  Expanded(
+                    child: TextButton(
+                      style: ButtonStyle(
+                        padding: const WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 8,
+                          ),
+                        ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(
+                          Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context, {
+                          if (widget.details['kids'] == false) 'kids': hasKids,
+                          if (widget.details['date'] == false) 'date': date,
+                          if (widget.details['cost'] == false) 'cost': budget,
+                        });
+                      },
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
