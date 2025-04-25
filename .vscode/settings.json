@@ -7,5 +7,7 @@
             "connectString": "postgresql://user:mypassword@localhost:5432/dataconnect?sslmode=disable",
             "name": "dataconnect"
         }
-    ]
+    ],
+    "IDX.aI.enableInlineCompletion": true,
+    "IDX.aI.enableCodebaseIndexing": true
 }
