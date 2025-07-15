@@ -38,13 +38,15 @@ export const placeRetriever = ai.defineRetriever(
       configSchema: QueryOptions,
     },
     async (input, options) => {
+      const contentWithText = input.content.find((content => content.text));
       const requestEmbedding = await ai.embed({
         embedder: textEmbeddingGecko001,
-        content: input.text,
+        content: contentWithText?.text ?? ''
       });
+      const embedding = requestEmbedding[0].embedding;
       const result = await getNearestPlace(
         dataConnectInstance, 
-        { placeDescriptionVector: requestEmbedding }
+        { placeDescriptionVector: embedding }
       );
       
       const resultData = result.data;

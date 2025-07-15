@@ -4,6 +4,7 @@ import { genkit } from 'genkit';
 import { enableFirebaseTelemetry } from '@genkit-ai/firebase';
 import { ChecksEvaluationMetricType, checksMiddleware } from '@genkit-ai/checks';
 import { ModelMiddleware } from 'genkit/model';
+import { vertexAIGemmaModel } from './vertexai-gemma'
 
 
 enableFirebaseTelemetry();
@@ -11,7 +12,9 @@ enableFirebaseTelemetry();
 export const ai = genkit({
     plugins: [
         googleAI(),
-
+        vertexAIGemmaModel({
+          name: 'gemma-3-27b-it'
+        })
     ],
     model: gemini15Pro,
     promptDir: 'prompts',

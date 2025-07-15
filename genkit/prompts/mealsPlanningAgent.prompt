@@ -1,5 +1,5 @@
 ---
-model: googleai/gemini-1.5-pro
+model: vertexai-gemma/gemma-3-27b-it
 config:
   temperature: 1.0
   safetySettings:
