@@ -1,5 +1,5 @@
 ---
-model: googleai/gemini-1.5-flash
+model: googleai/gemma-3-27b-it
 config:
   temperature: 1.0
   safetySettings:
@@ -52,5 +52,10 @@ Example Output:
 
 Input:
 {{request}}
+
+Output must be in JSON format and follow the following schema:
+  cost: boolean, Do we have information about the cost?
+  kids: boolean, Do we have information from the user about whether their children will be attending?
+  date: boolean, Do have information on when the user wants to start their trip?
 
 Output:

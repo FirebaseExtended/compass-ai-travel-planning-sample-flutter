@@ -16,6 +16,7 @@
 
 import { ai, myMiddleware } from '../config/genkit';
 import { z } from 'genkit';
+import { parseGemmaResponseAsJson } from '../common/gemmaParsingTools'
 
 // FINAL STEP
 // We realize that our initial prompts aren't great, so we want to
@@ -40,6 +41,6 @@ export const textRefinement = ai.defineFlow(
             ...myMiddleware
           ]}
         );
-        return result.output;
+        return parseGemmaResponseAsJson(result);
 });
 // [END text_refinement_flow]
