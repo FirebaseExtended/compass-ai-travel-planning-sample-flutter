@@ -15,16 +15,6 @@ input:
         name: string, name for the selected destination
         ref: string, the reference id of the selected destination
         tags(array, tags that are associated with a destination): string
-output:
-  format: json
-  schema:
-    destinations(array, a list of 3 suggested destinations):
-      knownFor: string, a three-sentence description enticing the user to pick this vacation
-      country: string, country for the selected destination
-      continent: string, continent for the selected destination
-      imageUrl: string, imageUrl for the selected destination
-      name: string, name for the selected destination
-      ref: string, the reference id of the selected destination. This should be the ref from the metadata context object.
 ---
 
 You are a travel assistant helping the user decide on a vacation destination. 
