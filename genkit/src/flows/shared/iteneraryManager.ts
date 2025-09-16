@@ -21,6 +21,7 @@ import { restaurantFinder } from '../../tools/restaurantFinder';
 import { supermarketFinder } from '../../tools/supermarketFinder';
 import axios from 'axios';
 import { ai, myMiddleware } from '../../config/genkit';
+import { parseGemmaResponseAsJson } from '../../common/gemmaParsingTools';
 
 const MAPS_API_KEY = process.env.MAPS_API_KEY;
 
@@ -52,7 +53,7 @@ const generateItineraryForPlace = async (request: string, location: Destination,
     },{
         use: [...myMiddleware],
     });
-    return itineraries.output as ItineraryGeneratorOutput;
+    return parseGemmaResponseAsJson(itineraries) as ItineraryGeneratorOutput;
 }
 
 /**

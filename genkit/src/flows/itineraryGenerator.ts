@@ -37,7 +37,7 @@ export const itineraryGenerator2 = ai.defineFlow(
 
         const imageDescriptionPrompt = await ai.prompt('imageDescription');
         const result = await imageDescriptionPrompt({
-          input: { images: userInputs.images },
+          images: userInputs.images,
         }, {
           use: [...myMiddleware],
         },

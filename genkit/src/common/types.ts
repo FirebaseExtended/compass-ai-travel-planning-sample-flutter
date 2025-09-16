@@ -95,3 +95,9 @@ export interface ItineraryGeneratorOutput {
     itineraryImageUrl?: string,
     placeRef?: string,
 }
+
+export interface GemmaResponse {
+    raw: {
+        text: () => string,
+    }
+}

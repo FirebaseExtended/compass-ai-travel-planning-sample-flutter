@@ -1,5 +1,5 @@
 ---
-model: googleai/gemini-1.5-flash
+model: googleai/gemma-3-27b-it
 config:
   temperature: 1.0
   safetySettings:
@@ -18,22 +18,6 @@ input:
     knownFor: string, A description of that place.
     activities(array, a stringify list of activities that can be found at the specified place): string
     mealOptions?(array, a stringify list of all the restaurants and supermarkets found at that location): string
-output:
-  schema:
-    place: string, The place the user is traveling to.
-    itineraryName: string, a catchy itinerary name that encapsulates the spirit of the trip and includes the place name
-    startDate: string, the start date of the trip
-    endDate: string, the end date of the trip
-    tags(array, relevant tags for the trip): string
-    itinerary(array):
-      day: number
-      date: string
-      planForDay(array):
-        activityRef: string, the reference value for the activity this comes from the available activities JSON. If no value is present use a ref value of restaurant.
-        activityTitle: string, a catchy title for the activity
-        activityDesc: string, a six word description of the activity
-        photoUri?: string, set the photo uri value for restaurants and supermarket only.
-        googleMapsUri?: string, if this is a restaurant include the googleMapsUri
 ---
 
 Generate an itinerary for a tourist planning on traveling to the location specified based in their request.
@@ -56,7 +40,22 @@ Limit activity descriptions to 6 words.
 
 If no mealOptions are supplied, do not recommend any mealOptions to eat at.
 
-Output must be in JSON format.
+Output must be in JSON format and follow the following schema:
+
+place: string, The place the user is traveling to.
+itineraryName: string, a catchy itinerary name that encapsulates the spirit of the trip and includes the place name
+startDate: string, the start date of the trip
+endDate: string, the end date of the trip
+tags(array, relevant tags for the trip): string
+itinerary(array):
+  day: number
+  date: string
+  planForDay(array):
+    activityRef: string, the reference value for the activity this comes from the available activities JSON. If no value is present use a ref value of restaurant.
+    activityTitle: string, a catchy title for the activity
+    activityDesc: string, a six word description of the activity
+    photoUri?: string, set the photo uri value for restaurants and supermarket only.
+    googleMapsUri?: string, if this is a restaurant include the googleMapsUri
 
 {{#if mealOptions}}
 Find a mealOptions to eat at each day.
