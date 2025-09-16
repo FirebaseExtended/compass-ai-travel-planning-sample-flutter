@@ -33,6 +33,7 @@ PODS:
     - SDWebImage/Core (~> 5.17)
   - speech_to_text (0.0.1):
     - Flutter
+    - FlutterMacOS
     - Try
   - sqflite (0.0.3):
     - Flutter
@@ -44,7 +45,7 @@ DEPENDENCIES:
   - flutter_image_compress_common (from `.symlinks/plugins/flutter_image_compress_common/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-  - speech_to_text (from `.symlinks/plugins/speech_to_text/ios`)
+  - speech_to_text (from `.symlinks/plugins/speech_to_text/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
 
 SPEC REPOS:
@@ -65,23 +66,23 @@ EXTERNAL SOURCES:
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   speech_to_text:
-    :path: ".symlinks/plugins/speech_to_text/ios"
+    :path: ".symlinks/plugins/speech_to_text/darwin"
   sqflite:
     :path: ".symlinks/plugins/sqflite/darwin"
 
 SPEC CHECKSUMS:
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
-  image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_image_compress_common: 1697a328fd72bfb335507c6bca1a65fa5ad87df1
+  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   SDWebImage: 066c47b573f408f18caa467d71deace7c0f8280d
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
-  speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
-  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  speech_to_text: 9dc43a5df3cbc2813f8c7cc9bd0fbf94268ed7ac
+  sqflite: c35dad70033b8862124f8337cc994a809fcd9fa3
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 4f1c12611da7338d21589c0b2ecd6bd20b109694
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
