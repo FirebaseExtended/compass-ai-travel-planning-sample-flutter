@@ -5,17 +5,17 @@ export default defineConfig({
       proxy: {
         '/textRefinement': {
           target: 'http://localhost:2222',
-          changeOrigin: false,
+          changeOrigin: true,
           secure: false,
         },
         '/itineraryGenerator2': {
             target: 'http://localhost:2222',
-            changeOrigin: false,
+            changeOrigin: true,
             secure: false,
           },
           '/': {
             target: 'http://localhost:6789',
-            changeOrigin: false,
+            changeOrigin: true,
             secure: false,
         },
       },

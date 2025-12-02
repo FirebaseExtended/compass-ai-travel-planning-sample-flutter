@@ -1,10 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "gen-lang-client-0997660871"
+  },
   "targets": {},
-  "etags": {},
-  "dataconnectEmulatorConfig": {
-    "postgres": {
-      "localConnectionString": "postgresql://user:mypassword@localhost:5432/dataconnect?sslmode=disable"
-    }
-  }
+  "etags": {}
 }
