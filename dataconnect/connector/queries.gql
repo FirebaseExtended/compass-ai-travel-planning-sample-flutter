@@ -1,79 +1,220 @@
-query getNearestPlace ($placeDescriptionVector: Vector!) @auth(level:PUBLIC) {
-  places_embedding_similarity(compare: $placeDescriptionVector, method: L2, limit: 3)
-  {
-    ref
-    name
-    country
-    continent
-    knownFor
-    tags
-    imageUrl
-  }
+# ------ Enhanced Schema Foundation ------
+scalar DateTime
+scalar JSON
+scalar Vector
+scalar GeoJSON
+
+enum AuthRole {
+  ADMIN
+  CURATOR
+  VERIFIED_USER
+  PUBLIC
 }
 
-query getActivitiesForPlace ($placeId: String!) @auth(level:PUBLIC) {
-  activities(where: {destinationRef: {eq: $placeId } } ) {
-    ref
-    destinationRef
-    name
-    description
-    locationName
-    timeOfDay
-    price
-    familyFriendly
-    duration
-    imageUrl
-  }
+enum DistanceMethod {
+  L2
+  COSINE
+  MANHATTAN
 }
 
-query GetPlace ($placeId: Place_Key!) @auth(level:PUBLIC) {
-  place(key: $placeId ) {
-    ref
-    continent
-    country
-    embedding
-    imageUrl
-    knownFor
-    name
-    tags
-  }
+enum SortOrder {
+  ASC
+  DESC
 }
 
-query ListActivities @auth(level: NO_ACCESS) {
-  activities {
-    ref
-    destinationRef
-    name
-    description
-    locationName
-    timeOfDay
-    price
-    familyFriendly
-    duration
-    imageUrl
-  }
+# ------ Advanced Security Layer ------
+directive @rateLimit(
+  max: Int
+  window: String
+) on FIELD_DEFINITION
+
+directive @cost(
+  complexity: Int
+  multipliers: [String!]
+) on FIELD_DEFINITION
+
+# ------ Enhanced Types ------
+type Place @key(fields: "ref") @cacheControl(maxAge: 3600) {
+  ref: ID! @unique
+  name: String! @search(by: [TEXT])
+  geo: GeoJSON!
+  country: String! @search(By: [TERM])
+  continent: String! @search(by: [TERM])
+  embedding: Vector! @hidden
+  knownFor: [String!]! @search(by: [TAG])
+  tags: [String!]! @search(by: [TAG])
+  images: [Image!]! @relation
+  climate: ClimateInfo
+  localLanguage: String
+  safetyScore: Float
+  lastVerified: DateTime!
+  accessibilityFeatures: [Accessibility!]
+  seasonalVariations: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
-query ListPlaces @auth(level: NO_ACCESS) {
-  places (limit: 3) {
-    ref
-    name
-    country
-    continent
-    knownFor
-    tags
-    imageUrl
-  }
+type Activity @key(fields: "ref") @cacheControl(maxAge: 1800) {
+  ref: ID! @unique
+  destination: Place! @relation
+  name: String! @search(by: [TEXT])
+  description: String! @search(by: [TEXT])
+  location: GeoJSON!
+  timeWindows: [TimeWindow!]
+  priceRange: PriceRange!
+  difficulty: Int @range(min: 1, max: 5)
+  category: ActivityCategory!
+  requirements: [String!]
+  rating: Float
+  reviews: [Review!]
+  bookingProviders: [BookingProvider!]
+  sustainabilityScore: Float
+  localOperator: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
-query ListPlacesByContinent ($continent: String!) @auth(level: NO_ACCESS) {
-  places(where: {continent: {eq: $continent}}) {
-    ref
-    name
-    country
-    continent
-    knownFor
-    tags
-    imageUrl
-  }
+# ------ Advanced Query Enhancements ------
+extend type Query {
+  getNearestPlaces(
+    vector: Vector!
+    method: DistanceMethod = COSINE
+    limit: Int = 5
+    offset: Int = 0
+    filters: PlaceFilters
+  ): PlaceConnection! 
+  @auth(requires: PUBLIC)
+  @rateLimit(max: 100, window: "1m")
+  @cost(complexity: 5)
+
+  getPlaceRecommendations(
+    seedPlace: ID!
+    lookbackPeriod: String = "1y"
+    similarBy: SimilarityCriteria!
+  ): [Place!]! 
+  @auth(requires: VERIFIED_USER)
+  
+  searchActivities(
+    query: String
+    filters: ActivityFilters
+    sort: ActivitySort
+    geoFilter: GeoFilter
+    pagination: Pagination
+  ): ActivityConnection!
+  @auth(requires: PUBLIC)
+  
+  getPlaceActivityMatrix(
+    placeIds: [ID!]!
+    criteria: ActivityCriteria!
+  ): [PlaceActivityMatch!]!
+  
+  getTrendingPlaces(
+    timeframe: String = "1w"
+    topN: Int = 10
+  ): [PlaceTrend!]!
+}
+
+# ------ Input Enhancements ------
+input PlaceFilters {
+  minSafety: Float
+  climateConditions: [String!]
+  accessibility: [Accessibility!]
+  seasonalMatch: JSON
+  tagIntersection: [String!]
+  createdAfter: DateTime
+}
+
+input ActivityFilters {
+  priceRange: NumberRange
+  duration: NumberRange
+  difficulty: NumberRange
+  category: ActivityCategory
+  hasReviews: Boolean
+  sustainabilityMin: Float
+  localOperatorOnly: Boolean
+}
+
+input GeoFilter {
+  center: GeoJSON!
+  radius: Float!
+}
+
+input SimilarityCriteria {
+  culturalSimilarity: Boolean
+  geographicSimilarity: Boolean
+  climateSimilarity: Boolean
+  activityProfile: Boolean
+}
+
+# ------ Federation Extensions ------
+extend type User @key(fields: "id") {
+  id: ID! @external
+  savedPlaces: [Place!]!
+  activityHistory: [ActivityHistory!]!
+}
+
+# ------ Mutation Additions ------
+extend type Mutation {
+  logPlaceVisit(
+    placeId: ID!
+    timestamp: DateTime!
+    review: ReviewInput
+  ): VisitReceipt! 
+  @auth(requires: VERIFIED_USER)
+  
+  curateActivity(
+    input: ActivityCurateInput!
+  ): Activity!
+  @auth(requires: CURATOR)
+  
+  updatePlaceEmbeddings(
+    algorithmVersion: String!
+  ): EmbeddingUpdateReport!
+  @auth(requires: ADMIN)
+}
+
+# ------ Enhanced Response Types ------
+type PlaceConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [PlaceEdge!]!
+  stats: PlaceSearchStats!
+}
+
+type PlaceSearchStats {
+  climateBreakdown: JSON
+  safetyDistribution: JSON
+  priceCorrelation: Float
+}
+
+type ActivityConnection {
+  totalCount: Int!
+  facets: ActivityFacets!
+  results: [Activity!]!
+}
+
+type ActivityFacets {
+  priceRanges: [FacetBucket!]!
+  difficultyLevels: [FacetBucket!]!
+  categories: [FacetBucket!]!
+}
+
+# ------ Security Improvements ------
+interface MutationResponse {
+  success: Boolean!
+  error: ApiError
+  queryCost: Int
+  rateLimitStatus: RateLimitStatus
+}
+
+type RateLimitStatus {
+  remaining: Int!
+  resetAt: DateTime!
+}
+
+type ApiError {
+  code: String!
+  message: String!
+  severity: ErrorSeverity!
+  retryable: Boolean!
 }
