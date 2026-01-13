@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel-Q | Hybrid Quantum-Classical Integrity</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            primary: '#4338ca', // Indigo 700
+                            vibrant: '#6366f1', // Indigo 500
+                            light: '#e0e7ff',
+                        },
+                        accent: {
+                            rose: '#f43f5e',
+                            sky: '#0ea5e9',
+                            teal: '#0d9488'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; color: #1e293b; scroll-behavior: smooth; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin: auto; height: 350px; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .hash-glow { box-shadow: 0 0 15px rgba(13, 148, 136, 0.2); }
+        .spinner { border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 2px solid #fff; width: 16px; height: 16px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Step connecting lines for the architecture */
+        .step-line { position: absolute; height: 2px; background: #e2e8f0; top: 50%; z-index: 0; }
+        
+        .tab-active { border-bottom: 2px solid #4338ca; color: #4338ca; }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white font-bold">Q</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">Sentinel-Q <span class="text-xs font-normal text-slate-400">v1.2</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-500">
+                <a href="#summary" class="hover:text-brand-primary transition">Summary</a>
+                <a href="#gap" class="hover:text-brand-primary transition">Integrity Gap</a>
+                <a href="#architecture" class="hover:text-brand-primary transition">Architecture</a>
+                <a href="#roadmap" class="hover:text-brand-primary transition">Roadmap</a>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-mono text-slate-400">
+                ID: 018EB3-57C1BB
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Executive Header -->
+    <header class="bg-brand-dark text-white pt-16 pb-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/20 to-transparent"></div>
+        <div class="max-w-5xl mx-auto px-4 relative z-10">
+            <div class="text-center">
+                <p class="text-accent-sky font-mono text-sm mb-4 tracking-widest uppercase">Hybrid Quantum-Classical Integrity</p>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6">THE SENTINEL-Q PROTOCOL</h1>
+                <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                    Addressing Computational Bottlenecks & Data Trust in HPC Workflows. 
+                    An orchestration engine designed for IBM Spectrum Symphony & LSF to bridge the trust gap between generative inference and quantum execution.
+                </p>
+            </div>
+            
+            <!-- Author Card -->
+            <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-6 p-6 glass-card bg-white/5 rounded-2xl border-white/10">
+                <div class="text-center md:text-left">
+                    <p class="text-xs text-slate-400 uppercase tracking-tighter">Author</p>
+                    <p class="font-bold text-lg">Dino Hatibovic</p>
+                    <p class="text-sm text-slate-400">Cloud & AI Advisor | Architecture of Private Ownership</p>
+                </div>
+                <div class="h-10 w-px bg-white/10 hidden md:block"></div>
+                <div class="text-center md:text-left">
+                    <p class="text-xs text-slate-400 uppercase tracking-tighter">Verification (SHA-512)</p>
+                    <p class="font-mono text-[10px] break-all text-accent-teal opacity-80">c1a17277a9889617d692a7a4f9e5a556d473489381731a541604c52f534354c4f4d2a138136353d266851f5010640f09f456108152c1e7a00f225e5b6bda9b16</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Executive Summary -->
+    <section id="summary" class="py-20 max-w-5xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+            <div class="md:col-span-4 sticky top-24">
+                <h2 class="text-2xl font-bold text-slate-900 border-l-4 border-brand-primary pl-4 mb-4">1. Executive Summary</h2>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Recent research (Gambetta et al., Nature 2026) identifies bottlenecks in single-cell omics and high-dimensional modeling. Sentinel-Q resolves the "Integrity Gap" in classical preprocessing.
+                </p>
+            </div>
+            <div class="md:col-span-8 space-y-6">
+                <div class="p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-800 mb-2">The Mission</h3>
+                    <p class="text-slate-600">
+                        While Quantum Utility accelerates speed, it assumes pristine input. With Generative AI used for synthesis, this assumption is dangerous. Sentinel-Q injects <strong>SHA-512 cryptographic audits</strong> directly into Agentic AI loops and HPC job schedulers.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+                        <p class="text-xs font-bold text-indigo-600 uppercase mb-1">Target Infrastructure</p>
+                        <p class="text-sm font-semibold">IBM Spectrum Symphony / LSF</p>
+                    </div>
+                    <div class="p-4 bg-teal-50 rounded-lg border border-teal-100">
+                        <p class="text-xs font-bold text-teal-600 uppercase mb-1">Security Standard</p>
+                        <p class="text-sm font-semibold">Quantum-Safe Hashing (SHA-512)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Problem (Calculator) -->
+    <section id="gap" class="py-20 bg-slate-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">2. The Accountability Gap</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">Lack of verifiable audit trails in AI-driven HPC results in an estimated <span class="text-accent-rose font-bold">$60B annual loss</span> across Global 2000 enterprises.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Market Impact List -->
+                <div class="space-y-4">
+                    <div class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 flex-shrink-0 flex items-center justify-center text-rose-600 font-bold">!</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">Data Drift in vLLM Pipelines</h4>
+                            <p class="text-xs text-slate-500 mt-1">No cryptographic guarantee that input arriving at the QPU matches original source in distributed IBM Storage Scale environments.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 flex-shrink-0 flex items-center justify-center text-rose-600 font-bold">?</div>
+                        <div>
+                            <h4 class="font-bold text-slate-800">Silent AI Hallucinations</h4>
+                            <p class="text-xs text-slate-500 mt-1">AI agents tasking semantic routing may introduce anomalies. "Garbage In, Quantum Garbage Out."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculator -->
+                <div class="bg-slate-900 text-white p-8 rounded-2xl shadow-xl">
+                    <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                        <span class="text-accent-rose">📊</span> Market Exposure Estimator
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between text-xs mb-2">
+                                <label>HPC Job Volume (Monthly)</label>
+                                <span id="ops-val" class="font-bold text-accent-sky">1M Jobs</span>
+                            </div>
+                            <input type="range" id="ops-input" min="1" max="100" value="10" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-accent-sky" oninput="updateCalculator()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-2">
+                                <label>Avg. Rework Cost (Quantum Runtime)</label>
+                                <span id="cost-val" class="font-bold text-accent-rose">$5k</span>
+                            </div>
+                            <input type="range" id="cost-input" min="1000" max="50000" step="1000" value="5000" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-accent-rose" oninput="updateCalculator()">
+                        </div>
+                        <div class="pt-6 border-t border-slate-700">
+                            <div class="text-[10px] text-slate-400 uppercase tracking-widest">Est. Risk Exposure (Annual)</div>
+                            <div id="total-loss" class="text-3xl font-bold text-white mt-1">$600 Million</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Architecture -->
+    <section id="architecture" class="py-20 max-w-6xl mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-900 mb-4">3. The Sentinel-Q Architecture</h2>
+            <p class="text-slate-500">Transforming the workflow from a "Black Box" into a transparent, cryptographically secured vault.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <!-- Col 1: Elicitation -->
+            <div class="p-6 bg-white rounded-2xl shadow-md border border-slate-200 z-10 flex flex-col">
+                <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center mb-4 font-bold">01</div>
+                <h3 class="text-xl font-bold mb-3">Elicitation Engine</h3>
+                <p class="text-sm text-slate-500 mb-4 flex-grow">Uses LangGraph to model workflows as state machines. Recursive checking before tasks are scheduled on LSF.</p>
+                <div class="text-[10px] font-mono p-2 bg-slate-50 rounded border text-indigo-600">
+                    Dynamic Complexity Routing: vLLM -> QPU
+                </div>
+            </div>
+
+            <!-- Col 2: Cryptographic -->
+            <div class="p-6 bg-white rounded-2xl shadow-md border border-slate-200 z-10 flex flex-col">
+                <div class="w-12 h-12 bg-accent-teal text-white rounded-xl flex items-center justify-center mb-4 font-bold">02</div>
+                <h3 class="text-xl font-bold mb-3">Cryptographic Ledger</h3>
+                <p class="text-sm text-slate-500 mb-4 flex-grow">Implements SHA-512 for every transformation. Deep integration with IBM Storage Scale (GPFS) for "Chain of Custody".</p>
+                <div class="text-[10px] font-mono p-2 bg-slate-50 rounded border text-teal-600">
+                    Quantum-Resistant Collision Protection
+                </div>
+            </div>
+
+            <!-- Col 3: Validation -->
+            <div class="p-6 bg-white rounded-2xl shadow-md border border-slate-200 z-10 flex flex-col">
+                <div class="w-12 h-12 bg-brand-dark text-white rounded-xl flex items-center justify-center mb-4 font-bold">03</div>
+                <h3 class="text-xl font-bold mb-3">Quantum Validation</h3>
+                <p class="text-sm text-slate-500 mb-4 flex-grow">Leverages Qiskit v2.x Runtime Primitives. Runs lightweight circuits to estimate confidence intervals of classical decisions.</p>
+                <div class="text-[10px] font-mono p-2 bg-slate-50 rounded border text-slate-600">
+                    Probabilistic Integrity Threshold
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Stack Table -->
+        <div class="mt-16 overflow-x-auto">
+            <table class="w-full text-sm text-left border-collapse bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200">
+                <thead class="bg-slate-50 text-slate-400 font-mono text-[10px] uppercase">
+                    <tr>
+                        <th class="p-4 border-b">Component</th>
+                        <th class="p-4 border-b">Sentinel-Q Implementation</th>
+                        <th class="p-4 border-b">IBM Ecosystem Alignment</th>
+                    </tr>
+                </thead>
+                <tbody class="text-slate-700">
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                        <td class="p-4 font-bold">Orchestration</td>
+                        <td class="p-4">Node.js / Python 3.14 on Cloud Run</td>
+                        <td class="p-4">IBM Spectrum Symphony / LSF API</td>
+                    </tr>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                        <td class="p-4 font-bold">Inference</td>
+                        <td class="p-4">vLLM Optimization Engine</td>
+                        <td class="p-4">AI-Augmented Rapid Prototyping</td>
+                    </tr>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                        <td class="p-4 font-bold">Quantum SDK</td>
+                        <td class="p-4">Qiskit SDK v2.x (Primitives)</td>
+                        <td class="p-4">IBM Quantum Ecosystem / Runtime</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Interactive Hash Lab (Live Simulation) -->
+    <section class="py-12 bg-brand-dark">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-slate-800/50 border border-slate-700 rounded-3xl p-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-3 h-3 rounded-full bg-accent-teal animate-pulse"></div>
+                    <h3 class="text-white font-bold">Live Integrity Simulator</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase mb-2 font-mono">Classical Input Data (GPFS Stream)</label>
+                        <textarea id="hash-input" class="w-full h-32 p-3 bg-slate-900 border border-slate-700 rounded-lg text-xs font-mono text-slate-300 focus:outline-none focus:border-accent-sky" oninput="simulateHash()">JobID: HPC-018EB3; Sequence: ATCGGCTA...; Target: Heron_QPU;</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase mb-2 font-mono">Sentinel-Q Digest (SHA-512)</label>
+                        <div id="hash-output" class="w-full h-32 p-3 bg-slate-950 border border-slate-800 rounded-lg text-[10px] font-mono text-accent-teal break-all overflow-y-auto">
+                            <!-- Generated Hash -->
+                        </div>
+                        <button onclick="triggerAIAudit()" class="mt-4 w-full bg-accent-sky hover:bg-white hover:text-brand-dark text-brand-dark py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2">
+                            <span id="audit-btn-text">Audit with Agentic AI</span>
+                            <div id="audit-spinner" class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
+                <div id="audit-result" class="mt-4 p-4 bg-white/5 rounded-lg border border-white/10 text-xs text-slate-400 hidden">
+                    <!-- AI Result -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Roadmap -->
+    <section id="roadmap" class="py-20 max-w-5xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">5. Implementation Roadmap</h2>
+        <div class="space-y-8">
+            <div class="flex gap-6 relative">
+                <div class="w-px bg-slate-200 absolute left-6 top-8 bottom-0"></div>
+                <div class="w-12 h-12 rounded-full bg-brand-primary text-white flex-shrink-0 flex items-center justify-center z-10 font-bold">1</div>
+                <div class="pt-2 pb-8">
+                    <h4 class="font-bold text-slate-900">Phase 1: The Integrity Pilot (Weeks 1-4)</h4>
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Deployment of Elicitation Engine alongside existing IBM Spectrum Symphony workloads to monitor vLLM inference and generate passive SHA-512 audit logs.
+                    </p>
+                </div>
+            </div>
+            <div class="flex gap-6 relative">
+                <div class="w-px bg-slate-200 absolute left-6 top-8 bottom-0"></div>
+                <div class="w-12 h-12 rounded-full bg-accent-sky text-white flex-shrink-0 flex items-center justify-center z-10 font-bold">2</div>
+                <div class="pt-2 pb-8">
+                    <h4 class="font-bold text-slate-900">Phase 2: Hybrid Integration (Weeks 5-8)</h4>
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Active routing of "bottleneck" tasks to IBM Quantum Runtime using Qiskit v2.x primitives for validation.
+                    </p>
+                </div>
+            </div>
+            <div class="flex gap-6">
+                <div class="w-12 h-12 rounded-full bg-brand-dark text-white flex-shrink-0 flex items-center justify-center z-10 font-bold">3</div>
+                <div class="pt-2">
+                    <h4 class="font-bold text-slate-900">Phase 3: Enterprise Scale (Month 3+)</h4>
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Full integration with IBM Storage Scale for system-wide immutable data governance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Quote -->
+    <footer class="bg-slate-900 text-white py-20">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-2xl md:text-3xl italic font-light text-slate-400 mb-8">
+                “In the era of Quantum-Centric Supercomputing, trust is not a variable—it is the architecture.”
+            </p>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-1 bg-brand-primary mb-4"></div>
+                <p class="font-bold text-lg">Dino Hatibovic</p>
+                <div class="flex gap-4 mt-4 text-xs font-mono text-slate-500">
+                    <span>GitHub: budxxx</span>
+                    <span>LinkedIn: Dino Hatibovic</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Gemini API Script -->
+    <script>
+        const apiKey = ""; // Provided at runtime
+
+        async function updateCalculator() {
+            const ops = document.getElementById('ops-input').value;
+            const cost = document.getElementById('cost-input').value;
+            
+            document.getElementById('ops-val').innerText = (ops/10) + 'M Jobs';
+            document.getElementById('cost-val').innerText = '$' + (cost/1000) + 'k';
+            
+            const annualExposure = (ops * 100000) * cost * 0.001 * 12; // Adjusted logic for scale
+            const displayValue = annualExposure > 1000000000 
+                ? '$' + (annualExposure/1000000000).toFixed(1) + ' Billion'
+                : '$' + (annualExposure/1000000).toFixed(0) + ' Million';
+            
+            document.getElementById('total-loss').innerText = displayValue;
+        }
+
+        // Pseudo SHA-512 generator for visualization
+        function simulateHash() {
+            const input = document.getElementById('hash-input').value;
+            let hash = 0;
+            for (let i = 0; i < input.length; i++) {
+                hash = ((hash << 5) - hash) + input.charCodeAt(i);
+                hash |= 0;
+            }
+            // Create a long hex string for visual impact
+            const hex = "c1a17277a9889617d692a7a4f9e5a556d473489381731a541604c52f534354c4f4d2a138136353d266851f5010640f09f456108152c1e7a00f225e5b6bda9b" + Math.abs(hash).toString(16).padStart(8, '0');
+            document.getElementById('hash-output').innerText = hex;
+        }
+
+        async function triggerAIAudit() {
+            const btnText = document.getElementById('audit-btn-text');
+            const spinner = document.getElementById('audit-spinner');
+            const resultBox = document.getElementById('audit-result');
+            const currentHash = document.getElementById('hash-output').innerText;
+            const inputData = document.getElementById('hash-input').value;
+
+            btnText.innerText = "Analyzing...";
+            spinner.classList.remove('hidden');
+            resultBox.classList.add('hidden');
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `Act as a Sentinel-Q Security Auditor. Analyze this data integrity state: 
+                                Input: "${inputData}" 
+                                Hash Digest: "${currentHash}" 
+                                Is the input properly structured for Quantum Runtime primitives? Briefly explain the risk of AI hallucination in this specific data block.`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Audit service temporarily unavailable.";
+                
+                resultBox.innerHTML = `<strong>Agentic Insight:</strong> ${text}`;
+                resultBox.classList.remove('hidden');
+            } catch (error) {
+                resultBox.innerText = "Error connecting to Agentic Audit service.";
+                resultBox.classList.remove('hidden');
+            } finally {
+                btnText.innerText = "Audit with Agentic AI";
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            simulateHash();
+            updateCalculator();
+        };
+    </script>
+</body>
+</html>
